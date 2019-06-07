@@ -1,0 +1,18 @@
+apply from: '../buildsystem/android-feature.gradle'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+dependencies {
+    def commonDependencies = rootProject.ext.commonDependencies
+    def uiDependencies = rootProject.ext.uiDependencies
+    def commonTestDependencies = rootProject.ext.commonTestDependencies
+
+    implementation project(':app')
+
+    implementation uiDependencies.recyclerView
+    implementation uiDependencies.glide
+
+    implementation commonDependencies.paging
+    implementation commonDependencies.koinViewModel
+    implementation commonDependencies.lifecycleExtensions
+}
