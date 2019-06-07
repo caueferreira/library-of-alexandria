@@ -1,0 +1,43 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+
+android {
+    def androidVersions = rootProject.ext.android
+    def application = rootProject.ext.app
+
+    compileSdkVersion androidVersions.compileSdkVersion
+    buildToolsVersion androidVersions.buildToolsVersion
+
+    defaultConfig {
+        testInstrumentationRunner application.testInstrumentationRunner
+        versionCode application.versionCode
+        versionName application.versionName
+
+        minSdkVersion androidVersions.minSdkVersion
+        targetSdkVersion androidVersions.targetSdkVersion
+    }
+
+    buildTypes {
+        debug {
+            buildConfigField "String", "SCRYFALL_API_ENDPOINT", scryfall_endpoint
+
+            minifyEnabled false
+        }
+
+        release {
+            buildConfigField "String", "SCRYFALL_API_ENDPOINT", scryfall_endpoint
+
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    kotlinOptions {
+        freeCompilerArgs = ['-Xallow-result-return-type']
+    }
+
+    compileOptions {
+        targetCompatibility = "8"
+        sourceCompatibility = "8"
+    }
+}

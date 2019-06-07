@@ -1,0 +1,8 @@
+ext {
+    app = [
+            applicationId            : "com.caueferreira.libraryofalexandra",
+            testInstrumentationRunner: "androidx.test.runner.AndroidJUnitRunner",
+            versionCode              : 1,
+            versionName              : "1.0"
+    ]
+}

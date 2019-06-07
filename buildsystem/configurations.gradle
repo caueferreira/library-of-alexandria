@@ -1,0 +1,12 @@
+ext {
+    android = [
+            buildToolsVersion: "28.0.3",
+            minSdkVersion    : 26,
+            targetSdkVersion : 28,
+            compileSdkVersion: 28
+    ]
+
+    endpoints = [
+            scryfall_endpoint = "\"https://api.scryfall.com/\""
+    ]
+}
