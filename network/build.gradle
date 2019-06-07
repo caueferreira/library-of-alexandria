@@ -1,0 +1,27 @@
+apply from: '../buildsystem/android-library.gradle'
+
+dependencies{
+    def commonDependencies = rootProject.ext.commonDependencies
+    def commonTestDependencies = rootProject.ext.commonTestDependencies
+
+    implementation commonDependencies.kotlinCore
+    implementation commonDependencies.kotlinStdlib
+
+    api commonDependencies.koinScope
+    api commonDependencies.koinExt
+
+    api commonDependencies.coroutinesCore
+    api commonDependencies.coroutinesAndroid
+
+    api commonDependencies.moshi
+    api commonDependencies.okHttp3
+    api commonDependencies.retrofit2
+    api commonDependencies.retrofit2MoshiConverter
+    api commonDependencies.retrofit2Coroutines
+
+    testImplementation commonTestDependencies.junit
+    testImplementation commonTestDependencies.mockito
+
+    androidTestImplementation commonTestDependencies.runner
+    androidTestImplementation commonTestDependencies.espresso
+}

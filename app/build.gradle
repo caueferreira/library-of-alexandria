@@ -39,6 +39,8 @@ dependencies {
     def uiDependencies = rootProject.ext.uiDependencies
     def commonTestDependencies = rootProject.ext.commonTestDependencies
 
+    api project(':network')
+
     api commonDependencies.appCompat
     api uiDependencies.constraintLayout
 
