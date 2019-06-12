@@ -4,4 +4,8 @@ dependencies {
     def commonDependencies = rootProject.ext.commonDependencies
     def commonTestDependencies = rootProject.ext.commonTestDependencies
 
+    api commonDependencies.appCompat
+
+    api commonDependencies.koinScope
+    api commonDependencies.koinExt
 }

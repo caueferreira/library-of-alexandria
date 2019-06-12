@@ -29,7 +29,6 @@ class CardMapper(private val colorMapper: ColorMapper = ColorMapper()) {
             )
         )
 
-
     private fun transformImages(response: ImageUrisResponse): Images =
         Images(
             response.small,

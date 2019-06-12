@@ -11,7 +11,6 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.libraryofalexandria.cards.view.R
 import kotlinx.android.synthetic.main.item_card.view.*
 
-
 class CardsAdapter(
     private val listener: OnCardClickListener
 ) : PagedListAdapter<CardViewEntity, CardsAdapter.CardViewHolder>(

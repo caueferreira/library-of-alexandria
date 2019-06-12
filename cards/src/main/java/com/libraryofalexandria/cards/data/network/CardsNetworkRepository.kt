@@ -12,7 +12,8 @@ import kotlin.coroutines.CoroutineContext
 class CardsNetworkRepository(
     private val api: CardsApi,
     private val mapper: CardMapper = CardMapper(),
-    private val coroutineContext: CoroutineContext = Dispatchers.IO
+    private val coroutineContext: CoroutineContext = Dispatchers.IO,
+    private val handler: NetworkHandler = NetworkHandler()
 ) : CardsRepository {
     override suspend fun get(page: Int): Result<List<Card>> =
         withContext(coroutineContext) {
@@ -20,6 +21,6 @@ class CardsNetworkRepository(
                 api.get(page).await().data
                     .filter { it.language == "en" }
                     .map { mapper.transform(it) }
-            }.flatMapError { NetworkHandler(it).mappedError }
+            }.flatMapError { handler.apply(it) }
         }
 }

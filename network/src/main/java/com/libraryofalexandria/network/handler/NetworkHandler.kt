@@ -7,16 +7,12 @@ import java.net.*
 import java.nio.channels.ClosedChannelException
 import javax.net.ssl.SSLException
 
+class NetworkHandler {
 
-class NetworkHandler(private val error: Throwable) {
-    val mappedError: Throwable
-
-    init {
-        mappedError = when {
-            error is HttpException -> mapNetworkErrors(error)
-            error.isConnectivityException() -> mapConnectivityErrors(error)
-            else -> error
-        }
+    fun apply(error: Throwable): Throwable = when {
+        error is HttpException -> mapNetworkErrors(error)
+        error.isConnectivityException() -> mapConnectivityErrors(error)
+        else -> error
     }
 
     private fun mapNetworkErrors(httpException: HttpException) = when (httpException.code()) {
@@ -45,18 +41,4 @@ class NetworkHandler(private val error: Throwable) {
             is SSLException -> NetworkError.Connectivity.BadConnection
             else -> NetworkError.Connectivity.Generic
         }
-
-    private fun Throwable.isConnectivityException(): Boolean =
-        this is BindException ||
-                this is ClosedChannelException ||
-                this is ConnectException ||
-                this is InterruptedIOException ||
-                this is NoRouteToHostException ||
-                this is PortUnreachableException ||
-                this is ProtocolException ||
-                this is SocketException ||
-                this is SocketTimeoutException ||
-                this is SSLException ||
-                this is UnknownHostException ||
-                this is UnknownServiceException
 }
