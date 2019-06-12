@@ -1,0 +1,7 @@
+apply from: '../buildsystem/android-library.gradle'
+
+dependencies {
+    def commonDependencies = rootProject.ext.commonDependencies
+    def commonTestDependencies = rootProject.ext.commonTestDependencies
+
+}

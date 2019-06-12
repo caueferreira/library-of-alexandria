@@ -1,6 +1,6 @@
 ext {
     app = [
-            applicationId            : "com.caueferreira.libraryofalexandria",
+            applicationId            : "com.libraryofalexandria",
             testInstrumentationRunner: "androidx.test.runner.AndroidJUnitRunner",
             versionCode              : 1,
             versionName              : "1.0"
