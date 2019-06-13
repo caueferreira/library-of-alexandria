@@ -7,9 +7,7 @@ import com.libraryofalexandria.cards.data.transformer.CardMapper
 import com.libraryofalexandria.cards.data.transformer.ColorMapper
 import com.libraryofalexandria.cards.domain.*
 import com.libraryofalexandria.cards.domain.Set
-import com.nhaarman.mockitokotlin2.any
-import com.nhaarman.mockitokotlin2.mock
-import com.nhaarman.mockitokotlin2.whenever
+import com.nhaarman.mockitokotlin2.*
 import junit.framework.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -23,8 +21,6 @@ class CardMapperTest {
 
     @Before
     fun `before each`() {
-        MockitoAnnotations.initMocks(this)
-
         mapper = CardMapper(ColorMapper())
     }
 
