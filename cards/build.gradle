@@ -15,4 +15,10 @@ dependencies {
     implementation commonDependencies.paging
     implementation commonDependencies.koinViewModel
     implementation commonDependencies.lifecycleExtensions
+
+    testImplementation commonTestDependencies.junit
+    testImplementation commonTestDependencies.mockito
+
+    androidTestImplementation commonTestDependencies.runner
+    androidTestImplementation commonTestDependencies.espresso
 }

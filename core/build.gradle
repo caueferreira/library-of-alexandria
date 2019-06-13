@@ -8,4 +8,10 @@ dependencies {
 
     api commonDependencies.koinScope
     api commonDependencies.koinExt
+
+    testImplementation commonTestDependencies.junit
+    testImplementation commonTestDependencies.mockito
+
+    androidTestImplementation commonTestDependencies.runner
+    androidTestImplementation commonTestDependencies.espresso
 }
