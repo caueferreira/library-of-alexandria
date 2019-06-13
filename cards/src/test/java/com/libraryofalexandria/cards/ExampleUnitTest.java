@@ -1,4 +1,4 @@
-package com.libraryofalexandria.network;
+package com.libraryofalexandria.cards;
 
 import org.junit.Test;
 

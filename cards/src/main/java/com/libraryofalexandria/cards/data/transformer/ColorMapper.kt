@@ -5,7 +5,7 @@ import com.libraryofalexandria.cards.domain.ManaCost
 
 class ColorMapper {
 
-    private val colors: HashMap<String, Color> = hashMapOf(
+    private val colors: LinkedHashMap<String, Color> = linkedMapOf(
         "\\{W\\}" to Color.WHITE,
         "\\{U\\}" to Color.BLUE,
         "\\{B\\}" to Color.BLACK,

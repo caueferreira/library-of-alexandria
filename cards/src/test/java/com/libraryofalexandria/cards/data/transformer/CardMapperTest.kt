@@ -1,4 +1,4 @@
-package com.libraryofalexandria.network.data.transformer
+package com.libraryofalexandria.cards.data.transformer
 
 import com.libraryofalexandria.cards.data.network.CardResponse
 import com.libraryofalexandria.cards.data.network.ImageUrisResponse
