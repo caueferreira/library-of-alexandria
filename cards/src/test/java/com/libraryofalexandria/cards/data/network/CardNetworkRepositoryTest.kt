@@ -2,9 +2,7 @@ package com.libraryofalexandria.cards.data.network
 
 import com.libraryofalexandria.cards.data.transformer.CardMapper
 import com.nhaarman.mockitokotlin2.*
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -32,7 +30,7 @@ class CardNetworkRepositoryTest {
         val response = RootResponse(arrayListOf())
         whenever(api.get(0)).thenReturn(GlobalScope.async { response })
 
-        GlobalScope.launch {
+        runBlocking {
             repository.get(0).onSuccess {
                 assertEquals(0, it.size)
             }
@@ -44,10 +42,13 @@ class CardNetworkRepositoryTest {
 
     @Test
     fun `should return empty because none was english`() {
-        val response = RootResponse(arrayListOf())
-        whenever(api.get(0)).thenReturn(GlobalScope.async { response })
+        val card = mock<CardResponse> { CardResponse::class }
+        val response = RootResponse(arrayListOf(card))
 
-        GlobalScope.launch {
+        whenever(api.get(0)).thenReturn(GlobalScope.async { response })
+        whenever(card.language).thenReturn("pt")
+
+        runBlocking {
             repository.get(0).onSuccess {
                 assertEquals(0, it.size)
             }
