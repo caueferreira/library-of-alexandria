@@ -17,7 +17,6 @@ dependencies{
     api commonDependencies.okHttp3
     api commonDependencies.retrofit2
     api commonDependencies.retrofit2MoshiConverter
-    api commonDependencies.retrofit2Coroutines
 
     testImplementation commonTestDependencies.junit
     testImplementation commonTestDependencies.mockito

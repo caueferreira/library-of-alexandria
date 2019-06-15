@@ -1,7 +1,6 @@
 package com.libraryofalexandria.network.di
 
 import android.content.Context
-import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.libraryofalexandria.network.BuildConfig
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -44,7 +43,6 @@ private fun provideCache(context: Context) = Cache(context.applicationContext.ca
 
 private fun provideRetrofit(okHttpClient: OkHttpClient) = Retrofit.Builder()
     .baseUrl(BuildConfig.SCRYFALL_API_ENDPOINT)
-    .addCallAdapterFactory(CoroutineCallAdapterFactory())
     .addConverterFactory(MoshiConverterFactory.create(createMoshi()))
     .client(okHttpClient)
     .build()
