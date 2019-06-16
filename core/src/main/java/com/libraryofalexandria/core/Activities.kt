@@ -20,4 +20,8 @@ object Activities {
     object Cards : AddressableActivity {
         override val className = "$PACKAGE_NAME.cards.view.activity.CardsActivity"
     }
+
+    object About : AddressableActivity {
+        override val className = "$PACKAGE_NAME.about.view.activity.AboutActivity"
+    }
 }

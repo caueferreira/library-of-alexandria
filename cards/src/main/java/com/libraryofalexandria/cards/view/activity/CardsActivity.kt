@@ -1,6 +1,9 @@
 package com.libraryofalexandria.cards.view.activity
 
+import android.app.ActivityOptions
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -11,6 +14,8 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.libraryofalexandria.cards.di.cardsModule
 import com.libraryofalexandria.cards.view.R
 import com.libraryofalexandria.cards.view.State
+import com.libraryofalexandria.core.Activities
+import com.libraryofalexandria.core.intentTo
 import kotlinx.android.synthetic.main.activity_cards.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.context.loadKoinModules
@@ -51,7 +56,7 @@ class CardsActivity : AppCompatActivity(),
     private fun observeState() {
         viewModel.state().observe(this,
             Observer {
-                if(it == State.LOADING){
+                if (it == State.LOADING) {
                     progressBar.visibility = View.VISIBLE
                 } else {
                     progressBar.visibility = View.INVISIBLE
@@ -80,5 +85,22 @@ class CardsActivity : AppCompatActivity(),
             .load(card.artUrl)
             .diskCacheStrategy(DiskCacheStrategy.ALL)
             .into(croppedArt)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
+        R.id.about -> {
+            startActivity(
+                intentTo(Activities.About),
+                ActivityOptions.makeSceneTransitionAnimation(this).toBundle()
+            )
+            true
+        }
+
+        else -> super.onOptionsItemSelected(item)
     }
 }

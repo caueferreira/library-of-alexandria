@@ -32,7 +32,9 @@ android {
         sourceCompatibility = "8"
     }
 
-    dynamicFeatures = [":cards"]
+    dynamicFeatures = [":cards", ":about"]
+
+
 }
 
 dependencies {
