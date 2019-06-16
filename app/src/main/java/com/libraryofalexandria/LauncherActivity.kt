@@ -1,5 +1,6 @@
 package com.libraryofalexandria
 
+import android.app.ActivityOptions
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.libraryofalexandria.core.Activities
@@ -11,6 +12,9 @@ class LauncherActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_launcher)
 
-        startActivity(intentTo(Activities.Cards))
+
+        startActivity(
+            intentTo(Activities.Cards)
+        )
     }
 }
