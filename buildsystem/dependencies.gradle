@@ -23,7 +23,7 @@ ext {
     coroutinesCore = '1.2.1'
     coroutinesAndroid = '1.2.1'
 
-    koin = '2.0.0'
+    koin = '2.0.1'
 
     lifecycleExtensions = '2.0.0'
 
