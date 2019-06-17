@@ -3,16 +3,11 @@ package com.libraryofalexandria.cards.data.transformer
 import com.libraryofalexandria.cards.data.network.CardResponse
 import com.libraryofalexandria.cards.data.network.ImageUrisResponse
 import com.libraryofalexandria.cards.data.network.PricesResponse
-import com.libraryofalexandria.cards.data.transformer.CardMapper
-import com.libraryofalexandria.cards.data.transformer.ColorMapper
 import com.libraryofalexandria.cards.domain.*
 import com.libraryofalexandria.cards.domain.Set
-import com.nhaarman.mockitokotlin2.*
 import junit.framework.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
-import org.mockito.Mock
-import org.mockito.MockitoAnnotations
 import java.util.*
 
 class CardMapperTest {
@@ -76,12 +71,13 @@ class CardMapperTest {
                 "{3}{R}",
                 4.0,
                 arrayListOf(
-                    Color.COLORLESS,
-                    Color.RED
+                    Color.RED,
+                    Color.COLORLESS
                 ),
                 arrayListOf(
-                    Color.COLORLESS,
-                    Color.RED
+                    Color.RED,
+                    Color.COLORLESS
+
                 )
             ),
             Date(),

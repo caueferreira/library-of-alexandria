@@ -4,7 +4,9 @@ import com.libraryofalexandria.cards.data.transformer.CardMapper
 import com.libraryofalexandria.cards.domain.Card
 import com.libraryofalexandria.network.exception.NetworkError
 import com.nhaarman.mockitokotlin2.*
-import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.count
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.runBlocking
 import okhttp3.MediaType
 import okhttp3.ResponseBody
 import org.junit.Assert.assertEquals
@@ -33,66 +35,68 @@ class CardNetworkRepositoryTest {
 
     @Test
     fun `should return empty`() {
-        val response = RootResponse(arrayListOf())
-        whenever(api.get(0)).thenReturn(GlobalScope.async { response })
-
         runBlocking {
-            repository.get(0).onSuccess { cards ->
-                assertEquals(0, cards.size)
-            }
-        }
+            val response = RootResponse(arrayListOf())
 
-        verify(api, times(1)).get(any())
-        verifyZeroInteractions(mapper)
+            whenever(api.get(0)).thenReturn(response)
+
+            repository.get(0).onSuccess { cards ->
+                assertEquals(0, cards.count())
+            }
+
+            verify(api, times(1)).get(any())
+            verifyZeroInteractions(mapper)
+        }
     }
 
     @Test
     fun `should return empty because none was english`() {
-        val card = mock<CardResponse> { CardResponse::class }
-        val response = RootResponse(arrayListOf(card))
-
-        whenever(api.get(0)).thenReturn(GlobalScope.async { response })
-        whenever(card.language).thenReturn("pt")
-
         runBlocking {
-            repository.get(0).onSuccess { cards ->
-                assertEquals(0, cards.size)
-            }
-        }
+            val card = mock<CardResponse> { CardResponse::class }
+            val response = RootResponse(arrayListOf(card))
 
-        verify(api, times(1)).get(any())
-        verifyZeroInteractions(mapper)
+            whenever(card.language).thenReturn("pt")
+            whenever(api.get(0)).thenReturn(response)
+
+            repository.get(0).onSuccess { cards ->
+                assertEquals(0, cards.count())
+            }
+
+            verify(api, times(1)).get(any())
+            verifyZeroInteractions(mapper)
+        }
     }
 
     @Test
     fun `should return list of mapped cards`() {
-        val card = mock<CardResponse> { CardResponse::class }
-        val response = RootResponse(arrayListOf(card, card, card, card, card))
-
-        whenever(api.get(0)).thenReturn(GlobalScope.async { response })
-        whenever(card.language).thenReturn("en")
-        whenever(mapper.transform(any())).thenReturn(mock { Card::class })
-
         runBlocking {
+            val card = mock<CardResponse> { CardResponse::class }
+            val response = RootResponse(arrayListOf(card, card, card, card, card))
+
+            whenever(card.language).thenReturn("en")
+            whenever(mapper.transform(any())).thenReturn(mock { Card::class })
+
+            whenever(api.get(0)).thenReturn(response)
+
             repository.get(0).onSuccess { cards ->
 
-                cards.forEach { card ->
+                val total = cards.onEach { card ->
                     assertEquals(Card::class, card::class)
-                }
+                }.count()
 
-                assertEquals(5, cards.size)
+                assertEquals(5, total)
             }
-        }
 
-        verify(api, times(1)).get(any())
-        verify(mapper, times(5)).transform(any())
+            verify(api, times(1)).get(any())
+            verify(mapper, times(5)).transform(any())
+        }
     }
 
     @Test
     fun `should propagate http network error`() {
-        whenever(api.get(0)).thenThrow(httpException("Not Found", 404))
-
         runBlocking {
+            whenever(api.get(0)).thenThrow(httpException("Not Found", 404))
+
             repository.get(0).onFailure {
                 assertEquals(NetworkError.Http.NotFound, it)
             }

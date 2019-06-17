@@ -7,6 +7,8 @@ import com.libraryofalexandria.cards.view.activity.CardViewEntity
 import com.libraryofalexandria.cards.view.transformer.CardViewEntityMapper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
@@ -25,7 +27,10 @@ class CardsDataSource(
             viewState.update(State.LOADING)
             repository.get(page).onSuccess {
                 viewState.update(State.DONE)
-                val cards = it.map { mapper.transform(it) }
+                val cards = it
+                    .map { mapper.transform(it) }
+                    .toList()
+
                 callback.onResult(
                     cards,
                     0, cards.size
@@ -44,7 +49,10 @@ class CardsDataSource(
 
             repository.get(page).onSuccess {
                 viewState.update(State.DONE)
-                val cards = it.map { mapper.transform(it) }
+                val cards = it
+                    .map { mapper.transform(it) }
+                    .toList()
+
                 callback.onResult(cards)
             }.onFailure {
                 viewState.update(State.ERROR)
