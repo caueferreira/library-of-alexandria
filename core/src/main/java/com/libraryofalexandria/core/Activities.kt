@@ -17,8 +17,13 @@ fun intentTo(addressableActivity: AddressableActivity): Intent {
 
 object Activities {
 
+
+    object Sets : AddressableActivity {
+        override val className = "$PACKAGE_NAME.cards.view.sets.ui.SetsActivity"
+    }
+
     object Cards : AddressableActivity {
-        override val className = "$PACKAGE_NAME.cards.view.activity.CardsActivity"
+        override val className = "$PACKAGE_NAME.cards.view.cards.ui.CardsActivity"
     }
 
     object About : AddressableActivity {

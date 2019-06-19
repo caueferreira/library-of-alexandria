@@ -1,10 +1,9 @@
 package com.libraryofalexandria.cards.data.transformer
 
-import com.libraryofalexandria.cards.data.network.CardResponse
-import com.libraryofalexandria.cards.data.network.ImageUrisResponse
-import com.libraryofalexandria.cards.data.network.PricesResponse
+import com.libraryofalexandria.cards.data.network.entity.CardResponse
+import com.libraryofalexandria.cards.data.network.entity.ImageUrisResponse
+import com.libraryofalexandria.cards.data.network.entity.PricesResponse
 import com.libraryofalexandria.cards.domain.*
-import com.libraryofalexandria.cards.domain.Set
 import java.util.*
 
 class CardMapper(private val colorMapper: ColorMapper = ColorMapper()) {
@@ -22,7 +21,7 @@ class CardMapper(private val colorMapper: ColorMapper = ColorMapper()) {
             colorMapper.transform(response.manaCost, response.cmc),
             Date(),
             transformImages(response.imageUris),
-            Set(
+            CardSet(
                 response.setId,
                 response.setName,
                 response.setUri

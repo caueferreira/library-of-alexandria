@@ -4,7 +4,9 @@
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".view.activity.AboutActivity">
+            tools:context=".view.activity.AboutActivity"
+            android:id="@+id/scrollView">
+
     <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
@@ -12,15 +14,26 @@
 
         <TextView
                 android:text="@string/app_name"
-                android:background="@color/colorPrimary"
                 android:textSize="42sp"
+                android:background="@color/colorPrimary"
+                android:foregroundTint="@color/colorPrimary"
                 android:gravity="center"
                 android:layout_width="match_parent"
+                android:textColor="@android:color/white"
                 android:layout_height="wrap_content"
-                android:id="@+id/textView"
+                android:id="@+id/aboutAppName"
                 android:paddingTop="36dp"
                 android:paddingBottom="36dp"/>
 
 
+        <TextView
+                android:padding="8dp"
+                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc efficitur vestibulum quam et auctor. Curabitur suscipit nisi eget turpis sollicitudin, eget efficitur tortor aliquet. \nPhasellus et pulvinar purus. Vivamus non metus et urna interdum euismod. Ut sit amet ipsum urna. Integer enim tortor, dictum in pharetra vitae, varius eu tortor. \n\nDuis vitae lobortis sem. Duis maximus ligula ligula, quis viverra lectus pretium non. \nProin elementum elit quis felis venenatis interdum. Cras sed dignissim lectus, ut pellentesque purus. \nVivamus sed mi quam. Mauris eu tellus sed lacus sagittis tempus et in nunc. \n\nMorbi pretium vehicula placerat. Maecenas eu ultrices ipsum."
+                android:textSize="22sp"
+                android:backgroundTint="@android:color/darker_gray"
+                android:background="@color/colorPrimaryDark"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/aboutDescription"/>
     </LinearLayout>
 </ScrollView>

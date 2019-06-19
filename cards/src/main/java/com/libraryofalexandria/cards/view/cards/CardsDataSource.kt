@@ -1,10 +1,12 @@
-package com.libraryofalexandria.cards.view
+package com.libraryofalexandria.cards.view.cards
 
 import android.util.Log
 import androidx.paging.ItemKeyedDataSource
-import com.libraryofalexandria.cards.data.CardsRepository
-import com.libraryofalexandria.cards.view.activity.CardViewEntity
-import com.libraryofalexandria.cards.view.transformer.CardViewEntityMapper
+import com.libraryofalexandria.cards.data.network.CardNetworkRepository
+import com.libraryofalexandria.cards.view.State
+import com.libraryofalexandria.cards.view.ViewState
+import com.libraryofalexandria.cards.view.cards.transformer.CardViewEntityMapper
+import com.libraryofalexandria.cards.view.cards.ui.CardViewEntity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.map
@@ -13,7 +15,7 @@ import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
 class CardsDataSource(
-    private val repository: CardsRepository,
+    private val repository: CardNetworkRepository,
     private val mapper: CardViewEntityMapper = CardViewEntityMapper(),
     override val coroutineContext: CoroutineContext = Dispatchers.IO,
     private val viewState: ViewState = ViewState()
@@ -22,11 +24,12 @@ class CardsDataSource(
     private var page = 1
 
     override fun loadInitial(params: LoadInitialParams<String>, callback: LoadInitialCallback<CardViewEntity>) {
-
         launch {
             viewState.update(State.LOADING)
-            repository.get(page).onSuccess {
+
+            repository.list("INV", page).onSuccess {
                 viewState.update(State.DONE)
+
                 val cards = it
                     .map { mapper.transform(it) }
                     .toList()
@@ -47,8 +50,9 @@ class CardsDataSource(
             viewState.update(State.LOADING)
             page++
 
-            repository.get(page).onSuccess {
+            repository.list("INV",page).onSuccess {
                 viewState.update(State.DONE)
+
                 val cards = it
                     .map { mapper.transform(it) }
                     .toList()

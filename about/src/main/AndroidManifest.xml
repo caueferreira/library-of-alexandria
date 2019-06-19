@@ -11,8 +11,12 @@
     </dist:module>
 
     <application>
-        <activity android:name=".view.activity.AboutActivity"
-                  android:theme="@style/AppTheme.NoActionBar">
+        <activity
+                android:name=".view.activity.AboutActivity"
+                android:theme="@style/LibraryOfAlexandria.About">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+            </intent-filter>
         </activity>
     </application>
 

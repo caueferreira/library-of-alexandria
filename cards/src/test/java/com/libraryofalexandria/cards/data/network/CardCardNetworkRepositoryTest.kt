@@ -1,5 +1,7 @@
 package com.libraryofalexandria.cards.data.network
 
+import com.libraryofalexandria.cards.data.network.entity.CardResponse
+import com.libraryofalexandria.cards.data.network.entity.RootResponse
 import com.libraryofalexandria.cards.data.transformer.CardMapper
 import com.libraryofalexandria.cards.domain.Card
 import com.libraryofalexandria.network.exception.NetworkError
@@ -17,34 +19,34 @@ import org.mockito.MockitoAnnotations
 import retrofit2.HttpException
 import retrofit2.Response
 
-class CardNetworkRepositoryTest {
+class CardCardNetworkRepositoryTest {
 
     @Mock
-    private lateinit var api: CardsApi
+    private lateinit var api: ScryfallApi
     @Mock
     private lateinit var mapper: CardMapper
 
-    private lateinit var repository: CardsNetworkRepository
+    private lateinit var repositoryCard: CardNetworkRepository
 
     @Before
     fun `before each`() {
         MockitoAnnotations.initMocks(this)
 
-        repository = CardsNetworkRepository(api, mapper)
+        repositoryCard = CardNetworkRepository(api, mapper)
     }
 
     @Test
     fun `should return empty`() {
         runBlocking {
-            val response = RootResponse(arrayListOf())
+            val response = RootResponse<CardResponse>(arrayListOf())
 
-            whenever(api.get(0)).thenReturn(response)
+            whenever(api.cards(0)).thenReturn(response)
 
-            repository.get(0).onSuccess { cards ->
+            repositoryCard.list(0).onSuccess { cards ->
                 assertEquals(0, cards.count())
             }
 
-            verify(api, times(1)).get(any())
+            verify(api, times(1)).cards(any())
             verifyZeroInteractions(mapper)
         }
     }
@@ -56,13 +58,13 @@ class CardNetworkRepositoryTest {
             val response = RootResponse(arrayListOf(card))
 
             whenever(card.language).thenReturn("pt")
-            whenever(api.get(0)).thenReturn(response)
+            whenever(api.cards(0)).thenReturn(response)
 
-            repository.get(0).onSuccess { cards ->
+            repositoryCard.list(0).onSuccess { cards ->
                 assertEquals(0, cards.count())
             }
 
-            verify(api, times(1)).get(any())
+            verify(api, times(1)).cards(any())
             verifyZeroInteractions(mapper)
         }
     }
@@ -76,9 +78,9 @@ class CardNetworkRepositoryTest {
             whenever(card.language).thenReturn("en")
             whenever(mapper.transform(any())).thenReturn(mock { Card::class })
 
-            whenever(api.get(0)).thenReturn(response)
+            whenever(api.cards(0)).thenReturn(response)
 
-            repository.get(0).onSuccess { cards ->
+            repositoryCard.list(0).onSuccess { cards ->
 
                 val total = cards.onEach { card ->
                     assertEquals(Card::class, card::class)
@@ -87,7 +89,7 @@ class CardNetworkRepositoryTest {
                 assertEquals(5, total)
             }
 
-            verify(api, times(1)).get(any())
+            verify(api, times(1)).cards(any())
             verify(mapper, times(5)).transform(any())
         }
     }
@@ -95,9 +97,9 @@ class CardNetworkRepositoryTest {
     @Test
     fun `should propagate http network error`() {
         runBlocking {
-            whenever(api.get(0)).thenThrow(httpException("Not Found", 404))
+            whenever(api.cards(0)).thenThrow(httpException("Not Found", 404))
 
-            repository.get(0).onFailure {
+            repositoryCard.list(0).onFailure {
                 assertEquals(NetworkError.Http.NotFound, it)
             }
         }

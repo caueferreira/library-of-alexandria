@@ -1,8 +1,6 @@
-package com.libraryofalexandria.cards.data.network
+package com.libraryofalexandria.cards.data.network.entity
 
 import com.squareup.moshi.Json
-
-data class RootResponse(val data: List<CardResponse>)
 
 data class CardResponse(
     val id: String,

@@ -1,8 +1,8 @@
 package com.libraryofalexandria.cards.data.transformer
 
-import com.libraryofalexandria.cards.data.network.CardResponse
-import com.libraryofalexandria.cards.data.network.ImageUrisResponse
-import com.libraryofalexandria.cards.data.network.PricesResponse
+import com.libraryofalexandria.cards.data.network.entity.CardResponse
+import com.libraryofalexandria.cards.data.network.entity.ImageUrisResponse
+import com.libraryofalexandria.cards.data.network.entity.PricesResponse
 import com.libraryofalexandria.cards.domain.*
 import com.libraryofalexandria.cards.domain.Set
 import junit.framework.Assert.assertEquals
@@ -37,7 +37,7 @@ class CardMapperTest {
             "128",
             "uncommon",
             "",
-            "+1: Elementals you control get +2/+0 until end of turn.\\n-1: Add {R}{R}.\\n-2: Chandra, Novice Pyromancer deals 2 damage to any target.",
+            "+1: Elementals you control list +2/+0 until end of turn.\\n-1: Add {R}{R}.\\n-2: Chandra, Novice Pyromancer deals 2 damage to any target.",
             PricesResponse(
                 8.66,
                 null,
@@ -58,7 +58,7 @@ class CardMapperTest {
             "d678cf4c-60e3-40a1-a9cc-b0bd157bcf36",
             "Chandra, Novice Pyromancer",
             "128",
-            "+1: Elementals you control get +2/+0 until end of turn.\\n-1: Add {R}{R}.\\n-2: Chandra, Novice Pyromancer deals 2 damage to any target.",
+            "+1: Elementals you control list +2/+0 until end of turn.\\n-1: Add {R}{R}.\\n-2: Chandra, Novice Pyromancer deals 2 damage to any target.",
             "",
             "Legendary Planeswalker — Chandra",
             Prices(

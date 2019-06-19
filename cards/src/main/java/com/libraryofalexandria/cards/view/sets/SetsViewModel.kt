@@ -1,23 +1,22 @@
-package com.libraryofalexandria.cards.view.activity
+package com.libraryofalexandria.cards.view.sets
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
-import com.libraryofalexandria.cards.view.CardsDataSource
-import com.libraryofalexandria.cards.view.CardsDataSourceFactory
 import com.libraryofalexandria.cards.view.State
+import com.libraryofalexandria.cards.view.sets.ui.SetViewEntity
 
 private const val PAGE_SIZE = 1
 private const val INITIAL_LOAD_SIZE_HINT = 25
 
 
-class CardsViewModel(
-    private val factory: CardsDataSourceFactory
+class SetsViewModel(
+    private val factory: SetsDataSourceFactory
 ) : ViewModel() {
 
-    private var _cards: LiveData<PagedList<CardViewEntity>>
+    private var _sets: LiveData<PagedList<SetViewEntity>>
 
     init {
         val config = PagedList.Config.Builder()
@@ -26,11 +25,11 @@ class CardsViewModel(
             .setPageSize(PAGE_SIZE)
             .build()
 
-        _cards = LivePagedListBuilder<String, CardViewEntity>(factory, config).build()
+        _sets = LivePagedListBuilder<String, SetViewEntity>(factory, config).build()
     }
 
-    fun cards() = _cards
+    fun sets() = _sets
 
-    fun state(): LiveData<State> = Transformations.switchMap<CardsDataSource,
-            State>(factory.liveData, CardsDataSource::state)
+    fun state(): LiveData<State> = Transformations.switchMap<SetsDataSource,
+            State>(factory.liveData, SetsDataSource::state)
 }

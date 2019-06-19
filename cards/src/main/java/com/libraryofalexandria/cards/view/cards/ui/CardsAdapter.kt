@@ -1,4 +1,4 @@
-package com.libraryofalexandria.cards.view.activity
+package com.libraryofalexandria.cards.view.cards.ui
 
 import android.view.LayoutInflater
 import android.view.View

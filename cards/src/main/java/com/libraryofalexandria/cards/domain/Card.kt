@@ -14,7 +14,7 @@ data class Card(
     val manaCost: ManaCost,
     val releasedAt: Date,
     val images: Images,
-    val set: Set
+    val set: CardSet
 ) {
     override fun toString(): String {
         return "Card(id='$id', name='$name', number='$number', plainText=$text, flavor=$flavor, type='$type', prices=$prices, rarity=$rarity, manaCost=$manaCost, releasedAt=$releasedAt, images=$images, set=$set)"
@@ -32,7 +32,7 @@ data class ManaCost(
     }
 }
 
-data class Set(
+data class CardSet(
     val id: String,
     val name: String,
     val uri: String

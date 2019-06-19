@@ -1,7 +1,7 @@
 package com.libraryofalexandria.cards.view
 
-import com.libraryofalexandria.cards.data.CardsRepository
-import com.libraryofalexandria.cards.view.transformer.CardViewEntityMapper
+import com.libraryofalexandria.cards.view.cards.CardsDataSource
+import com.libraryofalexandria.cards.view.cards.transformer.CardViewEntityMapper
 import org.junit.Before
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
@@ -9,7 +9,7 @@ import org.mockito.MockitoAnnotations
 class CardsDataSourceTest {
 
     @Mock
-    private lateinit var repository: CardsRepository
+    private lateinit var repository: Repository
     @Mock
     private lateinit var mapper: CardViewEntityMapper
     @Mock

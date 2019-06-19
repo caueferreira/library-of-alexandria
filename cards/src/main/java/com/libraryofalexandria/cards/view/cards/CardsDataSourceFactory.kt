@@ -1,8 +1,8 @@
-package com.libraryofalexandria.cards.view
+package com.libraryofalexandria.cards.view.cards
 
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
-import com.libraryofalexandria.cards.view.activity.CardViewEntity
+import com.libraryofalexandria.cards.view.cards.ui.CardViewEntity
 
 class CardsDataSourceFactory(
     private val dataSource: CardsDataSource

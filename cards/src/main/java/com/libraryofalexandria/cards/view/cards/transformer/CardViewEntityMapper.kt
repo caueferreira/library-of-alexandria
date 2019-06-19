@@ -1,7 +1,7 @@
-package com.libraryofalexandria.cards.view.transformer
+package com.libraryofalexandria.cards.view.cards.transformer
 
 import com.libraryofalexandria.cards.domain.Card
-import com.libraryofalexandria.cards.view.activity.CardViewEntity
+import com.libraryofalexandria.cards.view.cards.ui.CardViewEntity
 
 class CardViewEntityMapper {
 

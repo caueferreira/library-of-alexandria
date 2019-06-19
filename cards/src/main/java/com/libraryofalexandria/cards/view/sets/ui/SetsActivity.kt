@@ -1,4 +1,4 @@
-package com.libraryofalexandria.cards.view.activity
+package com.libraryofalexandria.cards.view.sets.ui
 
 import android.app.ActivityOptions
 import android.os.Bundle
@@ -7,26 +7,26 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.libraryofalexandria.cards.di.cardsModule
-import com.libraryofalexandria.cards.view.R
 import com.libraryofalexandria.cards.view.State
+import com.libraryofalexandria.cards.view.sets.SetsViewModel
 import com.libraryofalexandria.core.Activities
 import com.libraryofalexandria.core.intentTo
 import kotlinx.android.synthetic.main.activity_cards.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.context.loadKoinModules
 
-class CardsActivity : AppCompatActivity(),
-    CardsAdapter.OnCardClickListener {
+class SetsActivity : AppCompatActivity(),
+    SetsAdapter.OnSetClickListener {
 
-    private val viewModel by viewModel<CardsViewModel>()
     private val loadFeature by lazy { loadKoinModules(cardsModule) }
 
-    private val adapter = CardsAdapter(this)
+    private val viewModel by viewModel<SetsViewModel>()
+
+    private val adapter = SetsAdapter(this)
     private lateinit var recyclerView: RecyclerView
 
     private var itemCount = 0
@@ -35,22 +35,25 @@ class CardsActivity : AppCompatActivity(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        injectFeature()
-        setContentView(R.layout.activity_cards)
+        setContentView(com.libraryofalexandria.cards.view.R.layout.activity_sets)
 
+        injectFeature()
         initAdapter()
         observeState()
         observeCards()
     }
 
     private fun initAdapter() {
-        itemCount = 1
+        itemCount = 2
         recyclerView = recycler
         val layoutManager = StaggeredGridLayoutManager(
-            itemCount, StaggeredGridLayoutManager.HORIZONTAL
+            itemCount, StaggeredGridLayoutManager.VERTICAL
         )
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = adapter
+
+        recyclerView.addItemDecoration(DividerItemDecoration(recyclerView.context, DividerItemDecoration.VERTICAL))
+        recyclerView.addItemDecoration(DividerItemDecoration(recyclerView.context, DividerItemDecoration.HORIZONTAL))
     }
 
     private fun observeState() {
@@ -66,34 +69,24 @@ class CardsActivity : AppCompatActivity(),
     }
 
     private fun observeCards() {
-        viewModel.cards().observe(this,
-            Observer { cards ->
-                adapter.submitList(cards)
+        viewModel.sets().observe(this,
+            Observer { sets ->
+                adapter.submitList(sets)
             }
         )
     }
 
-    override fun onItemClick(card: CardViewEntity) {
-        flavor.text = card.flavor
-        mainText.text = card.plainText
-        type.text = card.type
-        manaCost.text = card.plainCost
-        name.text = card.name
-        rarity.text = card.rarity
-
-        Glide.with(this)
-            .load(card.artUrl)
-            .diskCacheStrategy(DiskCacheStrategy.ALL)
-            .into(croppedArt)
+    override fun onItemClick(setViewEntity: SetViewEntity) {
+        startActivity(intentTo(Activities.Cards))
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.main, menu)
+        menuInflater.inflate(com.libraryofalexandria.cards.view.R.menu.main, menu)
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
-        R.id.about -> {
+        com.libraryofalexandria.cards.view.R.id.about -> {
             startActivity(
                 intentTo(Activities.About),
                 ActivityOptions.makeSceneTransitionAnimation(this).toBundle()

@@ -1,4 +1,4 @@
-package com.libraryofalexandria.cards.view.activity
+package com.libraryofalexandria.cards.view.cards.ui
 
 data class CardViewEntity(
     val id: String,
