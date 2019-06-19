@@ -1,6 +1,6 @@
 <resources>
 
-    <style name="AppTheme.Launcher" parent="Theme.AppCompat.NoActionBar">
+    <style name="LibraryOfAlexandria.Launcher" parent="LibraryOfAlexandria.NoActionBar">
         <item name="android:windowBackground">@drawable/launch_screen</item>
     </style>
 </resources>

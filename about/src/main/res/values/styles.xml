@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="LibraryOfAlexandria.About">
+    <style name="LibraryOfAlexandria.About" parent="LibraryOfAlexandria.NoActionBar">
         <item name="android:windowEnterTransition">@transition/about_enter</item>
         <item name="android:windowReturnTransition">@transition/about_return</item>
         <item name="android:windowIsTranslucent">true</item>
