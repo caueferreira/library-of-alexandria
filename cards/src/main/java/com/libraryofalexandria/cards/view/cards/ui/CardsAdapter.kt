@@ -3,8 +3,6 @@ package com.libraryofalexandria.cards.view.cards.ui
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.paging.PagedListAdapter
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -13,9 +11,9 @@ import kotlinx.android.synthetic.main.item_card.view.*
 
 class CardsAdapter(
     private val listener: OnCardClickListener
-) : PagedListAdapter<CardViewEntity, CardsAdapter.CardViewHolder>(
-    diffCallback
-) {
+) : RecyclerView.Adapter<CardsAdapter.CardViewHolder>() {
+
+    private var cards = arrayListOf<CardViewEntity>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_card, parent, false)
@@ -23,7 +21,14 @@ class CardsAdapter(
     }
 
     override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
-        getItem(position)?.let { holder.bind(it, listener) }
+        cards[position]?.let { holder.bind(it, listener) }
+    }
+
+    override fun getItemCount() = cards.size
+
+    fun addAll(setViewEntityList : List<CardViewEntity>) {
+        cards.addAll(setViewEntityList)
+        notifyDataSetChanged()
     }
 
     class CardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -43,20 +48,6 @@ class CardsAdapter(
 
     interface OnCardClickListener {
         fun onItemClick(cardViewEntity: CardViewEntity)
-    }
-
-    companion object {
-        /**
-         * This diff callback informs the PagedListAdapter how to compute list differences when new
-         * PagedLists arrive.
-         */
-        private val diffCallback = object : DiffUtil.ItemCallback<CardViewEntity>() {
-            override fun areItemsTheSame(oldItem: CardViewEntity, newItem: CardViewEntity): Boolean =
-                oldItem.id == newItem.id
-
-            override fun areContentsTheSame(oldItem: CardViewEntity, newItem: CardViewEntity): Boolean =
-                oldItem == newItem
-        }
     }
 }
 

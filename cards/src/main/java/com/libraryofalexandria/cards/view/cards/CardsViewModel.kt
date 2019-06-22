@@ -1,35 +1,45 @@
 package com.libraryofalexandria.cards.view.cards
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.paging.LivePagedListBuilder
-import androidx.paging.PagedList
+import androidx.lifecycle.viewModelScope
+import com.libraryofalexandria.cards.data.network.CardNetworkRepository
 import com.libraryofalexandria.cards.view.State
+import com.libraryofalexandria.cards.view.cards.transformer.CardViewEntityMapper
 import com.libraryofalexandria.cards.view.cards.ui.CardViewEntity
-
-private const val PAGE_SIZE = 1
-private const val INITIAL_LOAD_SIZE_HINT = 25
-
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.toList
+import kotlinx.coroutines.launch
 
 class CardsViewModel(
-    private val factory: CardsDataSourceFactory
+    private val repository: CardNetworkRepository,
+    private val mapper: CardViewEntityMapper = CardViewEntityMapper()
 ) : ViewModel() {
 
-    private var _cards: LiveData<PagedList<CardViewEntity>>
+    private var page = 0
 
-    init {
-        val config = PagedList.Config.Builder()
-            .setEnablePlaceholders(false)
-            .setInitialLoadSizeHint(INITIAL_LOAD_SIZE_HINT)
-            .setPageSize(PAGE_SIZE)
-            .build()
+    fun fetch(set: String) {
+        viewModelScope.launch {
+            page++
+            _state.value = State.LOADING
 
-        _cards = LivePagedListBuilder<String, CardViewEntity>(factory, config).build()
+            repository.list(set, page)
+                .onSuccess { cards ->
+                    _state.value = State.DONE
+                    _cards.value =
+                        cards.map { card ->
+                            mapper.transform(card)
+                        }.toList()
+                }.onFailure {
+                    _state.value = State.ERROR
+                }
+        }
     }
 
-    fun cards() = _cards
+    private val _cards by lazy { MutableLiveData<List<CardViewEntity>>() }
+    val cards: LiveData<List<CardViewEntity>> get() = _cards
 
-    fun state(): LiveData<State> = Transformations.switchMap<CardsDataSource,
-            State>(factory.liveData, CardsDataSource::state)
+    private val _state by lazy { MutableLiveData<State>() }
+    val state: LiveData<State> get() = _state
 }

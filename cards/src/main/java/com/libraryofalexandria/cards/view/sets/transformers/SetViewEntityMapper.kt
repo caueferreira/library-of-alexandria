@@ -21,8 +21,8 @@ class SetViewEntityMapper {
     private fun colorFromType(type: Type): Int =
         when (type) {
             Type.CORE, Type.EXPANSION, Type.MASTERS -> android.R.color.holo_green_dark
-            Type.MASTERPIECE, Type.FROM_THE_VAULT, Type.SPELLBOOK, Type.PREMIUM_DECK, Type.TREASURE_CHEST, Type.PROMO -> android.R.color.holo_purple
-            Type.DUEL_DECK, Type.COMMANDER, Type.PLANECHASE, Type.ARCHENEMY -> android.R.color.holo_orange_dark
+            Type.MASTERPIECE, Type.PROMO, Type.BOX, Type.FUNNY, Type.DRAFT_INNOVATION -> android.R.color.holo_purple
+            Type.DUEL_DECK, Type.COMMANDER, Type.PLANECHASE, Type.ARCHENEMY, Type.FROM_THE_VAULT, Type.SPELLBOOK, Type.PREMIUM_DECK, Type.STARTER -> android.R.color.holo_orange_dark
             else -> android.R.color.holo_blue_dark
         }
 

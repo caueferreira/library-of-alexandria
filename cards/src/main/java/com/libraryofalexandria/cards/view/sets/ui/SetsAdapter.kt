@@ -3,17 +3,15 @@ package com.libraryofalexandria.cards.view.sets.ui
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.paging.PagedListAdapter
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item_set.view.*
 
 
 class SetsAdapter(
     private val listener: OnSetClickListener
-) : PagedListAdapter<SetViewEntity, SetsAdapter.SetViewHolder>(
-    diffCallback
-) {
+) : RecyclerView.Adapter<SetsAdapter.SetViewHolder>() {
+
+    private var sets = arrayListOf<SetViewEntity>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SetViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -22,7 +20,14 @@ class SetsAdapter(
     }
 
     override fun onBindViewHolder(holder: SetViewHolder, position: Int) {
-        getItem(position)?.let { holder.bind(it, listener) }
+        sets[position]?.let { holder.bind(it, listener) }
+    }
+
+    override fun getItemCount(): Int = sets.size
+
+    fun addAll(setViewEntityList : List<SetViewEntity>) {
+        sets.addAll(setViewEntityList)
+        notifyDataSetChanged()
     }
 
     class SetViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -47,20 +52,6 @@ class SetsAdapter(
 
     interface OnSetClickListener {
         fun onItemClick(setViewEntity: SetViewEntity)
-    }
-
-    companion object {
-        /**
-         * This diff callback informs the PagedListAdapter how to compute list differences when new
-         * PagedLists arrive.
-         */
-        private val diffCallback = object : DiffUtil.ItemCallback<SetViewEntity>() {
-            override fun areItemsTheSame(oldItem: SetViewEntity, newItem: SetViewEntity): Boolean =
-                oldItem.id == newItem.id
-
-            override fun areContentsTheSame(oldItem: SetViewEntity, newItem: SetViewEntity): Boolean =
-                oldItem == newItem
-        }
     }
 }
 

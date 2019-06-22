@@ -8,12 +8,12 @@ interface AddressableActivity {
     val className: String
 }
 
-fun intentTo(addressableActivity: AddressableActivity): Intent {
-    return Intent(Intent.ACTION_VIEW).setClassName(
+fun intentTo(addressableActivity: AddressableActivity) =
+    Intent(Intent.ACTION_VIEW).setClassName(
         "$PACKAGE_NAME",
         addressableActivity.className
     )
-}
+
 
 object Activities {
 

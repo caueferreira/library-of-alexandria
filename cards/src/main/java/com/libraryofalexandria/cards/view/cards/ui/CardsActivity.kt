@@ -7,15 +7,17 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.libraryofalexandria.cards.view.R
 import com.libraryofalexandria.cards.view.State
 import com.libraryofalexandria.cards.view.cards.CardsViewModel
 import com.libraryofalexandria.core.Activities
+import com.libraryofalexandria.core.InfiniteScrollListener
 import com.libraryofalexandria.core.intentTo
+import com.libraryofalexandria.core.observe
 import kotlinx.android.synthetic.main.activity_cards.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -41,15 +43,26 @@ class CardsActivity : AppCompatActivity(),
     private fun initAdapter() {
         itemCount = 1
         recyclerView = recycler
-        val layoutManager = StaggeredGridLayoutManager(
-            itemCount, StaggeredGridLayoutManager.HORIZONTAL
-        )
+        val layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = adapter
+
+        val infiniteScrollListener =
+            object : InfiniteScrollListener(layoutManager) {
+                override fun isDataLoading(): Boolean =
+                    viewModel.state == State.LOADING
+                            || adapter.itemCount.toString() == intent.getStringExtra("TOTAL")
+
+                override fun onLoadMore() {
+                    viewModel.fetch(intent.getStringExtra("SET"))
+                }
+            }
+
+        recyclerView.addOnScrollListener(infiniteScrollListener)
     }
 
     private fun observeState() {
-        viewModel.state().observe(this,
+        viewModel.state.observe(this,
             Observer {
                 if (it == State.LOADING) {
                     progressBar.visibility = View.VISIBLE
@@ -61,11 +74,12 @@ class CardsActivity : AppCompatActivity(),
     }
 
     private fun observeCards() {
-        viewModel.cards().observe(this,
-            Observer { cards ->
-                adapter.submitList(cards)
-            }
-        )
+        observe(viewModel.cards, ::showCards)
+        viewModel.fetch(intent.getStringExtra("SET"))
+    }
+
+    private fun showCards(sets: List<CardViewEntity>) {
+        adapter.addAll(sets)
     }
 
     override fun onItemClick(card: CardViewEntity) {

@@ -15,6 +15,7 @@ import com.libraryofalexandria.cards.view.State
 import com.libraryofalexandria.cards.view.sets.SetsViewModel
 import com.libraryofalexandria.core.Activities
 import com.libraryofalexandria.core.intentTo
+import com.libraryofalexandria.core.observe
 import kotlinx.android.synthetic.main.activity_cards.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.context.loadKoinModules
@@ -40,7 +41,7 @@ class SetsActivity : AppCompatActivity(),
         injectFeature()
         initAdapter()
         observeState()
-        observeCards()
+        observeSets()
     }
 
     private fun initAdapter() {
@@ -57,7 +58,7 @@ class SetsActivity : AppCompatActivity(),
     }
 
     private fun observeState() {
-        viewModel.state().observe(this,
+        viewModel.state.observe(this,
             Observer {
                 if (it == State.LOADING) {
                     progressBar.visibility = View.VISIBLE
@@ -68,16 +69,20 @@ class SetsActivity : AppCompatActivity(),
         )
     }
 
-    private fun observeCards() {
-        viewModel.sets().observe(this,
-            Observer { sets ->
-                adapter.submitList(sets)
-            }
-        )
+    private fun observeSets() {
+        observe(viewModel.sets, ::showSets)
+    }
+
+    private fun showSets(sets: List<SetViewEntity>) {
+        adapter.addAll(sets)
     }
 
     override fun onItemClick(setViewEntity: SetViewEntity) {
-        startActivity(intentTo(Activities.Cards))
+        startActivity(
+            intentTo(Activities.Cards)
+                .putExtra("SET", setViewEntity.code)
+                .putExtra("TOTAL", setViewEntity.totalCards)
+        )
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

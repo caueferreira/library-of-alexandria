@@ -15,6 +15,8 @@ dependencies {
     implementation commonDependencies.paging
     implementation commonDependencies.koinViewModel
     implementation commonDependencies.lifecycleExtensions
+    implementation commonDependencies.lifecycleLivedata
+    implementation commonDependencies.lifecycleViewmodel
 
     testImplementation commonTestDependencies.junit
     testImplementation commonTestDependencies.mockito

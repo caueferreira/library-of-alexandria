@@ -9,6 +9,9 @@ dependencies {
     api commonDependencies.koinScope
     api commonDependencies.koinExt
 
+    implementation commonDependencies.appCompat
+    implementation uiDependencies.recyclerView
+
     testImplementation commonTestDependencies.junit
     testImplementation commonTestDependencies.mockito
 

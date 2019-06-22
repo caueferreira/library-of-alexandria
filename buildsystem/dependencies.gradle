@@ -7,7 +7,7 @@ allprojects {
 }
 
 ext {
-    supportLibrary = '1.0.2'
+    supportLibrary = '1.1.0-alpha05'
 
     constraintLayout = '1.1.3'
     recyclerView = '1.0.0'
@@ -24,7 +24,7 @@ ext {
 
     koin = '2.0.1'
 
-    lifecycleExtensions = '2.0.0'
+    lifecycle = '2.2.0-alpha01'
 
     paging = '2.1.0'
 
@@ -35,7 +35,7 @@ ext {
 
     uiDependencies = [
             constraintLayout: "androidx.constraintlayout:constraintlayout:${constraintLayout}",
-            glide           : "com.github.bumptech.glide:glide:$glide",
+            glide           : "com.github.bumptech.glide:glide:${glide}",
             recyclerView    : "androidx.recyclerview:recyclerview:${recyclerView}"
     ]
 
@@ -54,7 +54,9 @@ ext {
 
             paging                 : "androidx.paging:paging-runtime:${paging}",
 
-            lifecycleExtensions    : "androidx.lifecycle:lifecycle-extensions:${lifecycleExtensions}",
+            lifecycleExtensions    : "androidx.lifecycle:lifecycle-extensions:${lifecycle}",
+            lifecycleLivedata      : "androidx.lifecycle:lifecycle-livedata-ktx:${lifecycle}",
+            lifecycleViewmodel     : "androidx.lifecycle:lifecycle-viewmodel-ktx:${lifecycle}",
 
             moshi                  : "com.squareup.moshi:moshi-kotlin:${moshi}",
             okHttp3                : "com.squareup.okhttp3:logging-interceptor:${okHttp3}",
