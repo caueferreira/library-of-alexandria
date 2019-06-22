@@ -40,13 +40,13 @@ class CardCardNetworkRepositoryTest {
         runBlocking {
             val response = RootResponse<CardResponse>(arrayListOf())
 
-            whenever(api.cards(0)).thenReturn(response)
+            whenever(api.cards("set=INV", 0)).thenReturn(response)
 
-            repositoryCard.list(0).onSuccess { cards ->
+            repositoryCard.list("INV", 0).onSuccess { cards ->
                 assertEquals(0, cards.count())
             }
 
-            verify(api, times(1)).cards(any())
+            verify(api, times(1)).cards(any(), any())
             verifyZeroInteractions(mapper)
         }
     }
@@ -58,13 +58,13 @@ class CardCardNetworkRepositoryTest {
             val response = RootResponse(arrayListOf(card))
 
             whenever(card.language).thenReturn("pt")
-            whenever(api.cards(0)).thenReturn(response)
+            whenever(api.cards("set=INV", 0)).thenReturn(response)
 
-            repositoryCard.list(0).onSuccess { cards ->
+            repositoryCard.list("INV", 0).onSuccess { cards ->
                 assertEquals(0, cards.count())
             }
 
-            verify(api, times(1)).cards(any())
+            verify(api, times(1)).cards(any(), any())
             verifyZeroInteractions(mapper)
         }
     }
@@ -78,9 +78,9 @@ class CardCardNetworkRepositoryTest {
             whenever(card.language).thenReturn("en")
             whenever(mapper.transform(any())).thenReturn(mock { Card::class })
 
-            whenever(api.cards(0)).thenReturn(response)
+            whenever(api.cards("set=INV", 0)).thenReturn(response)
 
-            repositoryCard.list(0).onSuccess { cards ->
+            repositoryCard.list("INV", 0).onSuccess { cards ->
 
                 val total = cards.onEach { card ->
                     assertEquals(Card::class, card::class)
@@ -89,7 +89,7 @@ class CardCardNetworkRepositoryTest {
                 assertEquals(5, total)
             }
 
-            verify(api, times(1)).cards(any())
+            verify(api, times(1)).cards(any(), any())
             verify(mapper, times(5)).transform(any())
         }
     }
@@ -97,9 +97,9 @@ class CardCardNetworkRepositoryTest {
     @Test
     fun `should propagate http network error`() {
         runBlocking {
-            whenever(api.cards(0)).thenThrow(httpException("Not Found", 404))
+            whenever(api.cards("set=INV", 0)).thenThrow(httpException("Not Found", 404))
 
-            repositoryCard.list(0).onFailure {
+            repositoryCard.list("INV", 0).onFailure {
                 assertEquals(NetworkError.Http.NotFound, it)
             }
         }

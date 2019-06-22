@@ -4,7 +4,6 @@ import com.libraryofalexandria.cards.data.network.entity.CardResponse
 import com.libraryofalexandria.cards.data.network.entity.ImageUrisResponse
 import com.libraryofalexandria.cards.data.network.entity.PricesResponse
 import com.libraryofalexandria.cards.domain.*
-import com.libraryofalexandria.cards.domain.Set
 import junit.framework.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -89,7 +88,7 @@ class CardMapperTest {
                 "https://img.scryfall.com/cards/art_crop/front/d/6/d678cf4c-60e3-40a1-a9cc-b0bd157bcf36.jpg?1560257845",
                 "https://img.scryfall.com/cards/border_crop/front/d/6/d678cf4c-60e3-40a1-a9cc-b0bd157bcf36.jpg?1560257845"
             ),
-            Set(
+            CardSet(
                 "m20",
                 "Core Set 2020",
                 "https://api.scryfall.com/sets/4a787360-9767-4f44-80b1-2405dc5e39c7"
