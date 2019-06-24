@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item_set.view.*
 
-
 class SetsAdapter(
     private val listener: OnSetClickListener
 ) : RecyclerView.Adapter<SetsAdapter.SetViewHolder>() {

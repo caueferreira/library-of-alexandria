@@ -74,7 +74,7 @@ class CardsActivity : AppCompatActivity(),
 
     private fun observeCards() {
         observe(viewModel.cards, ::showCards)
-        viewModel.fetch(intent.getStringExtra("SET"))
+        viewModel.fetch(intent.getStringExtra(Activities.Cards.set))
     }
 
     private fun showCards(sets: List<CardViewEntity>) {

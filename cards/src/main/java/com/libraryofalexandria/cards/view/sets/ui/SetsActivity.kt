@@ -17,7 +17,8 @@ import com.libraryofalexandria.cards.view.sets.SetsViewModel
 import com.libraryofalexandria.core.Activities
 import com.libraryofalexandria.core.intentTo
 import com.libraryofalexandria.core.observe
-import kotlinx.android.synthetic.main.activity_cards.*
+import kotlinx.android.synthetic.main.activity_cards.progressBar
+import kotlinx.android.synthetic.main.activity_sets.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.context.loadKoinModules
 
@@ -31,8 +32,6 @@ class SetsActivity : AppCompatActivity(),
 
     private val adapter = SetsAdapter(this)
     private lateinit var recyclerView: RecyclerView
-
-    private var itemCount = 0
 
     private fun injectFeature() = loadFeature
 
@@ -49,17 +48,15 @@ class SetsActivity : AppCompatActivity(),
     }
 
     private fun initAdapter() {
-        itemCount = 2
-        recyclerView = recycler
+        recyclerView = recyclerSets
         val layoutManager = StaggeredGridLayoutManager(
-            itemCount, StaggeredGridLayoutManager.VERTICAL
+            2, StaggeredGridLayoutManager.VERTICAL
         )
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = adapter
 
         recyclerView.addItemDecoration(DividerItemDecoration(recyclerView.context, DividerItemDecoration.VERTICAL))
         recyclerView.addItemDecoration(DividerItemDecoration(recyclerView.context, DividerItemDecoration.HORIZONTAL))
-        recyclerView.scheduleLayoutAnimation()
     }
 
     private fun observeState() {
@@ -80,6 +77,7 @@ class SetsActivity : AppCompatActivity(),
 
     private fun showSets(sets: List<SetViewEntity>) {
         adapter.addAll(sets)
+        recyclerView.scheduleLayoutAnimation()
     }
 
     override fun onItemClick(setViewEntity: SetViewEntity) {

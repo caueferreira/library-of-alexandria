@@ -8,12 +8,13 @@
         tools:context=".sets.ui.SetsActivity">
 
     <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler"
+            android:id="@+id/recyclerSets"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layoutAnimation="@anim/layout_animation_slide_right"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layoutAnimation="@anim/grid_layout_animation_from_bottom"
             app:layout_constraintEnd_toEndOf="parent"/>
 
     <ProgressBar

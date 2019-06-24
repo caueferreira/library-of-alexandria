@@ -18,6 +18,12 @@ class CardsViewModel(
     private val mapper: CardViewEntityMapper = CardViewEntityMapper()
 ) : ViewModel() {
 
+    private val _cards by lazy { MutableLiveData<List<CardViewEntity>>() }
+    val cards: LiveData<List<CardViewEntity>> get() = _cards
+
+    private val _state by lazy { MutableLiveData<State>() }
+    val state: LiveData<State> get() = _state
+
     private var page = 0
 
     fun fetch(set: String) {
@@ -38,10 +44,4 @@ class CardsViewModel(
                 }
         }
     }
-
-    private val _cards by lazy { MutableLiveData<List<CardViewEntity>>() }
-    val cards: LiveData<List<CardViewEntity>> get() = _cards
-
-    private val _state by lazy { MutableLiveData<State>() }
-    val state: LiveData<State> get() = _state
 }
