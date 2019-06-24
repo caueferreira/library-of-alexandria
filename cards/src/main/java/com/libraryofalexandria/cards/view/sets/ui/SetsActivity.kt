@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.libraryofalexandria.cards.di.cardsModule
+import com.libraryofalexandria.cards.view.R
 import com.libraryofalexandria.cards.view.State
 import com.libraryofalexandria.cards.view.sets.SetsViewModel
 import com.libraryofalexandria.core.Activities
@@ -19,6 +20,7 @@ import com.libraryofalexandria.core.observe
 import kotlinx.android.synthetic.main.activity_cards.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.context.loadKoinModules
+
 
 class SetsActivity : AppCompatActivity(),
     SetsAdapter.OnSetClickListener {
@@ -36,12 +38,14 @@ class SetsActivity : AppCompatActivity(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(com.libraryofalexandria.cards.view.R.layout.activity_sets)
+        setContentView(R.layout.activity_sets)
 
         injectFeature()
         initAdapter()
         observeState()
         observeSets()
+
+        viewModel.fetch()
     }
 
     private fun initAdapter() {
@@ -55,6 +59,7 @@ class SetsActivity : AppCompatActivity(),
 
         recyclerView.addItemDecoration(DividerItemDecoration(recyclerView.context, DividerItemDecoration.VERTICAL))
         recyclerView.addItemDecoration(DividerItemDecoration(recyclerView.context, DividerItemDecoration.HORIZONTAL))
+        recyclerView.scheduleLayoutAnimation()
     }
 
     private fun observeState() {
@@ -80,18 +85,18 @@ class SetsActivity : AppCompatActivity(),
     override fun onItemClick(setViewEntity: SetViewEntity) {
         startActivity(
             intentTo(Activities.Cards)
-                .putExtra("SET", setViewEntity.code)
-                .putExtra("TOTAL", setViewEntity.totalCards)
+                .putExtra(Activities.Cards.set, setViewEntity.code)
+                .putExtra(Activities.Cards.total, setViewEntity.totalCards)
         )
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(com.libraryofalexandria.cards.view.R.menu.main, menu)
+        menuInflater.inflate(R.menu.main, menu)
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
-        com.libraryofalexandria.cards.view.R.id.about -> {
+        R.id.about -> {
             startActivity(
                 intentTo(Activities.About),
                 ActivityOptions.makeSceneTransitionAnimation(this).toBundle()

@@ -26,6 +26,7 @@ class SetsAdapter(
     override fun getItemCount(): Int = sets.size
 
     fun addAll(setViewEntityList : List<SetViewEntity>) {
+        sets.clear()
         sets.addAll(setViewEntityList)
         notifyDataSetChanged()
     }

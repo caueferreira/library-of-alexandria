@@ -8,5 +8,10 @@ data class SetViewEntity(
     val iconUri: String,
     val type: String,
     val backgroundColor: Int,
-    val textColor: Int
+    val textColor: Int,
+    val setFilter: SetFilter
 )
+
+enum class SetFilter {
+    CORE, DRAFT, CONSTRUCTED, OTHER
+}

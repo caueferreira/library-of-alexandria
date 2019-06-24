@@ -49,12 +49,11 @@ class CardsActivity : AppCompatActivity(),
 
         val infiniteScrollListener =
             object : InfiniteScrollListener(layoutManager) {
-                override fun isDataLoading(): Boolean =
-                    viewModel.state == State.LOADING
-                            || adapter.itemCount.toString() == intent.getStringExtra("TOTAL")
+                override fun isDataLoading(): Boolean = viewModel.state == State.LOADING
 
                 override fun onLoadMore() {
-                    viewModel.fetch(intent.getStringExtra("SET"))
+                    if (adapter.itemCount.toString() == Activities.Cards.total)
+                        viewModel.fetch(Activities.Cards.set)
                 }
             }
 
@@ -97,7 +96,7 @@ class CardsActivity : AppCompatActivity(),
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.main, menu)
+        menuInflater.inflate(R.menu.cards, menu)
         return true
     }
 

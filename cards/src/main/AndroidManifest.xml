@@ -11,12 +11,9 @@
     </dist:module>
 
     <application>
-        <activity
-                android:name=".sets.ui.SetsActivity">
+        <activity android:name=".sets.ui.SetsActivity">
         </activity>
-        <activity
-                android:theme="@style/LibraryOfAlexandria.NoActionBar"
-                android:name=".cards.ui.CardsActivity">
+        <activity android:name=".cards.ui.CardsActivity">
         </activity>
     </application>
 

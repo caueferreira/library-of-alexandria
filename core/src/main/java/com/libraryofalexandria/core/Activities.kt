@@ -14,15 +14,19 @@ fun intentTo(addressableActivity: AddressableActivity) =
         addressableActivity.className
     )
 
-
 object Activities {
 
+    object Sets {
 
-    object Sets : AddressableActivity {
-        override val className = "$PACKAGE_NAME.cards.view.sets.ui.SetsActivity"
+        object Main : AddressableActivity {
+            override val className = "$PACKAGE_NAME.cards.view.sets.ui.SetsActivity"
+        }
     }
 
     object Cards : AddressableActivity {
+        val total: String = "TOTAL"
+        val set: String = "SET"
+
         override val className = "$PACKAGE_NAME.cards.view.cards.ui.CardsActivity"
     }
 

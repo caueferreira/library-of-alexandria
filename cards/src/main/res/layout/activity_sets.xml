@@ -13,6 +13,7 @@
             android:layout_height="match_parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            android:layoutAnimation="@anim/grid_layout_animation_from_bottom"
             app:layout_constraintEnd_toEndOf="parent"/>
 
     <ProgressBar

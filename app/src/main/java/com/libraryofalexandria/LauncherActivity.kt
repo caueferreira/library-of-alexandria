@@ -12,7 +12,7 @@ class LauncherActivity : AppCompatActivity() {
         setContentView(R.layout.activity_launcher)
 
         startActivity(
-            intentTo(Activities.Sets)
+            intentTo(Activities.Sets.Main)
         )
     }
 }
