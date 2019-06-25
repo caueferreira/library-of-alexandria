@@ -29,8 +29,6 @@ class CardsActivity : AppCompatActivity(),
     private val adapter = CardsAdapter(this)
     private lateinit var recyclerView: RecyclerView
 
-    private var itemCount = 0
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cards)
@@ -41,19 +39,16 @@ class CardsActivity : AppCompatActivity(),
     }
 
     private fun initAdapter() {
-        itemCount = 1
         recyclerView = recycler
-        val layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
-        recyclerView.layoutManager = layoutManager
         recyclerView.adapter = adapter
 
         val infiniteScrollListener =
-            object : InfiniteScrollListener(layoutManager) {
+            object : InfiniteScrollListener(recyclerView.layoutManager as LinearLayoutManager) {
                 override fun isDataLoading(): Boolean = viewModel.state == State.LOADING
 
                 override fun onLoadMore() {
-                    if (adapter.itemCount.toString() == Activities.Cards.total)
-                        viewModel.fetch(Activities.Cards.set)
+                    if (adapter.itemCount < intent.getIntExtra(Activities.Cards.total, adapter.itemCount))
+                        viewModel.fetch(intent.getStringExtra(Activities.Cards.set))
                 }
             }
 

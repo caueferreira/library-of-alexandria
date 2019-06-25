@@ -13,6 +13,7 @@ class SetViewEntityMapper {
             set.code,
             set.name,
             "Total cards ${set.totalCards}",
+            set.totalCards,
             set.iconUri,
             set.type.name,
             colorFromType(set.type),

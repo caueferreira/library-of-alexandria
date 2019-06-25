@@ -12,7 +12,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:layoutAnimation="@anim/layout_animation_slide_right"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintTop_toTopOf="parent"
             app:spanCount="2"

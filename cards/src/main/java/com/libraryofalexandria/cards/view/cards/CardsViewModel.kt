@@ -1,6 +1,5 @@
 package com.libraryofalexandria.cards.view.cards
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -39,7 +38,6 @@ class CardsViewModel(
                             mapper.transform(card)
                         }.toList()
                 }.onFailure {
-                    Log.e("fetch", "${it}")
                     _state.value = State.ERROR
                 }
         }

@@ -5,12 +5,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item_set.view.*
+import android.view.animation.AnimationUtils
+import android.view.animation.Animation
+import com.libraryofalexandria.cards.view.R
 
 class SetsAdapter(
     private val listener: OnSetClickListener
 ) : RecyclerView.Adapter<SetsAdapter.SetViewHolder>() {
 
-     var sets = arrayListOf<SetViewEntity>()
+    var sets = arrayListOf<SetViewEntity>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SetViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -19,15 +22,31 @@ class SetsAdapter(
     }
 
     override fun onBindViewHolder(holder: SetViewHolder, position: Int) {
-        sets[position]?.let { holder.bind(it, listener) }
+        sets[position]?.let {
+            holder.bind(it, listener)
+            animate(holder.itemView, position)
+        }
     }
 
     override fun getItemCount(): Int = sets.size
 
-    fun addAll(setViewEntityList : List<SetViewEntity>) {
+    fun addAll(setViewEntityList: List<SetViewEntity>) {
         sets.clear()
         sets.addAll(setViewEntityList)
         notifyDataSetChanged()
+    }
+
+    private var lastPosition = -1
+
+    private fun animate(viewToAnimate: View, position: Int) {
+        if (position > lastPosition) {
+            val animation = AnimationUtils.loadAnimation(
+                viewToAnimate.context,
+                com.libraryofalexandria.R.anim.item_animation_from_right
+            )
+            viewToAnimate.startAnimation(animation)
+            lastPosition = position
+        }
     }
 
     class SetViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

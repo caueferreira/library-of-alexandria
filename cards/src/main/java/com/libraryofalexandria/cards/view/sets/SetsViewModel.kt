@@ -1,6 +1,5 @@
 package com.libraryofalexandria.cards.view.sets
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -40,7 +39,6 @@ class SetsViewModel(
 
                     _load = _sets.value!!
                 }.onFailure {
-                    Log.e("onFailure", "${it}")
                     _state.value = State.ERROR
                 }
         }

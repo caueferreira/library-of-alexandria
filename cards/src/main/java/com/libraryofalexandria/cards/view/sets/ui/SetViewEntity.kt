@@ -5,6 +5,7 @@ data class SetViewEntity(
     val code: String,
     val name: String,
     val totalCards: String,
+    val totalCardsPlain: Int,
     val iconUri: String,
     val type: String,
     val backgroundColor: Int,
