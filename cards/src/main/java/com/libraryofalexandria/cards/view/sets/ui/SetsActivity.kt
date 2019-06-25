@@ -2,14 +2,15 @@ package com.libraryofalexandria.cards.view.sets.ui
 
 import android.app.ActivityOptions
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.libraryofalexandria.cards.di.cardsModule
 import com.libraryofalexandria.cards.view.R
 import com.libraryofalexandria.cards.view.State
@@ -21,7 +22,6 @@ import kotlinx.android.synthetic.main.activity_cards.progressBar
 import kotlinx.android.synthetic.main.activity_sets.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.context.loadKoinModules
-
 
 class SetsActivity : AppCompatActivity(),
     SetsAdapter.OnSetClickListener {
@@ -48,11 +48,8 @@ class SetsActivity : AppCompatActivity(),
     }
 
     private fun initAdapter() {
-        recyclerView = recyclerSets
-        val layoutManager = StaggeredGridLayoutManager(
-            2, StaggeredGridLayoutManager.VERTICAL
-        )
-        recyclerView.layoutManager = layoutManager
+        recyclerView = recycler
+
         recyclerView.adapter = adapter
 
         recyclerView.addItemDecoration(DividerItemDecoration(recyclerView.context, DividerItemDecoration.VERTICAL))
@@ -72,12 +69,15 @@ class SetsActivity : AppCompatActivity(),
     }
 
     private fun observeSets() {
+        Log.i("showSets", "" + recyclerView.layoutAnimation)
         observe(viewModel.sets, ::showSets)
     }
 
     private fun showSets(sets: List<SetViewEntity>) {
+        Log.i("showSets", "" + recyclerView.layoutAnimation)
         adapter.addAll(sets)
         recyclerView.scheduleLayoutAnimation()
+        Log.i("showSets", "" + recyclerView.layoutAnimation)
     }
 
     override fun onItemClick(setViewEntity: SetViewEntity) {

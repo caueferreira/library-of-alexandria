@@ -10,7 +10,7 @@ class SetsAdapter(
     private val listener: OnSetClickListener
 ) : RecyclerView.Adapter<SetsAdapter.SetViewHolder>() {
 
-    private var sets = arrayListOf<SetViewEntity>()
+     var sets = arrayListOf<SetViewEntity>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SetViewHolder {
         val view = LayoutInflater.from(parent.context)

@@ -11,5 +11,4 @@
             android:fromAlpha="0.5"
             android:toAlpha="1"
             android:interpolator="@android:anim/accelerate_decelerate_interpolator"/>
-
 </set>

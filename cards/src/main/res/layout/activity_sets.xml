@@ -8,12 +8,14 @@
         tools:context=".sets.ui.SetsActivity">
 
     <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerSets"
+            android:id="@+id/recycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:layoutAnimation="@anim/layout_animation_slide_right"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:layout_constraintTop_toTopOf="parent"
+            app:spanCount="2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
