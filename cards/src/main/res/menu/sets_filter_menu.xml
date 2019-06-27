@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/core"
+          android:icon="@mipmap/ic_launcher"
+          android:title="Core"/>
+
+    <item android:id="@+id/draft"
+          android:icon="@mipmap/ic_launcher"
+          android:title="Draft"/>
+
+    <item android:id="@+id/constructed"
+          android:icon="@mipmap/ic_launcher"
+          android:title="Constructed"/>
+
+    <item android:id="@+id/other"
+          android:icon="@mipmap/ic_launcher"
+          android:title="Other"/>
+</menu>

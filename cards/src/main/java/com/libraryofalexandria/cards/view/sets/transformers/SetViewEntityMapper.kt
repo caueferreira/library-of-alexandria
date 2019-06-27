@@ -2,8 +2,8 @@ package com.libraryofalexandria.cards.view.sets.transformers
 
 import com.libraryofalexandria.cards.domain.Set
 import com.libraryofalexandria.cards.domain.Type
-import com.libraryofalexandria.cards.view.sets.ui.SetViewEntity
 import com.libraryofalexandria.cards.view.sets.ui.SetFilter
+import com.libraryofalexandria.cards.view.sets.ui.SetViewEntity
 
 class SetViewEntityMapper {
 
@@ -31,7 +31,7 @@ class SetViewEntityMapper {
 
     private fun fontColorFromType(type: Type): Int =
         when (type) {
-            Type.DUEL_DECK, Type.COMMANDER, Type.PLANECHASE, Type.ARCHENEMY -> android.R.color.black
+            Type.DUEL_DECK, Type.COMMANDER, Type.PLANECHASE, Type.ARCHENEMY, Type.FROM_THE_VAULT, Type.SPELLBOOK, Type.PREMIUM_DECK, Type.STARTER -> android.R.color.black
             Type.CORE, Type.EXPANSION, Type.MASTERS -> android.R.color.black
             else -> android.R.color.white
         }

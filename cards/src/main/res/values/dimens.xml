@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="drawer_width">260dp</dimen>
+    <dimen name="drawer_elevation">8dp</dimen>
+    <dimen name="spacing_normal">8dp</dimen>
+</resources>
