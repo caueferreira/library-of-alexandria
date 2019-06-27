@@ -3,4 +3,10 @@
     <style name="LibraryOfAlexandria.Launcher" parent="LibraryOfAlexandria.NoActionBar">
         <item name="android:windowBackground">@drawable/launch_screen</item>
     </style>
+
+
+    <style name="Widget.LibraryOfAlexandria.Toolbar" parent="@style/Widget.MaterialComponents.Toolbar">
+        <item name="android:background">?attr/colorPrimary</item>
+        <item name="android:theme">@style/LibraryOfAlexandria</item>
+    </style>
 </resources>

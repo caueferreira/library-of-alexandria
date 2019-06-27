@@ -2,9 +2,9 @@ package com.libraryofalexandria.cards.view.sets.ui
 
 import android.app.ActivityOptions
 import android.os.Bundle
-import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.navigation.NavigationView
 import com.libraryofalexandria.cards.di.cardsModule
+import com.libraryofalexandria.cards.view.R
 import com.libraryofalexandria.cards.view.State
 import com.libraryofalexandria.cards.view.sets.SetsViewModel
 import com.libraryofalexandria.core.Activities
@@ -33,6 +34,7 @@ class SetsActivity : AppCompatActivity(),
 
     private val adapter = SetsAdapter(this)
 
+    private lateinit var toolbarView: Toolbar
     private lateinit var recyclerView: RecyclerView
     private lateinit var navigationView: NavigationView
     private lateinit var drawerView: DrawerLayout
@@ -41,9 +43,10 @@ class SetsActivity : AppCompatActivity(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(com.libraryofalexandria.cards.view.R.layout.activity_sets)
+        setContentView(R.layout.activity_sets)
 
         injectFeature()
+        initToolbar()
         initAdapter()
         initDrawer()
         observeState()
@@ -60,16 +63,22 @@ class SetsActivity : AppCompatActivity(),
         recyclerView.addItemDecoration(DividerItemDecoration(recyclerView.context, DividerItemDecoration.HORIZONTAL))
     }
 
+    private fun initToolbar() {
+        toolbarView = toolbar
+        toolbarView.inflateMenu(R.menu.main)
+        setActionBar(toolbarView)
+    }
+
     private fun initDrawer() {
         drawerView = drawer
 
         navigationView = navigation
         navigationView.setNavigationItemSelectedListener {
             when (it.itemId) {
-                com.libraryofalexandria.cards.view.R.id.core -> filterSets(SetFilter.CORE)
-                com.libraryofalexandria.cards.view.R.id.draft -> filterSets(SetFilter.DRAFT)
-                com.libraryofalexandria.cards.view.R.id.constructed -> filterSets(SetFilter.CONSTRUCTED)
-                com.libraryofalexandria.cards.view.R.id.other -> filterSets(SetFilter.OTHER)
+                R.id.core -> filterSets(SetFilter.CORE)
+                R.id.draft -> filterSets(SetFilter.DRAFT)
+                R.id.constructed -> filterSets(SetFilter.CONSTRUCTED)
+                R.id.other -> filterSets(SetFilter.OTHER)
             }
             true
         }
@@ -109,13 +118,8 @@ class SetsActivity : AppCompatActivity(),
         )
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(com.libraryofalexandria.cards.view.R.menu.main, menu)
-        return true
-    }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
-        com.libraryofalexandria.cards.view.R.id.about -> {
+        R.id.about -> {
             startActivity(
                 intentTo(Activities.About),
                 ActivityOptions.makeSceneTransitionAnimation(this).toBundle()
@@ -123,7 +127,7 @@ class SetsActivity : AppCompatActivity(),
             true
         }
 
-        com.libraryofalexandria.cards.view.R.id.filter -> {
+        R.id.filter -> {
             if (drawerView.isDrawerOpen(GravityCompat.END))
                 drawerView.closeDrawers()
             else

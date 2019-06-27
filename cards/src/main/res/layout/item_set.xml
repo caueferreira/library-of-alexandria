@@ -4,20 +4,20 @@
                                                    xmlns:tools="http://schemas.android.com/tools"
                                                    android:orientation="vertical"
                                                    android:layout_width="match_parent"
-                                                   android:padding="12dp"
-                                                   android:layout_height="148dp">
+                                                   android:padding="@dimen/one_half_margin"
+                                                   android:layout_height="@dimen/set_height">
 
     <TextView
             android:textSize="18sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/name"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="@dimen/normal_margin"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="@dimen/normal_margin"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="8dp"/>
+            android:layout_marginEnd="@dimen/normal_margin"/>
     <TextView
             android:textSize="14sp"
             android:layout_width="wrap_content"
@@ -25,8 +25,8 @@
             android:id="@+id/code"
             android:textStyle="italic"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="@dimen/double_margin"
+            android:layout_marginBottom="@dimen/normal_margin"
             app:layout_constraintBottom_toBottomOf="parent"/>
     <TextView
             android:layout_width="wrap_content"
@@ -34,7 +34,7 @@
             android:id="@+id/totalCards"
             android:textStyle="italic"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginStart="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginStart="@dimen/normal_margin"
+            android:layout_marginBottom="@dimen/normal_margin"
             app:layout_constraintBottom_toBottomOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
