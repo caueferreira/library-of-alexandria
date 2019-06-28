@@ -4,13 +4,15 @@ dependencies {
     def commonDependencies = rootProject.ext.commonDependencies
     def commonTestDependencies = rootProject.ext.commonTestDependencies
 
+    implementation uiDependencies.recyclerView
+    api uiDependencies.googleMaterial
+
     api commonDependencies.appCompat
 
     api commonDependencies.koinScope
     api commonDependencies.koinExt
 
     implementation commonDependencies.appCompat
-    implementation uiDependencies.recyclerView
 
     testImplementation commonTestDependencies.junit
     testImplementation commonTestDependencies.mockito

@@ -1,3 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <style name="LibraryOfAlexandria.Cards" parent="@style/LibraryOfAlexandria">
+        <item name="android:colorBackground">@color/backgroundDark</item>
+    </style>
 </resources>

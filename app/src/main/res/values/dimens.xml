@@ -4,4 +4,5 @@
     <dimen name="double_margin">16dp</dimen>
     <dimen name="one_half_margin">12dp</dimen>
     <dimen name="zero">0dp</dimen>
+    <dimen name="appBarElevation">1dp</dimen>
 </resources>

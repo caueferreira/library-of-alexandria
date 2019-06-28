@@ -49,7 +49,6 @@ dependencies {
     api commonDependencies.legacy
 
     api uiDependencies.constraintLayout
-    api uiDependencies.googleMaterial
 
     implementation commonDependencies.kotlinStdlib
     implementation commonDependencies.kotlinCore

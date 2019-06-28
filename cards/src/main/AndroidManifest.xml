@@ -11,9 +11,11 @@
     </dist:module>
 
     <application>
-        <activity android:name=".sets.ui.SetsActivity">
+        <activity android:name=".sets.ui.SetsActivity"
+                  android:theme="@style/LibraryOfAlexandria.Cards">
         </activity>
-        <activity android:name=".cards.ui.CardsActivity">
+        <activity android:name=".cards.ui.CardsActivity"
+                  android:theme="@style/LibraryOfAlexandria.Cards">
         </activity>
     </application>
 

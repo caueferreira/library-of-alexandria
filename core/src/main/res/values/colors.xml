@@ -1,7 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorPrimary">#4fc3f7</color>
+    <color name="colorPrimaryDark">#0093c4</color>
+    <color name="colorPrimaryLight">#8bf6ff</color>
     <color name="colorAccent">#D81B60</color>
+    <color name="colorBackground">#e0e0e0</color>
     <color name="scrim">#99323232</color>
+
+    <color name="textPrimaryDark">#de000000</color>
+    <color name="textSecondaryDark">#8a000000</color>
+    <color name="backgroundDark">#ff333333</color>
+
+    <color name="textPrimaryLight">#ffffffff</color>
+    <color name="textSecondaryLight">#b3ffffff</color>
+    <color name="textDisabledLight">#4dffffff</color>
+    <color name="backgroundLight">#fafafa</color>
+
+    <color name="backgroundDarkest">#ff292929</color>
 </resources>
