@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#4fc3f7</color>
-    <color name="colorPrimaryDark">#0093c4</color>
-    <color name="colorPrimaryLight">#8bf6ff</color>
+    <color name="colorPrimary">#4FC3F7</color>
+    <color name="colorPrimaryDark">#0093C4</color>
+    <color name="colorPrimaryLight">#8BF6FF</color>
     <color name="colorAccent">#D81B60</color>
-    <color name="colorBackground">#e0e0e0</color>
+    <color name="colorBackground">#E0E0E0</color>
     <color name="scrim">#99323232</color>
 
-    <color name="textPrimaryDark">#de000000</color>
-    <color name="textSecondaryDark">#8a000000</color>
-    <color name="backgroundDark">#ff333333</color>
+    <color name="textPrimaryDark">#DE000000</color>
+    <color name="textSecondaryDark">#8A000000</color>
+    <color name="backgroundDark">#FF333333</color>
+    <color name="backgroundDarkTransparent">#40333333</color>
 
-    <color name="textPrimaryLight">#ffffffff</color>
-    <color name="textSecondaryLight">#b3ffffff</color>
-    <color name="textDisabledLight">#4dffffff</color>
-    <color name="backgroundLight">#fafafa</color>
+    <color name="textPrimaryLight">#FFFFFFFF</color>
+    <color name="textSecondaryLight">#B3FFFFFF</color>
+    <color name="textDisabledLight">#4DFFFFFF</color>
+    <color name="backgroundLight">#FAFAFA</color>
 
-    <color name="backgroundDarkest">#ff292929</color>
+    <color name="backgroundDarkest">#FF292929</color>
+    <color name="navigationBar">#80292929</color>
 </resources>

@@ -4,12 +4,13 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:navigationBarColor">@color/backgroundDarkest</item>
+        <item name="android:navigationBarColor">@color/navigationBar</item>
         <item name="android:statusBarColor">@color/backgroundDarkest</item>
         <item name="android:colorBackground">@color/colorBackground</item>
         <item name="android:windowAllowEnterTransitionOverlap">true</item>
         <item name="android:windowAllowReturnTransitionOverlap">true</item>
         <item name="android:windowSharedElementsUseOverlay">false</item>
+        <item name="android:windowTranslucentNavigation">true</item>
     </style>
 
     <style name="LibraryOfAlexandriaDarkOverlay" parent="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar">

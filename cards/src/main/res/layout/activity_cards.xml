@@ -48,6 +48,7 @@
             android:id="@+id/type"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="@dimen/one_half_margin"
+            android:textColor="@color/textPrimaryLight"
             android:textSize="14sp"
             app:layout_constraintTop_toBottomOf="@+id/name"
             android:layout_marginTop="22dp"/>
@@ -61,6 +62,7 @@
             android:layout_marginTop="@dimen/one_half_margin"
             android:textSize="14sp"
             android:layout_marginStart="@dimen/one_half_margin"
+            android:textColor="@color/textPrimaryLight"
             app:layout_constraintTop_toBottomOf="@+id/type"/>
     <TextView
             android:layout_width="match_parent"
@@ -70,6 +72,7 @@
             app:layout_constraintStart_toStartOf="@+id/card"
             app:layout_constraintEnd_toEndOf="@+id/card"
             android:layout_marginEnd="@dimen/one_half_margin"
+            android:textColor="@color/textPrimaryLight"
             android:layout_marginTop="36dp"
             android:textSize="14sp"
             app:layout_constraintTop_toBottomOf="@+id/mainText"
@@ -81,12 +84,14 @@
             android:textStyle="bold"
             android:textSize="18sp"
             android:layout_marginStart="@dimen/one_half_margin"
+            android:textColor="@color/textPrimaryLight"
             app:layout_constraintTop_toTopOf="@+id/card"
             app:layout_constraintStart_toStartOf="parent"/>
     <TextView
             android:textSize="18sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/textPrimaryLight"
             android:id="@+id/manaCost"
             android:layout_marginEnd="@dimen/one_half_margin"
             app:layout_constraintEnd_toEndOf="parent"
@@ -95,6 +100,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="22dp"
+            android:textColor="@color/textPrimaryLight"
             android:id="@+id/rarity"
             app:layout_constraintEnd_toEndOf="@+id/manaCost"
             android:layout_marginEnd="@dimen/one_half_margin"
