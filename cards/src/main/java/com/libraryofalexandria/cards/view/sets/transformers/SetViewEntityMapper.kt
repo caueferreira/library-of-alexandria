@@ -40,7 +40,7 @@ class SetViewEntityMapper {
         when (type) {
             Type.CORE, Type.EXPANSION, Type.MASTERS -> SetFilter.CORE
             Type.MASTERPIECE, Type.PROMO, Type.BOX, Type.FUNNY, Type.DRAFT_INNOVATION -> SetFilter.DRAFT
-            Type.DUEL_DECK, Type.COMMANDER, Type.PLANECHASE, Type.ARCHENEMY, Type.FROM_THE_VAULT, Type.SPELLBOOK, Type.PREMIUM_DECK, Type.STARTER -> SetFilter.CONSTRUCTED
+            Type.DUEL_DECK, Type.COMMANDER, Type.PLANECHASE, Type.ARCHENEMY, Type.FROM_THE_VAULT, Type.SPELLBOOK, Type.PREMIUM_DECK, Type.STARTER -> SetFilter.SUPPLEMENTAL
             else -> SetFilter.OTHER
         }
 }

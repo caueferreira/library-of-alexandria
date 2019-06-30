@@ -14,5 +14,5 @@ data class SetViewEntity(
 )
 
 enum class SetFilter {
-    CORE, DRAFT, CONSTRUCTED, OTHER
+    CORE, DRAFT, SUPPLEMENTAL, OTHER
 }

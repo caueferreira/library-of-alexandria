@@ -2,18 +2,22 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:id="@+id/core"
-          android:icon="@mipmap/ic_launcher"
-          android:title="Core"/>
+          android:icon="@drawable/ic_local_library"
+          android:iconTint="@android:color/holo_green_dark"
+          android:title="@string/core"/>
 
     <item android:id="@+id/draft"
-          android:icon="@mipmap/ic_launcher"
-          android:title="Draft"/>
+          android:icon="@drawable/ic_local_library"
+          android:iconTint="@android:color/holo_purple"
+          android:title="@string/draft"/>
 
     <item android:id="@+id/constructed"
-          android:icon="@mipmap/ic_launcher"
-          android:title="Constructed"/>
+          android:icon="@drawable/ic_local_library"
+          android:iconTint="@android:color/holo_orange_dark"
+          android:title="@string/supplemental"/>
 
     <item android:id="@+id/other"
-          android:icon="@mipmap/ic_launcher"
-          android:title="Other"/>
+          android:icon="@drawable/ic_local_library"
+          android:iconTint="@android:color/holo_blue_dark"
+          android:title="@string/other"/>
 </menu>

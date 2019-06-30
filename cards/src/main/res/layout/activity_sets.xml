@@ -24,7 +24,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     tools:listitem="@layout/item_set"
-                    android:layoutAnimation="@anim/layout_animation_slide_right"
+                    android:layoutAnimation="@anim/layout_animation_fall_down"
                     app:layout_constraintTop_toBottomOf="@+id/toolbar"
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintBottom_toBottomOf="parent"/>
@@ -52,11 +52,18 @@
 
     </FrameLayout>
 
-    <com.google.android.material.navigation.NavigationView
+
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/filters"
             android:layout_width="@dimen/drawer_width"
             android:layout_height="match_parent"
-            app:menu="@menu/sets_filter_menu"
             android:layout_gravity="end"
-            android:elevation="@dimen/drawer_elevation"
-            android:id="@+id/navigation"/>
+            android:background="@color/backgroundDarkest"
+            android:clipToPadding="false"
+            android:elevation="@dimen/appBarElevation"
+            android:scrollbarStyle="outsideOverlay"
+            android:scrollbars="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_filter_set" />
+
 </androidx.drawerlayout.widget.DrawerLayout>

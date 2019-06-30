@@ -11,7 +11,6 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.navigation.NavigationView
 import com.libraryofalexandria.cards.di.cardsModule
 import com.libraryofalexandria.cards.view.R
 import com.libraryofalexandria.cards.view.State
@@ -26,17 +25,18 @@ import org.koin.core.context.loadKoinModules
 import org.koin.core.context.unloadKoinModules
 
 class SetsActivity : AppCompatActivity(),
-    SetsAdapter.OnSetClickListener {
+    SetsAdapter.OnSetClickListener, FiltersAdapter.OnSetClickListener {
 
     private val loadFeature by lazy { loadKoinModules(cardsModule) }
 
     private val viewModel by viewModel<SetsViewModel>()
 
     private val adapter = SetsAdapter(this)
+    private val filterAdapter = FiltersAdapter(this)
 
     private lateinit var toolbarView: Toolbar
     private lateinit var recyclerView: RecyclerView
-    private lateinit var navigationView: NavigationView
+    private lateinit var filtersView: RecyclerView
     private lateinit var drawerView: DrawerLayout
 
     private fun injectFeature() = loadFeature
@@ -72,17 +72,37 @@ class SetsActivity : AppCompatActivity(),
     private fun initDrawer() {
         drawerView = drawer
 
-        navigationView = navigation
-        navigationView.setNavigationItemSelectedListener {
-            when (it.itemId) {
-                R.id.core -> filterSets(SetFilter.CORE)
-                R.id.draft -> filterSets(SetFilter.DRAFT)
-                R.id.constructed -> filterSets(SetFilter.CONSTRUCTED)
-                R.id.other -> filterSets(SetFilter.OTHER)
-            }
-            true
-        }
+        filterAdapter.addAll(
+            arrayListOf(
+                FilterViewEntity(
+                    com.libraryofalexandria.R.drawable.ic_local_library,
+                    android.R.color.holo_green_dark,
+                    R.string.core,
+                    SetFilter.CORE
+                ),
+                FilterViewEntity(
+                    com.libraryofalexandria.R.drawable.ic_local_library,
+                    android.R.color.holo_purple,
+                    R.string.draft,
+                    SetFilter.DRAFT
+                ),
+                FilterViewEntity(
+                    com.libraryofalexandria.R.drawable.ic_local_library,
+                    android.R.color.holo_orange_dark,
+                    R.string.supplemental,
+                    SetFilter.SUPPLEMENTAL
+                ),
+                FilterViewEntity(
+                    com.libraryofalexandria.R.drawable.ic_local_library,
+                    android.R.color.holo_blue_dark,
+                    R.string.other,
+                    SetFilter.OTHER
+                )
+            )
+        )
 
+        filtersView = filters
+        filtersView.adapter = filterAdapter
     }
 
     private fun observeState() {
@@ -116,6 +136,10 @@ class SetsActivity : AppCompatActivity(),
                 .putExtra(Activities.Cards.set, setViewEntity.code)
                 .putExtra(Activities.Cards.total, setViewEntity.totalCardsPlain)
         )
+    }
+
+    override fun onItemClick(viewEntity: FilterViewEntity) {
+        filterSets(viewEntity.type)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {

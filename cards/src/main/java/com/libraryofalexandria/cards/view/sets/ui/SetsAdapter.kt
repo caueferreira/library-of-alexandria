@@ -3,11 +3,9 @@ package com.libraryofalexandria.cards.view.sets.ui
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.item_set.view.*
-import android.view.animation.AnimationUtils
-import android.view.animation.Animation
-import com.libraryofalexandria.cards.view.R
 
 class SetsAdapter(
     private val listener: OnSetClickListener
@@ -42,7 +40,7 @@ class SetsAdapter(
         if (position > lastPosition) {
             val animation = AnimationUtils.loadAnimation(
                 viewToAnimate.context,
-                com.libraryofalexandria.R.anim.item_animation_from_right
+                com.libraryofalexandria.R.anim.item_animation_fall_down
             )
             viewToAnimate.startAnimation(animation)
             lastPosition = position
@@ -52,25 +50,25 @@ class SetsAdapter(
     class SetViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(
-            setViewEntity: SetViewEntity,
+            viewEntity: SetViewEntity,
             listener: OnSetClickListener
         ) {
-            itemView.name.text = setViewEntity.name
-            itemView.code.text = setViewEntity.code
-            itemView.totalCards.text = setViewEntity.totalCards
+            itemView.name.text = viewEntity.name
+            itemView.code.text = viewEntity.code
+            itemView.totalCards.text = viewEntity.totalCards
 
-            itemView.name.setTextColor(itemView.context.getColor(setViewEntity.textColor))
-            itemView.code.setTextColor(itemView.context.getColor(setViewEntity.textColor))
-            itemView.totalCards.setTextColor(itemView.context.getColor(setViewEntity.textColor))
+            itemView.name.setTextColor(itemView.context.getColor(viewEntity.textColor))
+            itemView.code.setTextColor(itemView.context.getColor(viewEntity.textColor))
+            itemView.totalCards.setTextColor(itemView.context.getColor(viewEntity.textColor))
 
-            itemView.setBackgroundColor(itemView.context.getColor(setViewEntity.backgroundColor))
+            itemView.setBackgroundColor(itemView.context.getColor(viewEntity.backgroundColor))
 
-            itemView.setOnClickListener { listener.onItemClick(setViewEntity) }
+            itemView.setOnClickListener { listener.onItemClick(viewEntity) }
         }
     }
 
     interface OnSetClickListener {
-        fun onItemClick(setViewEntity: SetViewEntity)
+        fun onItemClick(viewEntity: SetViewEntity)
     }
 }
 

@@ -14,5 +14,6 @@
         <item name="android:background">@color/backgroundDarkest</item>
         <item name="android:elevation">@dimen/zero</item>
         <item name="materialThemeOverlay">@style/ThemeOverlay.MaterialComponents.Dark.ActionBar</item>
+        <item name="android:navigationBarColor">@color/navigationBar</item>
     </style>
 </resources>
