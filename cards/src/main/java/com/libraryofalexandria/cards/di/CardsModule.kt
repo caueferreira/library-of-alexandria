@@ -1,5 +1,7 @@
 package com.libraryofalexandria.cards.di
 
+import com.libraryofalexandria.cards.data.FiltersRepository
+import com.libraryofalexandria.cards.data.local.FiltersLocalDataSource
 import com.libraryofalexandria.cards.data.network.CardNetworkRepository
 import com.libraryofalexandria.cards.data.network.ScryfallApi
 import com.libraryofalexandria.cards.data.network.SetNetworkRepository
@@ -12,11 +14,14 @@ import retrofit2.Retrofit
 val cardsModule = module {
     single { createApi<ScryfallApi>(get()) }
 
+    single { provideFiltersLocalDataSource() }
+    single { provideFiltersRepository(get()) }
+
     single { provideCardsRepository(get()) }
     viewModel { CardsViewModel(get()) }
 
     single { provideSetsRepository(get()) }
-    viewModel { SetsViewModel(get()) }
+    viewModel { SetsViewModel(get(), get()) }
 }
 
 private fun provideCardsRepository(scryfallApi: ScryfallApi): CardNetworkRepository =
@@ -24,5 +29,11 @@ private fun provideCardsRepository(scryfallApi: ScryfallApi): CardNetworkReposit
 
 private fun provideSetsRepository(scryfallApi: ScryfallApi): SetNetworkRepository =
     SetNetworkRepository(scryfallApi)
+
+private fun provideFiltersLocalDataSource(): FiltersLocalDataSource =
+    FiltersLocalDataSource()
+
+private fun provideFiltersRepository(localDataSource: FiltersLocalDataSource): FiltersRepository =
+    FiltersRepository(localDataSource)
 
 private inline fun <reified T> createApi(retrofit: Retrofit) = retrofit.create(T::class.java)

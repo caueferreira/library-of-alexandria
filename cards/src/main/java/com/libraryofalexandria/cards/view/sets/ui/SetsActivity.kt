@@ -51,8 +51,6 @@ class SetsActivity : AppCompatActivity(),
         initDrawer()
         observeState()
         observeSets()
-
-        viewModel.fetch()
     }
 
     private fun initAdapter() {
@@ -70,39 +68,14 @@ class SetsActivity : AppCompatActivity(),
     }
 
     private fun initDrawer() {
-        drawerView = drawer
-
-        filterAdapter.addAll(
-            arrayListOf(
-                FilterViewEntity(
-                    com.libraryofalexandria.R.drawable.ic_local_library,
-                    android.R.color.holo_green_dark,
-                    R.string.core,
-                    SetFilter.CORE
-                ),
-                FilterViewEntity(
-                    com.libraryofalexandria.R.drawable.ic_local_library,
-                    android.R.color.holo_purple,
-                    R.string.draft,
-                    SetFilter.DRAFT
-                ),
-                FilterViewEntity(
-                    com.libraryofalexandria.R.drawable.ic_local_library,
-                    android.R.color.holo_orange_dark,
-                    R.string.supplemental,
-                    SetFilter.SUPPLEMENTAL
-                ),
-                FilterViewEntity(
-                    com.libraryofalexandria.R.drawable.ic_local_library,
-                    android.R.color.holo_blue_dark,
-                    R.string.other,
-                    SetFilter.OTHER
-                )
-            )
-        )
-
         filtersView = filters
-        filtersView.adapter = filterAdapter
+
+        viewModel.filters.observe(this, Observer {
+            drawerView = drawer
+
+            filterAdapter.addAll(it)
+            filtersView.adapter = filterAdapter
+        } )
     }
 
     private fun observeState() {
@@ -127,7 +100,7 @@ class SetsActivity : AppCompatActivity(),
     }
 
     private fun filterSets(filter: SetFilter) {
-        viewModel.filter(filter)
+        viewModel.filterBy(filter)
     }
 
     override fun onItemClick(setViewEntity: SetViewEntity) {
