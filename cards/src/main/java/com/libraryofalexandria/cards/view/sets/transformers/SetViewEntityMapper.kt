@@ -1,14 +1,18 @@
 package com.libraryofalexandria.cards.view.sets.transformers
 
+import com.libraryofalexandria.cards.data.local.entity.Filters
+import com.libraryofalexandria.cards.data.transformer.SetFilterMapper
 import com.libraryofalexandria.cards.domain.Set
-import com.libraryofalexandria.cards.domain.Type
-import com.libraryofalexandria.cards.view.sets.ui.SetFilter
 import com.libraryofalexandria.cards.view.sets.ui.SetViewEntity
 
-class SetViewEntityMapper {
+class SetViewEntityMapper(
+    private val mapper: SetsFilterViewEntityMapper = SetsFilterViewEntityMapper(),
+    private val filterMapper: SetFilterMapper = SetFilterMapper()
+) {
 
-    fun transform(set: Set): SetViewEntity =
-        SetViewEntity(
+    fun transform(set: Set): SetViewEntity {
+        val filter = filterMapper.transform(set.type)
+        return SetViewEntity(
             set.id,
             set.code,
             set.name,
@@ -16,31 +20,25 @@ class SetViewEntityMapper {
             set.totalCards,
             set.iconUri,
             set.type.name,
-            colorFromType(set.type),
-            fontColorFromType(set.type),
-            setFilter(set.type)
+            colorFromType(filter),
+            fontColorFromType(filter),
+            mapper.transform(filter)
         )
+    }
 
-    private fun colorFromType(type: Type): Int =
-        when (type) {
-            Type.CORE, Type.EXPANSION, Type.MASTERS, Type.DRAFT_INNOVATION -> android.R.color.holo_green_dark
-            Type.MASTERPIECE, Type.PROMO, Type.FUNNY -> android.R.color.holo_purple
-            Type.BOX, Type.DUEL_DECK, Type.COMMANDER, Type.PLANECHASE, Type.ARCHENEMY, Type.FROM_THE_VAULT, Type.SPELLBOOK, Type.PREMIUM_DECK, Type.STARTER -> android.R.color.holo_orange_dark
+    private fun colorFromType(filter: Filters.Sets): Int =
+        when (filter) {
+            Filters.Sets.CORE -> android.R.color.holo_green_dark
+            Filters.Sets.PROMO -> android.R.color.holo_purple
+            Filters.Sets.SUPPLEMENTAL -> android.R.color.holo_orange_dark
             else -> android.R.color.holo_blue_dark
         }
 
-    private fun fontColorFromType(type: Type): Int =
-        when (type) {
-            Type.BOX, Type.DUEL_DECK, Type.COMMANDER, Type.PLANECHASE, Type.ARCHENEMY, Type.FROM_THE_VAULT, Type.SPELLBOOK, Type.PREMIUM_DECK, Type.STARTER -> android.R.color.black
-            Type.CORE, Type.EXPANSION, Type.MASTERS, Type.DRAFT_INNOVATION -> android.R.color.black
+    private fun fontColorFromType(filter: Filters.Sets): Int =
+        when (filter) {
+            Filters.Sets.CORE -> android.R.color.black
+            Filters.Sets.SUPPLEMENTAL -> android.R.color.black
             else -> android.R.color.white
         }
-
-    private fun setFilter(type: Type): SetFilter =
-        when (type) {
-            Type.CORE, Type.EXPANSION, Type.MASTERS, Type.DRAFT_INNOVATION -> SetFilter.CORE
-            Type.MASTERPIECE, Type.PROMO, Type.BOX, Type.FUNNY -> SetFilter.DRAFT
-            Type.BOX, Type.DUEL_DECK, Type.COMMANDER, Type.PLANECHASE, Type.ARCHENEMY, Type.FROM_THE_VAULT, Type.SPELLBOOK, Type.PREMIUM_DECK, Type.STARTER -> SetFilter.SUPPLEMENTAL
-            else -> SetFilter.OTHER
-        }
 }
+

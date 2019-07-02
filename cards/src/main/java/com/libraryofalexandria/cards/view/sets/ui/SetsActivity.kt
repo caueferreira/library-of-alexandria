@@ -11,6 +11,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
+import com.libraryofalexandria.cards.data.local.entity.Filters
 import com.libraryofalexandria.cards.di.cardsModule
 import com.libraryofalexandria.cards.view.R
 import com.libraryofalexandria.cards.view.State
@@ -75,7 +76,7 @@ class SetsActivity : AppCompatActivity(),
 
             filterAdapter.addAll(it)
             filtersView.adapter = filterAdapter
-        } )
+        })
     }
 
     private fun observeState() {
@@ -99,7 +100,7 @@ class SetsActivity : AppCompatActivity(),
         recyclerView.scheduleLayoutAnimation()
     }
 
-    private fun filterSets(filter: SetFilter) {
+    private fun filterSets(filter: FilterViewEntity) {
         viewModel.filterBy(filter)
     }
 
@@ -112,7 +113,7 @@ class SetsActivity : AppCompatActivity(),
     }
 
     override fun onItemClick(viewEntity: FilterViewEntity) {
-        filterSets(viewEntity.type)
+        filterSets(viewEntity)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {

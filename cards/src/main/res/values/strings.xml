@@ -5,7 +5,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="core">Core</string>
-    <string name="draft">Draft</string>
+    <string name="promo">Promo</string>
     <string name="supplemental">Supplemental</string>
     <string name="other">Other</string>
 </resources>

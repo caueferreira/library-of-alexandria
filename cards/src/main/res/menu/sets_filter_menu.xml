@@ -9,7 +9,7 @@
     <item android:id="@+id/draft"
           android:icon="@drawable/ic_local_library"
           android:iconTint="@android:color/holo_purple"
-          android:title="@string/draft"/>
+          android:title="@string/promo"/>
 
     <item android:id="@+id/constructed"
           android:icon="@drawable/ic_local_library"

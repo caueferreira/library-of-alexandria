@@ -10,9 +10,5 @@ data class SetViewEntity(
     val type: String,
     val backgroundColor: Int,
     val textColor: Int,
-    val setFilter: SetFilter
+    val filterViewEntity: FilterViewEntity
 )
-
-enum class SetFilter {
-    CORE, DRAFT, SUPPLEMENTAL, OTHER
-}
