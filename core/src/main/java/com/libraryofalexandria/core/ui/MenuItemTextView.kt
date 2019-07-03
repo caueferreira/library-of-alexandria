@@ -1,9 +1,9 @@
-package com.libraryofalexandria.core
+package com.libraryofalexandria.core.ui
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.View
 import android.widget.TextView
+import com.libraryofalexandria.core.R
 
 class MenuItemTextView(context: Context, attrs: AttributeSet) : TextView(context, attrs) {
 

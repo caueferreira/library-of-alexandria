@@ -10,7 +10,7 @@ import com.libraryofalexandria.cards.view.State
 import com.libraryofalexandria.cards.view.sets.transformers.SetViewEntityMapper
 import com.libraryofalexandria.cards.view.sets.ui.FilterViewEntity
 import com.libraryofalexandria.cards.view.sets.ui.SetViewEntity
-import com.libraryofalexandria.core.addOrRemove
+import com.libraryofalexandria.core.extensions.addOrRemove
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch

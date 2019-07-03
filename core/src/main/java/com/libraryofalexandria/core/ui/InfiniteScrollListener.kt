@@ -1,4 +1,4 @@
-package com.libraryofalexandria.core
+package com.libraryofalexandria.core.ui
 
 /*
  * Copyright 2018 Google, Inc.

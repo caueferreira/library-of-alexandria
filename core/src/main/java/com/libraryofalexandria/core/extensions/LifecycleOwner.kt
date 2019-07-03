@@ -1,4 +1,4 @@
-package com.libraryofalexandria.core
+package com.libraryofalexandria.core.extensions
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData

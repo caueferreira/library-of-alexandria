@@ -11,14 +11,13 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
-import com.libraryofalexandria.cards.data.local.entity.Filters
 import com.libraryofalexandria.cards.di.cardsModule
 import com.libraryofalexandria.cards.view.R
 import com.libraryofalexandria.cards.view.State
 import com.libraryofalexandria.cards.view.sets.SetsViewModel
 import com.libraryofalexandria.core.Activities
 import com.libraryofalexandria.core.intentTo
-import com.libraryofalexandria.core.observe
+import com.libraryofalexandria.core.extensions.observe
 import kotlinx.android.synthetic.main.activity_cards.progressBar
 import kotlinx.android.synthetic.main.activity_sets.*
 import org.koin.androidx.viewmodel.ext.android.viewModel

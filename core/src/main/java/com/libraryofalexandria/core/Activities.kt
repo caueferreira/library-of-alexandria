@@ -8,7 +8,7 @@ interface AddressableActivity {
     val className: String
 }
 
-fun intentTo(addressableActivity: AddressableActivity) =
+fun intentTo(addressableActivity: AddressableActivity): Intent =
     Intent(Intent.ACTION_VIEW).setClassName(
         "$PACKAGE_NAME",
         addressableActivity.className
@@ -24,8 +24,8 @@ object Activities {
     }
 
     object Cards : AddressableActivity {
-        val total: String = "TOTAL"
-        val set: String = "SET"
+        const val total: String = "TOTAL"
+        const val set: String = "SET"
 
         override val className = "$PACKAGE_NAME.cards.view.cards.ui.CardsActivity"
     }
