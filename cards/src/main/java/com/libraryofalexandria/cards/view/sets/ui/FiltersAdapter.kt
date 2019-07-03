@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.libraryofalexandria.cards.view.R
 import kotlinx.android.synthetic.main.item_filter_set.view.*
 
 class FiltersAdapter(
@@ -15,7 +16,7 @@ class FiltersAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FilterViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(com.libraryofalexandria.cards.view.R.layout.item_filter_set, parent, false)
+            .inflate(R.layout.item_filter_set, parent, false)
         return FilterViewHolder(view)
     }
 
@@ -40,10 +41,16 @@ class FiltersAdapter(
             listener: OnSetClickListener
         ) {
             itemView.filterIcon.setImageDrawable(itemView.context.getDrawable(viewEntity.icon))
-            itemView.filterIcon.setColorFilter(ContextCompat.getColor(itemView.context, viewEntity.iconColor), android.graphics.PorterDuff.Mode.SRC_IN)
+            itemView.filterIcon.setColorFilter(
+                ContextCompat.getColor(itemView.context, viewEntity.iconColor),
+                android.graphics.PorterDuff.Mode.SRC_IN
+            )
             itemView.filterText.text = itemView.context.getString(viewEntity.text)
 
-            itemView.setOnClickListener { listener.onItemClick(viewEntity) }
+            itemView.setOnClickListener {
+                itemView.filterText.toggle()
+                listener.onItemClick(viewEntity)
+            }
         }
     }
 

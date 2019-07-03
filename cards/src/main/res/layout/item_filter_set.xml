@@ -18,7 +18,8 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
-    <TextView
+
+    <com.libraryofalexandria.core.MenuItemTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/filterText"

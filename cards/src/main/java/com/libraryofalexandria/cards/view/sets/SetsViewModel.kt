@@ -69,6 +69,7 @@ class SetsViewModel(
 
     fun filterBy(filter: FilterViewEntity) {
         _filterBy.addOrRemove(filter)
+
         _sets.value = _load.stream().filter { _filterBy.contains(it.filterViewEntity) }.collect(Collectors.toList())
     }
 }
