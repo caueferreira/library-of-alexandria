@@ -6,6 +6,7 @@
     <color name="colorAccent">#D81B60</color>
     <color name="colorBackground">#E0E0E0</color>
     <color name="scrim">#99323232</color>
+    <color name="disabled">#B3FFFFFF</color>
 
     <color name="textPrimaryDark">#DE000000</color>
     <color name="textSecondaryDark">#8A000000</color>

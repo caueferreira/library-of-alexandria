@@ -3,7 +3,6 @@ package com.libraryofalexandria.cards.view.sets.ui
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.libraryofalexandria.cards.view.R
 import kotlinx.android.synthetic.main.item_filter_set.view.*
@@ -40,15 +39,11 @@ class FiltersAdapter(
             viewEntity: FilterViewEntity,
             listener: OnSetClickListener
         ) {
-            itemView.filterIcon.setImageDrawable(itemView.context.getDrawable(viewEntity.icon))
-            itemView.filterIcon.setColorFilter(
-                ContextCompat.getColor(itemView.context, viewEntity.iconColor),
-                android.graphics.PorterDuff.Mode.SRC_IN
-            )
-            itemView.filterText.text = itemView.context.getString(viewEntity.text)
+
+            itemView.item.initialize(viewEntity)
 
             itemView.setOnClickListener {
-                itemView.filterText.toggle()
+                itemView.item.toggle()
                 listener.onItemClick(viewEntity)
             }
         }

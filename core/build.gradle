@@ -5,6 +5,7 @@ dependencies {
     def commonTestDependencies = rootProject.ext.commonTestDependencies
 
     implementation uiDependencies.recyclerView
+    implementation uiDependencies.constraintLayout
     api uiDependencies.googleMaterial
 
     api commonDependencies.appCompat

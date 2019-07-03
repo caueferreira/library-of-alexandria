@@ -1,34 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
-                                                   xmlns:tools="http://schemas.android.com/tools"
-                                                   android:orientation="vertical"
-                                                   android:layout_width="match_parent"
-                                                   android:layout_height="wrap_content">
+<FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <ImageView
-            android:layout_width="@dimen/filter_icon_size"
-            android:layout_height="@dimen/filter_icon_size"
-            android:layout_marginTop="@dimen/double_margin"
-            android:layout_marginStart="@dimen/double_margin"
-            android:layout_marginBottom="@dimen/double_margin"
-            android:id="@+id/filterIcon"
-            tools:tint="@android:color/holo_green_dark"
-            app:srcCompat="@drawable/ic_local_library"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+    <com.libraryofalexandria.cards.view.sets.ui.SetFilterMenuItemView
+            android:id="@+id/item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <com.libraryofalexandria.core.ui.MenuItemTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/filterText"
-            android:layout_marginStart="@dimen/normal_margin"
-            android:layout_marginBottom="@dimen/normal_margin"
-            android:layout_marginTop="@dimen/normal_margin"
-            android:textColor="@color/textPrimaryLight"
-            app:layout_constraintStart_toEndOf="@+id/filterIcon"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="@string/core"/>
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </com.libraryofalexandria.cards.view.sets.ui.SetFilterMenuItemView>
+</FrameLayout>
