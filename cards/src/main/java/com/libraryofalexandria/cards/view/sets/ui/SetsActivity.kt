@@ -2,6 +2,7 @@ package com.libraryofalexandria.cards.view.sets.ui
 
 import android.app.ActivityOptions
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toolbar

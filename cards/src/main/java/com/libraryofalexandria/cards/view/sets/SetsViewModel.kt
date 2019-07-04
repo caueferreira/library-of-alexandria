@@ -2,22 +2,24 @@ package com.libraryofalexandria.cards.view.sets
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations.map
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.libraryofalexandria.cards.data.FiltersRepository
-import com.libraryofalexandria.cards.data.network.SetNetworkRepository
+import com.libraryofalexandria.cards.data.network.SetsRemoteDataSource
+import com.libraryofalexandria.cards.domain.FetchSets
 import com.libraryofalexandria.cards.view.State
 import com.libraryofalexandria.cards.view.sets.transformers.SetViewEntityMapper
 import com.libraryofalexandria.cards.view.sets.ui.FilterViewEntity
 import com.libraryofalexandria.cards.view.sets.ui.SetViewEntity
+import com.libraryofalexandria.core.Activities.Cards.set
 import com.libraryofalexandria.core.extensions.addOrRemove
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.toList
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import java.util.stream.Collectors
 
 class SetsViewModel(
-    private val repository: SetNetworkRepository,
+    private val fetchSets: FetchSets,
     private val filterRepository: FiltersRepository,
     private val mapper: SetViewEntityMapper = SetViewEntityMapper()
 ) : ViewModel() {
@@ -34,7 +36,6 @@ class SetsViewModel(
     private val _filters by lazy { MutableLiveData<List<FilterViewEntity>>() }
     val filters: LiveData<List<FilterViewEntity>> get() = _filters
 
-
     init {
         fetchSets()
         fetchFilters()
@@ -43,17 +44,20 @@ class SetsViewModel(
     private fun fetchSets() {
         viewModelScope.launch {
             _state.value = State.LOADING
-            repository.list()
-                .onSuccess { sets ->
-                    _state.value = State.DONE
-                    _sets.value = sets.map { card ->
-                        mapper.transform(card)
-                    }.toList()
+            fetchSets.fetch()
+                .map { it.result }
+                .map {
+                    it.onSuccess {
+                        _load = it.map {
+                            mapper.transform(it)
+                        }.toList()
+                        _sets.value = _load
+                        _state.value = State.DONE
 
-                    _load = _sets.value!!
-                }.onFailure {
-                    _state.value = State.ERROR
-                }
+                    }.onFailure {
+                        _state.value = State.DONE
+                    }
+                }.collect { }
         }
     }
 
@@ -69,7 +73,6 @@ class SetsViewModel(
 
     fun filterBy(filter: FilterViewEntity) {
         _filterBy.addOrRemove(filter)
-
         _sets.value = _load.stream().filter { _filterBy.contains(it.filterViewEntity) }.collect(Collectors.toList())
     }
 }

@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import com.libraryofalexandria.core.R
+import kotlinx.android.synthetic.main.menu_item_view.view.*
 
 abstract class MenuItemView<T> @JvmOverloads constructor(
     context: Context,
@@ -15,8 +16,8 @@ abstract class MenuItemView<T> @JvmOverloads constructor(
 
     private var enabledText: Boolean
 
-    var title: TextView
-    var icon: ImageView
+    var titleTextView: TextView
+    var iconImageView: ImageView
 
     var iconColor: Int = -1
 
@@ -24,15 +25,15 @@ abstract class MenuItemView<T> @JvmOverloads constructor(
         inflate(context, R.layout.menu_item_view, this)
 
         enabledText = true
-        title = findViewById(R.id.title)
-        icon = findViewById(R.id.icon)
+        titleTextView = title
+        iconImageView = icon
     }
 
 
     fun tint(iconColor: Int) {
         this.iconColor = iconColor
 
-        icon.setColorFilter(
+        iconImageView.setColorFilter(
             ContextCompat.getColor(context, iconColor),
             android.graphics.PorterDuff.Mode.SRC_IN
         )
@@ -40,8 +41,8 @@ abstract class MenuItemView<T> @JvmOverloads constructor(
 
     fun toggle() {
         if (enabledText) {
-            title.setTextColor(context.getColor(R.color.textDisabledLight))
-            icon.setColorFilter(
+            titleTextView.setTextColor(context.getColor(R.color.textDisabledLight))
+            iconImageView.setColorFilter(
                 ContextCompat.getColor(context, R.color.disabled),
                 android.graphics.PorterDuff.Mode.SRC_IN
             )

@@ -9,10 +9,7 @@ dependencies{
 
     api commonDependencies.koinScope
     api commonDependencies.koinExt
-
-    api commonDependencies.coroutinesCore
-    api commonDependencies.coroutinesAndroid
-
+    
     api commonDependencies.moshi
     api commonDependencies.okHttp3
     api commonDependencies.retrofit2

@@ -8,7 +8,13 @@ dependencies {
     implementation uiDependencies.constraintLayout
     api uiDependencies.googleMaterial
 
+    implementation commonDependencies.kotlinStdlib
+    implementation commonDependencies.kotlinCore
+
     api commonDependencies.appCompat
+
+    api commonDependencies.coroutinesCore
+    api commonDependencies.coroutinesAndroid
 
     api commonDependencies.koinScope
     api commonDependencies.koinExt

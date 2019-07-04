@@ -2,9 +2,11 @@ package com.libraryofalexandria.cards.di
 
 import com.libraryofalexandria.cards.data.FiltersRepository
 import com.libraryofalexandria.cards.data.local.FiltersLocalDataSource
+import com.libraryofalexandria.cards.data.local.SetsLocalDataSource
 import com.libraryofalexandria.cards.data.network.CardNetworkRepository
 import com.libraryofalexandria.cards.data.network.ScryfallApi
-import com.libraryofalexandria.cards.data.network.SetNetworkRepository
+import com.libraryofalexandria.cards.data.network.SetsRemoteDataSource
+import com.libraryofalexandria.cards.domain.FetchSets
 import com.libraryofalexandria.cards.view.cards.CardsViewModel
 import com.libraryofalexandria.cards.view.sets.SetsViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -20,15 +22,25 @@ val cardsModule = module {
     single { provideCardsRepository(get()) }
     viewModel { CardsViewModel(get()) }
 
-    single { provideSetsRepository(get()) }
+    single { provideSetsLocalDataSource() }
+    single { provideSetsRemoteDataSource(get()) }
+    single { provideSetsUseCase(get(), get()) }
     viewModel { SetsViewModel(get(), get()) }
 }
 
 private fun provideCardsRepository(scryfallApi: ScryfallApi): CardNetworkRepository =
     CardNetworkRepository(scryfallApi)
 
-private fun provideSetsRepository(scryfallApi: ScryfallApi): SetNetworkRepository =
-    SetNetworkRepository(scryfallApi)
+private fun provideSetsLocalDataSource(): SetsLocalDataSource =
+    SetsLocalDataSource()
+
+private fun provideSetsRemoteDataSource(scryfallApi: ScryfallApi): SetsRemoteDataSource =
+    SetsRemoteDataSource(scryfallApi)
+
+private fun provideSetsUseCase(
+    setsRemoteDataSource: SetsRemoteDataSource,
+    localDataSource: SetsLocalDataSource
+): FetchSets = FetchSets(setsRemoteDataSource, localDataSource)
 
 private fun provideFiltersLocalDataSource(): FiltersLocalDataSource =
     FiltersLocalDataSource()

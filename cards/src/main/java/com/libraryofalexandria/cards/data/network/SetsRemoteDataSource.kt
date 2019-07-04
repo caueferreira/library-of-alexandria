@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import kotlin.coroutines.CoroutineContext
 
-class SetNetworkRepository(
+class SetsRemoteDataSource(
     private val api: ScryfallApi,
     private val mapper: SetMapper = SetMapper(),
     private val coroutineContext: CoroutineContext = Dispatchers.IO,

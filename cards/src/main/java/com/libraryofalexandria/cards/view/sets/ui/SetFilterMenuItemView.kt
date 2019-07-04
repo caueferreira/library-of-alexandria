@@ -8,8 +8,8 @@ class SetFilterMenuItemView(context: Context, attrs: AttributeSet?) :
     MenuItemView<FilterViewEntity>(context, attrs) {
 
     override fun initialize(viewEntity: FilterViewEntity) {
-        icon.setImageDrawable(context.getDrawable(viewEntity.icon))
-        title.text = context.getString(viewEntity.text)
+        iconImageView.setImageDrawable(context.getDrawable(viewEntity.icon))
+        titleTextView.text = context.getString(viewEntity.text)
 
         tint(viewEntity.iconColor)
     }
