@@ -2,6 +2,7 @@ package com.libraryofalexandria.cards.view.sets
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations.map
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.libraryofalexandria.cards.data.FiltersRepository
