@@ -20,13 +20,13 @@ class FetchSets(
                 remote.list().onSuccess {
                     emit(FetchResult.Update(local.store(it.toList())))
                 }
-            }.filterNot { it.result.getOrNull() == null && it is FetchResult.Cache }
+            }
         }
 
     sealed class FetchResult {
-        abstract val result: Result<Flow<Set>>
+        abstract val result: Result<List<Set>>
 
-        data class Cache(override val result: Result<Flow<Set>>) : FetchResult()
-        data class Update(override val result: Result<Flow<Set>>) : FetchResult()
+        data class Cache(override val result: Result<List<Set>>) : FetchResult()
+        data class Update(override val result: Result<List<Set>>) : FetchResult()
     }
 }

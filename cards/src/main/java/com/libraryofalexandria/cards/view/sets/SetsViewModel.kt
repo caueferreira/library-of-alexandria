@@ -2,17 +2,15 @@ package com.libraryofalexandria.cards.view.sets
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations.map
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.libraryofalexandria.cards.data.FiltersRepository
-import com.libraryofalexandria.cards.data.network.SetsRemoteDataSource
 import com.libraryofalexandria.cards.domain.FetchSets
+import com.libraryofalexandria.cards.domain.Set
 import com.libraryofalexandria.cards.view.State
 import com.libraryofalexandria.cards.view.sets.transformers.SetViewEntityMapper
 import com.libraryofalexandria.cards.view.sets.ui.FilterViewEntity
 import com.libraryofalexandria.cards.view.sets.ui.SetViewEntity
-import com.libraryofalexandria.core.Activities.Cards.set
 import com.libraryofalexandria.core.extensions.addOrRemove
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -45,19 +43,23 @@ class SetsViewModel(
         viewModelScope.launch {
             _state.value = State.LOADING
             fetchSets.fetch()
-                .map { it.result }
-                .map {
-                    it.onSuccess {
-                        _load = it.map {
-                            mapper.transform(it)
-                        }.toList()
-                        _sets.value = _load
-                        _state.value = State.DONE
-
-                    }.onFailure {
-                        _state.value = State.DONE
+                .filterNot { it.result.getOrNull() == null && it is FetchSets.FetchResult.Cache }
+                .collect {
+                    when (it) {
+                        is FetchSets.FetchResult.Cache -> showSets(it.result)
+                        is FetchSets.FetchResult.Update -> showSets(it.result)
                     }
-                }.collect { }
+                }
+        }
+    }
+
+    private fun showSets(result: Result<List<Set>>) {
+        result.onSuccess {
+            _load = it.map { mapper.transform(it) }.toList()
+            _sets.value = _load
+            _state.value = State.DONE
+        }.onFailure {
+            _state.value = State.DONE
         }
     }
 

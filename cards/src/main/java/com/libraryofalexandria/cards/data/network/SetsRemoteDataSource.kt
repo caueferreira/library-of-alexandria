@@ -17,10 +17,10 @@ class SetsRemoteDataSource(
     private val coroutineContext: CoroutineContext = Dispatchers.IO,
     private val handler: NetworkHandler = NetworkHandler()
 ) {
-    suspend fun list(): Result<Flow<Set>> =
+    suspend fun list(): Result<List<Set>> =
         withContext(coroutineContext) {
             runCatching {
-                api.sets().data.asFlow()
+                api.sets().data
                     .map { mapper.transform(it) }
             }.handleNetworkErrors(handler)
         }
