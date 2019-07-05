@@ -2,17 +2,14 @@ package com.libraryofalexandria.cards.view.sets
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations.map
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.libraryofalexandria.cards.data.FiltersRepository
-import com.libraryofalexandria.cards.data.network.SetsRemoteDataSource
 import com.libraryofalexandria.cards.domain.FetchSets
 import com.libraryofalexandria.cards.view.State
 import com.libraryofalexandria.cards.view.sets.transformers.SetViewEntityMapper
 import com.libraryofalexandria.cards.view.sets.ui.FilterViewEntity
 import com.libraryofalexandria.cards.view.sets.ui.SetViewEntity
-import com.libraryofalexandria.core.Activities.Cards.set
 import com.libraryofalexandria.core.extensions.addOrRemove
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -45,6 +42,7 @@ class SetsViewModel(
         viewModelScope.launch {
             _state.value = State.LOADING
             fetchSets.fetch()
+                .filterNot { it.result.getOrNull() == null && it is FetchSets.FetchResult.Cache }
                 .map { it.result }
                 .map {
                     it.onSuccess {

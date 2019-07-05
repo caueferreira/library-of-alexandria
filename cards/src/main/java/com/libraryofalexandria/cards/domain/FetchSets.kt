@@ -19,8 +19,10 @@ class FetchSets(
                 emit(FetchResult.Cache(local.list()))
                 remote.list().onSuccess {
                     emit(FetchResult.Update(local.store(it.toList())))
+                }.onFailure {
+                    throw it
                 }
-            }.filterNot { it.result.getOrNull() == null && it is FetchResult.Cache }
+            }
         }
 
     sealed class FetchResult {
