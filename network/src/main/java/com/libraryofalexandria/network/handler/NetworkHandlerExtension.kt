@@ -1,7 +1,12 @@
 package com.libraryofalexandria.network.handler
 
-inline fun <T> Result<T>.handleNetworkErrors(handler: NetworkHandler = NetworkHandler()): Result<T> =
-    this.fold(
-        { value -> Result.success(value) },
-        { error -> Result.failure(runCatching { handler.apply(error) }.getOrDefault(error)) }
-    )
+abstract class ErrorMapper {
+    abstract fun apply(throwable: Throwable): Throwable
+}
+
+suspend fun <T> handleErrors(mapper: ErrorMapper, target: suspend () -> T): T =
+    try {
+        target.invoke()
+    } catch (incoming: Throwable) {
+        throw mapper.apply(incoming)
+    }

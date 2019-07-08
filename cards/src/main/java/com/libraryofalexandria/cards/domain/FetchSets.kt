@@ -17,18 +17,14 @@ class FetchSets(
         withContext(coroutineContext) {
             flow {
                 emit(FetchResult.Cache(local.list()))
-                remote.list().onSuccess {
-                    emit(FetchResult.Update(local.store(it.toList())))
-                }.onFailure {
-                    throw it
-                }
+                emit(FetchResult.Update(local.store(remote.list())))
             }
         }
 
     sealed class FetchResult {
-        abstract val result: Result<List<Set>>
+        abstract val result: List<Set>
 
-        data class Cache(override val result: Result<List<Set>>) : FetchResult()
-        data class Update(override val result: Result<List<Set>>) : FetchResult()
+        data class Cache(override val result: List<Set>) : FetchResult()
+        data class Update(override val result: List<Set>) : FetchResult()
     }
 }

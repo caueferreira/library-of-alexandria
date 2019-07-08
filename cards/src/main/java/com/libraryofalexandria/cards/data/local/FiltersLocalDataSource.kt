@@ -8,7 +8,7 @@ import kotlin.coroutines.CoroutineContext
 
 class FiltersLocalDataSource(private val coroutineContext: CoroutineContext = Dispatchers.IO) {
 
-    private val filters = arrayListOf(
+    private val filters = listOf(
         Filters.Sets.CORE,
         Filters.Sets.PROMO,
         Filters.Sets.SUPPLEMENTAL,
@@ -16,8 +16,6 @@ class FiltersLocalDataSource(private val coroutineContext: CoroutineContext = Di
     )
 
     suspend fun get() = withContext(coroutineContext) {
-        runCatching {
-            filters.asFlow()
-        }
+        filters
     }
 }

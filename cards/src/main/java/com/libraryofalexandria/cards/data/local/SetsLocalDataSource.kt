@@ -10,7 +10,7 @@ class SetsLocalDataSource(private val coroutineContext: CoroutineContext = Dispa
 
     private var map = mutableListOf<Set>()
 
-    fun list(): Result<List<Set>> = with(coroutineContext) { runCatching { map.toList() } }
+    fun list(): List<Set> = map.toList()
 
     fun store(sets: List<Set>) = with(coroutineContext) {
         sets

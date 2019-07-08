@@ -8,6 +8,7 @@ import com.libraryofalexandria.cards.data.network.CardNetworkRepository
 import com.libraryofalexandria.cards.view.State
 import com.libraryofalexandria.cards.view.cards.transformer.CardViewEntityMapper
 import com.libraryofalexandria.cards.view.cards.ui.CardViewEntity
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
@@ -31,14 +32,12 @@ class CardsViewModel(
             _state.value = State.LOADING
 
             repository.list(set, page)
-                .onSuccess { cards ->
+                .collect { cards ->
                     _state.value = State.DONE
                     _cards.value =
                         cards.map { card ->
                             mapper.transform(card)
                         }.toList()
-                }.onFailure {
-                    _state.value = State.ERROR
                 }
         }
     }

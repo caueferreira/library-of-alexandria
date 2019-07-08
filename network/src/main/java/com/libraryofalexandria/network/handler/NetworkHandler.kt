@@ -7,9 +7,9 @@ import java.net.*
 import java.nio.channels.ClosedChannelException
 import javax.net.ssl.SSLException
 
-class NetworkHandler {
+class NetworkHandler : ErrorMapper() {
 
-    fun apply(error: Throwable): Throwable = when {
+    override fun apply(error: Throwable): Throwable = when {
         error is HttpException -> mapNetworkErrors(error)
         error.isConnectivityException() -> mapConnectivityErrors(error)
         else -> error
