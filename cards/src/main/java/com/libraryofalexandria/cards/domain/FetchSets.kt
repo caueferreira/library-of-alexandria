@@ -2,10 +2,7 @@ package com.libraryofalexandria.cards.domain
 
 import com.libraryofalexandria.cards.data.local.SetsLocalDataSource
 import com.libraryofalexandria.cards.data.network.SetsRemoteDataSource
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.withContext
-import kotlin.coroutines.CoroutineContext
 
 class FetchSets(
     private val remote: SetsRemoteDataSource,

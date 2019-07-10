@@ -7,11 +7,8 @@ import com.libraryofalexandria.cards.domain.FetchSets
 import com.libraryofalexandria.cards.domain.Set
 import com.libraryofalexandria.cards.domain.SetsResult
 import com.libraryofalexandria.cards.view.sets.transformers.SetViewEntityMapper
-import com.libraryofalexandria.cards.view.sets.ui.FilterViewEntity
-import com.libraryofalexandria.cards.view.sets.ui.SetViewEntity
 import com.libraryofalexandria.cards.view.sets.ui.SetsViewState
-import com.libraryofalexandria.core.extensions.addOrRemove
-import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import java.util.stream.Collectors.toList
@@ -23,17 +20,25 @@ class SetsViewModel(
     private val mapper: SetViewEntityMapper = SetViewEntityMapper()
 ) : ViewModel() {
 
-    val state = liveData {
+    private val _state by lazy { MutableLiveData<SetsViewState>() }
+    val state: LiveData<SetsViewState> get() = _state
+
+    init {
+        load()
+    }
+
+    fun load() = viewModelScope.launch(Dispatchers.IO) {
         fetchSets.fetch()
             .collect {
                 when (it) {
-                    is SetsResult.Loading -> emit(viewState.copy(isLoading = View.VISIBLE))
-                    is SetsResult.Success.Cache -> emit(showSets(it.result))
-                    is SetsResult.Success.Network -> emit(showSets(it.result))
-                    is SetsResult.Failure -> emit(viewState.copy(throwable = it.error))
+                    is SetsResult.Loading -> _state.value = viewState.copy(isLoading = View.VISIBLE)
+                    is SetsResult.Success.Cache -> _state.value = showSets(it.result)
+                    is SetsResult.Success.Network -> _state.value = showSets(it.result)
+                    is SetsResult.Failure -> _state.value = viewState.copy(throwable = it.error)
                 }
             }
     }
+
 
     val filters = liveData {
         filterRepository.get().collect {
