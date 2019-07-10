@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import android.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
@@ -83,6 +84,10 @@ class SetsActivity : AppCompatActivity(),
             Observer {
                 progressBar.visibility = it.isLoading
                 showSets(it.sets)
+
+                it.throwable?.let {
+                    Toast.makeText(this, it.message, Toast.LENGTH_LONG)
+                }
             }
         )
     }
@@ -94,7 +99,8 @@ class SetsActivity : AppCompatActivity(),
     }
 
     private fun filterSets(filter: FilterViewEntity) {
-        viewModel.filterBy(filter)
+        adapter.filterBy(filter)
+        recyclerView.scheduleLayoutAnimation()
     }
 
     override fun onItemClick(setViewEntity: SetViewEntity) {

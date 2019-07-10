@@ -5,13 +5,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.RecyclerView
+import com.libraryofalexandria.core.extensions.addOrRemove
 import kotlinx.android.synthetic.main.item_set.view.*
 
 class SetsAdapter(
     private val listener: OnSetClickListener
 ) : RecyclerView.Adapter<SetsAdapter.SetViewHolder>() {
 
-    var sets = arrayListOf<SetViewEntity>()
+    private var stored = arrayListOf<SetViewEntity>()
+    private var sets = arrayListOf<SetViewEntity>()
+    private var filters = arrayListOf<FilterViewEntity>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SetViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -29,9 +32,17 @@ class SetsAdapter(
     override fun getItemCount(): Int = sets.size
 
     fun addAll(setViewEntityList: List<SetViewEntity>) {
+        if (stored.isEmpty()) {
+            stored.addAll(setViewEntityList)
+        }
         sets.clear()
         sets.addAll(setViewEntityList)
         notifyDataSetChanged()
+    }
+
+    fun filterBy(filter: FilterViewEntity) {
+        filters.addOrRemove(filter)
+        addAll(stored.filterNot { filters.contains(it.filterViewEntity) })
     }
 
     private var lastPosition = -1

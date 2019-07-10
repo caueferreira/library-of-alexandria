@@ -9,13 +9,10 @@ import kotlin.coroutines.CoroutineContext
 
 class FiltersRepository(
     private val localDataSource: FiltersLocalDataSource,
-    private val mapper: SetsFilterViewEntityMapper = SetsFilterViewEntityMapper(),
-    private val coroutineContext: CoroutineContext = Dispatchers.IO
+    private val mapper: SetsFilterViewEntityMapper = SetsFilterViewEntityMapper()
 ) {
 
-    suspend fun get() = with(coroutineContext) {
-        flow {
-            emit(localDataSource.get().map { mapper.transform(it) })
-        }
+    suspend fun get() = flow {
+        emit(localDataSource.get().map { mapper.transform(it) })
     }
 }
