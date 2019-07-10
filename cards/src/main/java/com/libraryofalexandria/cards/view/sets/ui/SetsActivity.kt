@@ -82,16 +82,20 @@ class SetsActivity : AppCompatActivity(),
     private fun observeState() {
         viewModel.state.observe(this,
             Observer {
-                progressBar.visibility = it.isLoading
-                showSets(it.sets)
-
-                it.throwable?.let {
-                    Toast.makeText(this, it.message, Toast.LENGTH_LONG)
-                }
+                renderState(it)
             }
         )
     }
 
+
+    private fun renderState(viewState: SetsViewState){
+        progressBar.visibility = viewState.isLoading
+        showSets(viewState.sets)
+
+        viewState.throwable?.let {
+            Toast.makeText(this, it.message, Toast.LENGTH_LONG)
+        }
+    }
 
     private fun showSets(sets: List<SetViewEntity>) {
         adapter.addAll(sets)

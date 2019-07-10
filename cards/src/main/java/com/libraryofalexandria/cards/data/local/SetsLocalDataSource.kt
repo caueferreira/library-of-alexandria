@@ -13,8 +13,7 @@ class SetsLocalDataSource {
     fun list(): List<Set> = map.toList()
 
     fun store(sets: List<Set>) = with(sets) {
-        stream()
-            .filter { !map.contains(it) }
+        filterNot { map.contains(it) }
             .forEach { map.add(it) }
         list()
     }
