@@ -9,7 +9,6 @@ import com.libraryofalexandria.cards.data.FiltersRepository
 import com.libraryofalexandria.cards.domain.FetchSets
 import com.libraryofalexandria.cards.domain.Set
 import com.libraryofalexandria.cards.domain.SetsResult
-import com.libraryofalexandria.cards.view.State
 import com.libraryofalexandria.cards.view.sets.transformers.SetViewEntityMapper
 import com.libraryofalexandria.cards.view.sets.ui.FilterViewEntity
 import com.libraryofalexandria.cards.view.sets.ui.SetViewEntity
@@ -43,7 +42,6 @@ class SetsViewModel(
     private fun fetchSets() {
         viewModelScope.launch {
             fetchSets.fetch()
-                .filterNot { it is SetsResult.Success.Cache && it.result.isEmpty() }
                 .collect {
                     when (it) {
                         is SetsResult.Loading -> _state.value = viewState.copy(isLoading = View.VISIBLE)

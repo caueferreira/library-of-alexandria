@@ -14,7 +14,15 @@ class FetchSets(
 
     suspend fun fetch(): Flow<SetsResult> = flow {
         emit(SetsResult.Loading)
-        emit(SetsResult.Success.Cache(local.list()))
-        emit(SetsResult.Success.Network(local.store(remote.list())))
+        val result = local.list()
+
+        if (result.isNotEmpty()) {
+            emit(SetsResult.Success.Cache(result))
+        }
+        try {
+            emit(SetsResult.Success.Network(local.store(remote.list())))
+        } catch (e: Exception) {
+            emit(SetsResult.Failure(e))
+        }
     }
 }

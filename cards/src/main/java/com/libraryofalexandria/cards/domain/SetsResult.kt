@@ -10,5 +10,5 @@ sealed class SetsResult : Result() {
         data class Network(val result: List<Set>) : SetsResult()
     }
 
-    data class Failure(val message: Int) : SetsResult()
+    data class Failure(val error: Throwable) : SetsResult()
 }
