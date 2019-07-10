@@ -51,7 +51,6 @@ class SetsActivity : AppCompatActivity(),
         initAdapter()
         initDrawer()
         observeState()
-        observeSets()
     }
 
     private fun initAdapter() {
@@ -82,18 +81,12 @@ class SetsActivity : AppCompatActivity(),
     private fun observeState() {
         viewModel.state.observe(this,
             Observer {
-                if (it == State.LOADING) {
-                    progressBar.visibility = View.VISIBLE
-                } else {
-                    progressBar.visibility = View.INVISIBLE
-                }
+                progressBar.visibility = it.isLoading
+                showSets(it.sets)
             }
         )
     }
 
-    private fun observeSets() {
-        observe(viewModel.sets, ::showSets)
-    }
 
     private fun showSets(sets: List<SetViewEntity>) {
         adapter.addAll(sets)

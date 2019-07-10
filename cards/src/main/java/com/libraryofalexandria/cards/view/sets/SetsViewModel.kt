@@ -1,5 +1,6 @@
 package com.libraryofalexandria.cards.view.sets
 
+import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -7,11 +8,12 @@ import androidx.lifecycle.viewModelScope
 import com.libraryofalexandria.cards.data.FiltersRepository
 import com.libraryofalexandria.cards.domain.FetchSets
 import com.libraryofalexandria.cards.domain.Set
+import com.libraryofalexandria.cards.domain.SetsResult
 import com.libraryofalexandria.cards.view.State
 import com.libraryofalexandria.cards.view.sets.transformers.SetViewEntityMapper
 import com.libraryofalexandria.cards.view.sets.ui.FilterViewEntity
 import com.libraryofalexandria.cards.view.sets.ui.SetViewEntity
-import com.libraryofalexandria.core.ViewState
+import com.libraryofalexandria.cards.view.sets.ui.SetsViewState
 import com.libraryofalexandria.core.extensions.addOrRemove
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -20,17 +22,15 @@ import java.util.stream.Collectors.toList
 class SetsViewModel(
     private val fetchSets: FetchSets,
     private val filterRepository: FiltersRepository,
+    private val viewState: SetsViewState = SetsViewState(),
     private val mapper: SetViewEntityMapper = SetViewEntityMapper()
 ) : ViewModel() {
 
     private var _load: List<SetViewEntity> = listOf()
     private var _filterBy: MutableList<FilterViewEntity> = mutableListOf()
 
-    private val _sets by lazy { MutableLiveData<List<SetViewEntity>>() }
-    val sets: LiveData<List<SetViewEntity>> get() = _sets
-
-    private val _state by lazy { MutableLiveData<State>() }
-    val state: LiveData<State> get() = _state
+    private val _state by lazy { MutableLiveData<SetsViewState>() }
+    val state: LiveData<SetsViewState> get() = _state
 
     private val _filters by lazy { MutableLiveData<List<FilterViewEntity>>() }
     val filters: LiveData<List<FilterViewEntity>> get() = _filters
@@ -42,13 +42,13 @@ class SetsViewModel(
 
     private fun fetchSets() {
         viewModelScope.launch {
-            _state.value = State.LOADING
             fetchSets.fetch()
-                .filterNot { it.result == null && it is FetchSets.FetchResult.Cache }
+                .filterNot { it is SetsResult.Success.Cache && it.result.isEmpty() }
                 .collect {
                     when (it) {
-                        is FetchSets.FetchResult.Cache -> showSets(it.result)
-                        is FetchSets.FetchResult.Update -> showSets(it.result)
+                        is SetsResult.Loading -> _state.value = viewState.copy(isLoading = View.VISIBLE)
+                        is SetsResult.Success.Cache -> showSets(it.result)
+                        is SetsResult.Success.Network -> showSets(it.result)
                     }
                 }
         }
@@ -58,8 +58,8 @@ class SetsViewModel(
         _load = result.stream()
             .map { mapper.transform(it) }
             .collect(toList())
-        _sets.value = _load
-        _state.value = State.DONE
+
+        _state.value = viewState.copy(isLoading = View.INVISIBLE, sets = _load)
     }
 
     private fun fetchFilters() {
@@ -74,6 +74,9 @@ class SetsViewModel(
 
     fun filterBy(filter: FilterViewEntity) {
         _filterBy.addOrRemove(filter)
-        _sets.value = _load.stream().filter { _filterBy.contains(it.filterViewEntity) }.collect(toList())
+        _state.value = viewState.copy(
+            isLoading = View.INVISIBLE,
+            sets = _load.stream().filter { _filterBy.contains(it.filterViewEntity) }.collect(toList())
+        )
     }
 }

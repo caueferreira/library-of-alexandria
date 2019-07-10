@@ -9,22 +9,12 @@ import kotlin.coroutines.CoroutineContext
 
 class FetchSets(
     private val remote: SetsRemoteDataSource,
-    private val local: SetsLocalDataSource,
-    private val coroutineContext: CoroutineContext = Dispatchers.IO
+    private val local: SetsLocalDataSource
 ) {
 
-    suspend fun fetch(): Flow<FetchResult> =
-        withContext(coroutineContext) {
-            flow {
-                emit(FetchResult.Cache(local.list()))
-                emit(FetchResult.Update(local.store(remote.list())))
-            }
-        }
-
-    sealed class FetchResult {
-        abstract val result: List<Set>
-
-        data class Cache(override val result: List<Set>) : FetchResult()
-        data class Update(override val result: List<Set>) : FetchResult()
+    suspend fun fetch(): Flow<SetsResult> = flow {
+        emit(SetsResult.Loading)
+        emit(SetsResult.Success.Cache(local.list()))
+        emit(SetsResult.Success.Network(local.store(remote.list())))
     }
 }

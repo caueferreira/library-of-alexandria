@@ -6,15 +6,14 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.asFlow
 import kotlin.coroutines.CoroutineContext
 
-class SetsLocalDataSource(private val coroutineContext: CoroutineContext = Dispatchers.IO) {
+class SetsLocalDataSource {
 
     private var map = mutableListOf<Set>()
 
     fun list(): List<Set> = map.toList()
 
-    fun store(sets: List<Set>) = with(coroutineContext) {
-        sets
-            .stream()
+    fun store(sets: List<Set>) = with(sets) {
+        stream()
             .filter { !map.contains(it) }
             .forEach { map.add(it) }
         list()
