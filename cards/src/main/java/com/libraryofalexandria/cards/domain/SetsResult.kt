@@ -7,7 +7,7 @@ sealed class SetsResult : Result() {
 
     sealed class Success {
         data class Cache(val result: List<Set>) : SetsResult()
-        data class Network(val result: List<Set>) : SetsResult()
+        data class Network(val result: List<Set>, val isUpdate: Boolean) : SetsResult()
     }
 
     data class Failure(val error: Throwable) : SetsResult()

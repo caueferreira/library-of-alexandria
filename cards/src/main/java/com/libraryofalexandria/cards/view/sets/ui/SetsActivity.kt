@@ -88,21 +88,12 @@ class SetsActivity : AppCompatActivity(),
         )
     }
 
-
     private fun renderState(viewState: SetsViewState) {
         progressBar.visibility = viewState.isLoading
         errorLayout.visibility = viewState.isError
+        updateList.visibility = viewState.isUpdate
 
-        if (viewState.isUpdate && adapter.itemCount > 0) {
-            updateList.visibility = View.VISIBLE
-            updateList.setOnClickListener {
-                showSets(viewState.sets)
-                updateList.visibility = View.INVISIBLE
-            }
-        } else {
-            showSets(viewState.sets)
-        }
-
+        showSets(viewState)
         viewState.throwable?.let {
             Toast.makeText(this, it.localizedMessage, Toast.LENGTH_LONG).show()
 
@@ -113,9 +104,17 @@ class SetsActivity : AppCompatActivity(),
         }
     }
 
-    private fun showSets(sets: List<SetViewEntity>) {
-        adapter.addAll(sets)
-        recyclerView.scheduleLayoutAnimation()
+    private fun showSets(viewState: SetsViewState) {
+        if (adapter.itemCount > 0) {
+            updateList.setOnClickListener {
+                adapter.addAll(viewState.sets)
+                recyclerView.scheduleLayoutAnimation()
+                updateList.visibility = View.GONE
+            }
+        } else {
+            adapter.addAll(viewState.sets)
+            recyclerView.scheduleLayoutAnimation()
+        }
     }
 
     private fun filterSets(filter: FilterViewEntity) {

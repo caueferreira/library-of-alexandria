@@ -11,4 +11,5 @@
     <string name="empty_view_message">Wow, such empty</string>
     <string name="retry_message">Click anywhere to retry</string>
     <string name="update">Update</string>
+    <string name="one_with_nothing">When nothing remains, everything is equally possible.</string>
 </resources>

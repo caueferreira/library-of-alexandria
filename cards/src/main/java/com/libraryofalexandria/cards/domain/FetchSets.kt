@@ -13,11 +13,12 @@ class FetchSets(
         emit(SetsResult.Loading)
         val result = local.list()
 
-        if (result.isNotEmpty()) {
+        val hasCache = result.isNotEmpty()
+        if (hasCache) {
             emit(SetsResult.Success.Cache(result))
         }
         try {
-            emit(SetsResult.Success.Network(local.store(remote.list())))
+            emit(SetsResult.Success.Network(local.store(remote.list()), hasCache))
         } catch (e: Exception) {
             emit(SetsResult.Failure(e))
         }

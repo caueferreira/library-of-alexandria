@@ -8,5 +8,5 @@ data class SetsViewState(
     val isError: Int = View.GONE,
     val sets: List<SetViewEntity> = emptyList(),
     val throwable: Throwable? = null,
-    val isUpdate: Boolean = false
+    val isUpdate: Int = View.GONE
 ) : ViewState()

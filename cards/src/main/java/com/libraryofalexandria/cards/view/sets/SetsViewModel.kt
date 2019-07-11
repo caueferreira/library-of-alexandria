@@ -1,5 +1,6 @@
 package com.libraryofalexandria.cards.view.sets
 
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.*
 import com.libraryofalexandria.cards.data.FiltersRepository
@@ -8,7 +9,6 @@ import com.libraryofalexandria.cards.domain.Set
 import com.libraryofalexandria.cards.domain.SetsResult
 import com.libraryofalexandria.cards.view.sets.transformers.SetViewEntityMapper
 import com.libraryofalexandria.cards.view.sets.ui.SetsViewState
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import java.util.stream.Collectors.toList
@@ -33,7 +33,7 @@ class SetsViewModel(
                 when (it) {
                     is SetsResult.Loading -> _state.value = viewState.copy(isLoading = View.VISIBLE)
                     is SetsResult.Success.Cache -> _state.value = showSets(it.result)
-                    is SetsResult.Success.Network -> _state.value = showSets(it.result, true)
+                    is SetsResult.Success.Network -> _state.value = showSets(it.result, it.isUpdate)
                     is SetsResult.Failure -> _state.value = viewState.copy(throwable = it.error, isError = View.VISIBLE)
                 }
             }
@@ -46,10 +46,15 @@ class SetsViewModel(
         }
     }
 
-    private fun showSets(result: List<Set>, isUpdate: Boolean = false) =
-        viewState.copy(isUpdate = isUpdate, isLoading = View.INVISIBLE, sets = result.stream()
+    private fun showSets(result: List<Set>, isUpdate: Boolean = false) = with(viewState) {
+        var updateVisibility = View.GONE
+        if (isUpdate) {
+            updateVisibility = View.VISIBLE
+        }
+
+        copy(isUpdate = updateVisibility, isLoading = View.INVISIBLE, sets = result.stream()
             .map { mapper.transform(it) }
             .collect(toList())
         )
-
+    }
 }
