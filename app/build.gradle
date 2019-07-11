@@ -30,37 +30,34 @@ android {
     compileOptions {
         targetCompatibility = "8"
         sourceCompatibility = "8"
+
+        dynamicFeatures = [":cards", ":about"]
     }
 
-    dynamicFeatures = [":cards", ":about"]
+    dependencies {
+        def commonDependencies = rootProject.ext.commonDependencies
+        def uiDependencies = rootProject.ext.uiDependencies
+        def commonTestDependencies = rootProject.ext.commonTestDependencies
 
+        api project(':core')
+        api project(':network')
 
-}
+        api commonDependencies.appCompat
+        api commonDependencies.legacy
 
-dependencies {
-    def commonDependencies = rootProject.ext.commonDependencies
-    def uiDependencies = rootProject.ext.uiDependencies
-    def commonTestDependencies = rootProject.ext.commonTestDependencies
+        api uiDependencies.constraintLayout
 
-    api project(':core')
-    api project(':network')
+        implementation commonDependencies.kotlinStdlib
+        implementation commonDependencies.kotlinCore
 
-    api commonDependencies.appCompat
-    api commonDependencies.legacy
+        implementation commonDependencies.appCompat
 
-    api uiDependencies.constraintLayout
+        api commonDependencies.koinScope
+        api commonDependencies.koinExt
 
-    implementation commonDependencies.kotlinStdlib
-    implementation commonDependencies.kotlinCore
+        testImplementation commonTestDependencies.junit
+        testImplementation commonTestDependencies.mockito
 
-    implementation commonDependencies.appCompat
-
-    api commonDependencies.koinScope
-    api commonDependencies.koinExt
-
-    testImplementation commonTestDependencies.junit
-    testImplementation commonTestDependencies.mockito
-
-    androidTestImplementation commonTestDependencies.runner
-    androidTestImplementation commonTestDependencies.espresso
-}
+        androidTestImplementation commonTestDependencies.runner
+        androidTestImplementation commonTestDependencies.espresso
+    }

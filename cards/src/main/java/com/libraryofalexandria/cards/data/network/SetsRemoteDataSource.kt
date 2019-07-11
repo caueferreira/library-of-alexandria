@@ -7,12 +7,9 @@ import com.libraryofalexandria.network.handler.handleErrors
 
 class SetsRemoteDataSource(
     private val api: ScryfallApi,
-    private val mapper: SetMapper = SetMapper(),
-    private val handler: NetworkHandler = NetworkHandler()
+    private val mapper: SetMapper = SetMapper()
 ) {
     suspend fun list(): List<Set> =
-//        handleErrors(handler) {
-            api.sets().data
-                .map { mapper.transform(it) }
-//        }
+        api.sets().data
+            .map { mapper.transform(it) }
 }
