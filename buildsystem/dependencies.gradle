@@ -20,6 +20,7 @@ ext {
     okHttp3 = '3.14.2'
     retrofit2 = '2.6.0'
     retrofit2MoshiConverter = '2.4.0'
+    gson = '2.8.5'
 
     coroutinesCore = '1.3.0-M1'
     coroutinesAndroid = '1.3.0-M1'
@@ -65,7 +66,8 @@ ext {
             moshi                  : "com.squareup.moshi:moshi-kotlin:${moshi}",
             okHttp3                : "com.squareup.okhttp3:logging-interceptor:${okHttp3}",
             retrofit2              : "com.squareup.retrofit2:retrofit:${retrofit2}",
-            retrofit2MoshiConverter: "com.squareup.retrofit2:converter-moshi:${retrofit2MoshiConverter}"
+            retrofit2MoshiConverter: "com.squareup.retrofit2:converter-moshi:${retrofit2MoshiConverter}",
+            gson                   : "com.google.code.gson:gson:${gson}"
     ]
 
     commonTestDependencies = [

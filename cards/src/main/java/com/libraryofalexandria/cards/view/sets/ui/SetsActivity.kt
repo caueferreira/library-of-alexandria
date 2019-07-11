@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.Toast
 import android.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
@@ -88,12 +89,27 @@ class SetsActivity : AppCompatActivity(),
     }
 
 
-    private fun renderState(viewState: SetsViewState){
+    private fun renderState(viewState: SetsViewState) {
         progressBar.visibility = viewState.isLoading
-        showSets(viewState.sets)
+        errorLayout.visibility = viewState.isError
+
+        if (viewState.isUpdate && adapter.itemCount > 0) {
+            updateList.visibility = View.VISIBLE
+            updateList.setOnClickListener {
+                showSets(viewState.sets)
+                updateList.visibility = View.INVISIBLE
+            }
+        } else {
+            showSets(viewState.sets)
+        }
 
         viewState.throwable?.let {
-            Toast.makeText(this, it.message, Toast.LENGTH_LONG)
+            Toast.makeText(this, it.localizedMessage, Toast.LENGTH_LONG).show()
+
+            errorLayout.isClickable = true
+            errorLayout.setOnClickListener {
+                viewModel.load()
+            }
         }
     }
 
@@ -105,6 +121,12 @@ class SetsActivity : AppCompatActivity(),
     private fun filterSets(filter: FilterViewEntity) {
         adapter.filterBy(filter)
         recyclerView.scheduleLayoutAnimation()
+
+        if (adapter.itemCount == 0) {
+            emptyLayout.visibility = View.VISIBLE
+        } else {
+            emptyLayout.visibility = View.INVISIBLE
+        }
     }
 
     override fun onItemClick(setViewEntity: SetViewEntity) {

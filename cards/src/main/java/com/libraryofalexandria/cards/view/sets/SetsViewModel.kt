@@ -27,14 +27,14 @@ class SetsViewModel(
         load()
     }
 
-    fun load() = viewModelScope.launch(Dispatchers.IO) {
+    fun load() = viewModelScope.launch {
         fetchSets.fetch()
             .collect {
                 when (it) {
                     is SetsResult.Loading -> _state.value = viewState.copy(isLoading = View.VISIBLE)
                     is SetsResult.Success.Cache -> _state.value = showSets(it.result)
-                    is SetsResult.Success.Network -> _state.value = showSets(it.result)
-                    is SetsResult.Failure -> _state.value = viewState.copy(throwable = it.error)
+                    is SetsResult.Success.Network -> _state.value = showSets(it.result, true)
+                    is SetsResult.Failure -> _state.value = viewState.copy(throwable = it.error, isError = View.VISIBLE)
                 }
             }
     }
@@ -46,8 +46,8 @@ class SetsViewModel(
         }
     }
 
-    private fun showSets(result: List<Set>) =
-        viewState.copy(isLoading = View.INVISIBLE, sets = result.stream()
+    private fun showSets(result: List<Set>, isUpdate: Boolean = false) =
+        viewState.copy(isUpdate = isUpdate, isLoading = View.INVISIBLE, sets = result.stream()
             .map { mapper.transform(it) }
             .collect(toList())
         )

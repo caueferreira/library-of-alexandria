@@ -17,6 +17,7 @@ dependencies {
     implementation commonDependencies.lifecycleExtensions
     implementation commonDependencies.lifecycleLivedata
     implementation commonDependencies.lifecycleViewmodel
+    implementation commonDependencies.gson
 
     testImplementation commonTestDependencies.junit
     testImplementation commonTestDependencies.mockito

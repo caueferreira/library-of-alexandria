@@ -11,8 +11,8 @@ class SetsRemoteDataSource(
     private val handler: NetworkHandler = NetworkHandler()
 ) {
     suspend fun list(): List<Set> =
-        handleErrors(handler) {
+//        handleErrors(handler) {
             api.sets().data
                 .map { mapper.transform(it) }
-        }
+//        }
 }

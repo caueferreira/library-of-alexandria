@@ -1,5 +1,6 @@
 package com.libraryofalexandria.cards.di
 
+import android.content.Context
 import com.libraryofalexandria.cards.data.FiltersRepository
 import com.libraryofalexandria.cards.data.local.FiltersLocalDataSource
 import com.libraryofalexandria.cards.data.local.SetsLocalDataSource
@@ -22,7 +23,7 @@ val cardsModule = module {
     single { provideCardsRepository(get()) }
     viewModel { CardsViewModel(get()) }
 
-    single { provideSetsLocalDataSource() }
+    single { provideSetsLocalDataSource(get()) }
     single { provideSetsRemoteDataSource(get()) }
     single { provideSetsUseCase(get(), get()) }
     viewModel { SetsViewModel(get(), get()) }
@@ -31,8 +32,8 @@ val cardsModule = module {
 private fun provideCardsRepository(scryfallApi: ScryfallApi): CardNetworkRepository =
     CardNetworkRepository(scryfallApi)
 
-private fun provideSetsLocalDataSource(): SetsLocalDataSource =
-    SetsLocalDataSource()
+private fun provideSetsLocalDataSource(context: Context): SetsLocalDataSource =
+    SetsLocalDataSource(context)
 
 private fun provideSetsRemoteDataSource(scryfallApi: ScryfallApi): SetsRemoteDataSource =
     SetsRemoteDataSource(scryfallApi)

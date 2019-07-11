@@ -8,4 +8,7 @@
     <string name="promo">Promo</string>
     <string name="supplemental">Supplemental</string>
     <string name="other">Other</string>
+    <string name="empty_view_message">Wow, such empty</string>
+    <string name="retry_message">Click anywhere to retry</string>
+    <string name="update">Update</string>
 </resources>

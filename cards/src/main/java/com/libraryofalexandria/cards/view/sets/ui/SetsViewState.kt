@@ -5,6 +5,8 @@ import com.libraryofalexandria.core.ui.ViewState
 
 data class SetsViewState(
     val isLoading: Int = View.INVISIBLE,
+    val isError: Int = View.GONE,
     val sets: List<SetViewEntity> = emptyList(),
-    val throwable: Throwable? = null
+    val throwable: Throwable? = null,
+    val isUpdate: Boolean = false
 ) : ViewState()
