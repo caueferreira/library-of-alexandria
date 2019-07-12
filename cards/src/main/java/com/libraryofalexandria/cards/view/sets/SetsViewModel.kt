@@ -1,6 +1,5 @@
 package com.libraryofalexandria.cards.view.sets
 
-import android.util.Log
 import android.view.View
 import androidx.lifecycle.*
 import com.libraryofalexandria.cards.data.FiltersRepository
@@ -9,34 +8,51 @@ import com.libraryofalexandria.cards.domain.Set
 import com.libraryofalexandria.cards.domain.SetsResult
 import com.libraryofalexandria.cards.view.sets.transformers.SetViewEntityMapper
 import com.libraryofalexandria.cards.view.sets.ui.SetsViewState
+import com.libraryofalexandria.core.Action
+import com.libraryofalexandria.core.BaseViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import java.util.stream.Collectors.toList
 
 class SetsViewModel(
     private val fetchSets: FetchSets,
     private val filterRepository: FiltersRepository,
-    private val viewState: SetsViewState = SetsViewState(),
     private val mapper: SetViewEntityMapper = SetViewEntityMapper()
-) : ViewModel() {
+) : BaseViewModel() {
 
     private val _state by lazy { MutableLiveData<SetsViewState>() }
     val state: LiveData<SetsViewState> get() = _state
 
     init {
-        load()
+        handleAction(SetsAction.FirstLoad)
     }
 
-    fun load() = viewModelScope.launch {
+    override fun handleAction(action: Action) {
+        when (action) {
+            is SetsAction.FirstLoad -> fetchSets()
+            is SetsAction.LoadSets -> fetchSets()
+        }
+    }
+
+
+    private fun fetchSets() = viewModelScope.launch {
         fetchSets.fetch()
             .collect {
+                _state.value = SetsViewState.Sets.Loading()
                 when (it) {
-                    is SetsResult.Loading -> _state.value = viewState.copy(isLoading = View.VISIBLE)
-                    is SetsResult.Success.Cache -> _state.value = showSets(it.result)
-                    is SetsResult.Success.Network -> _state.value = showSets(it.result, it.isUpdate)
-                    is SetsResult.Failure -> _state.value = viewState.copy(throwable = it.error, isError = View.VISIBLE)
+                    is SetsResult.Success.Cache -> _state.value =
+                        SetsViewState.Sets.SetsLoaded(sets = mapSets(it.result))
+                    is SetsResult.Success.Network -> _state.value =
+                        SetsViewState.Sets.SetsLoaded(sets = mapSets(it.result))
+                    is SetsResult.Failure -> _state.value =
+                        SetsViewState.Sets.Error.Generic(message = it.error.localizedMessage)
                 }
             }
+    }
+
+    var hasEmited = false
+
+    private fun emitSets(){
+
     }
 
 
@@ -46,15 +62,5 @@ class SetsViewModel(
         }
     }
 
-    private fun showSets(result: List<Set>, isUpdate: Boolean = false) = with(viewState) {
-        var updateVisibility = View.GONE
-        if (isUpdate) {
-            updateVisibility = View.VISIBLE
-        }
-
-        copy(isUpdate = updateVisibility, isLoading = View.INVISIBLE, sets = result.stream()
-            .map { mapper.transform(it) }
-            .collect(toList())
-        )
-    }
+    private fun mapSets(sets: List<Set>) = sets.map { mapper.transform(it) }.toList()
 }
