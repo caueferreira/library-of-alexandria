@@ -48,7 +48,7 @@ class CardsActivity : AppCompatActivity(),
 
                 override fun onLoadMore() {
                     if (adapter.itemCount < intent.getIntExtra(Activities.Cards.total, adapter.itemCount))
-                        viewModel.fetch(intent.getStringExtra(Activities.Cards.set))
+                        viewModel.fetch(intent.getStringExtra(Activities.Cards.expansion))
                 }
             }
 
@@ -69,7 +69,7 @@ class CardsActivity : AppCompatActivity(),
 
     private fun observeCards() {
         observe(viewModel.cards, ::showCards)
-        viewModel.fetch(intent.getStringExtra(Activities.Cards.set))
+        viewModel.fetch(intent.getStringExtra(Activities.Cards.expansion))
     }
 
     private fun showCards(sets: List<CardViewEntity>) {

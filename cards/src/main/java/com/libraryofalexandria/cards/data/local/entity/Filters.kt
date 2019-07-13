@@ -2,7 +2,7 @@ package com.libraryofalexandria.cards.data.local.entity
 
 sealed class Filters{
 
-    enum class Sets{
+    enum class Expansion{
         CORE, PROMO, SUPPLEMENTAL, OTHER
     }
 }

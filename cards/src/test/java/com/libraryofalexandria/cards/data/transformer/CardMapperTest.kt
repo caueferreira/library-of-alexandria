@@ -31,8 +31,8 @@ class CardMapperTest {
             arrayListOf("R"),
             arrayListOf("R"),
             "m20",
-            "Core Set 2020",
-            "https://api.scryfall.com/sets/4a787360-9767-4f44-80b1-2405dc5e39c7",
+            "Core Expansion 2020",
+            "https://api.scryfall.com/expansions/4a787360-9767-4f44-80b1-2405dc5e39c7",
             "128",
             "uncommon",
             "",
@@ -88,10 +88,10 @@ class CardMapperTest {
                 "https://img.scryfall.com/cards/art_crop/front/d/6/d678cf4c-60e3-40a1-a9cc-b0bd157bcf36.jpg?1560257845",
                 "https://img.scryfall.com/cards/border_crop/front/d/6/d678cf4c-60e3-40a1-a9cc-b0bd157bcf36.jpg?1560257845"
             ),
-            CardSet(
+            CardExpansion(
                 "m20",
-                "Core Set 2020",
-                "https://api.scryfall.com/sets/4a787360-9767-4f44-80b1-2405dc5e39c7"
+                "Core Expansion 2020",
+                "https://api.scryfall.com/expansions/4a787360-9767-4f44-80b1-2405dc5e39c7"
             )
         )
 

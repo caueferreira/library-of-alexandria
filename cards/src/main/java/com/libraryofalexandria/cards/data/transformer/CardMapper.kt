@@ -21,10 +21,10 @@ class CardMapper(private val colorMapper: ColorMapper = ColorMapper()) {
             colorMapper.transform(response.manaCost, response.cmc),
             Date(),
             transformImages(response.imageUris),
-            CardSet(
-                response.setId,
-                response.setName,
-                response.setUri
+            CardExpansion(
+                response.expansionId,
+                response.expansionName,
+                response.expansionUri
             )
         )
 

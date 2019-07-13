@@ -16,16 +16,16 @@ fun intentTo(addressableActivity: AddressableActivity): Intent =
 
 object Activities {
 
-    object Sets {
+    object Expansions {
 
         object Main : AddressableActivity {
-            override val className = "$PACKAGE_NAME.cards.view.sets.ui.SetsActivity"
+            override val className = "$PACKAGE_NAME.cards.view.expansions.ui.ExpansionsActivity"
         }
     }
 
     object Cards : AddressableActivity {
         const val total: String = "TOTAL"
-        const val set: String = "SET"
+        const val expansion: String = "EXPANSION"
 
         override val className = "$PACKAGE_NAME.cards.view.cards.ui.CardsActivity"
     }

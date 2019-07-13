@@ -1,21 +1,21 @@
-package com.libraryofalexandria.cards.view.sets.ui
+package com.libraryofalexandria.cards.view.expansions.ui
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.libraryofalexandria.cards.view.R
-import kotlinx.android.synthetic.main.item_filter_set.view.*
+import kotlinx.android.synthetic.main.item_filter_expansion.view.*
 
 class FiltersAdapter(
-    private val listener: OnSetClickListener
+    private val listener: OnFilterClickListener
 ) : RecyclerView.Adapter<FiltersAdapter.FilterViewHolder>() {
 
     var filters = arrayListOf<FilterViewEntity>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FilterViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_filter_set, parent, false)
+            .inflate(R.layout.item_filter_expansion, parent, false)
         return FilterViewHolder(view)
     }
 
@@ -27,9 +27,9 @@ class FiltersAdapter(
 
     override fun getItemCount(): Int = filters.size
 
-    fun addAll(setViewEntityList: List<FilterViewEntity>) {
+    fun addAll(viewEntityList: List<FilterViewEntity>) {
         filters.clear()
-        filters.addAll(setViewEntityList)
+        filters.addAll(viewEntityList)
         notifyDataSetChanged()
     }
 
@@ -37,7 +37,7 @@ class FiltersAdapter(
 
         fun bind(
             viewEntity: FilterViewEntity,
-            listener: OnSetClickListener
+            listener: OnFilterClickListener
         ) {
 
             itemView.item.initialize(viewEntity)
@@ -49,7 +49,7 @@ class FiltersAdapter(
         }
     }
 
-    interface OnSetClickListener {
+    interface OnFilterClickListener {
         fun onItemClick(viewEntity: FilterViewEntity)
     }
 }

@@ -2,7 +2,7 @@ package com.libraryofalexandria.cards.data.network
 
 import com.libraryofalexandria.cards.data.network.entity.CardResponse
 import com.libraryofalexandria.cards.data.network.entity.RootResponse
-import com.libraryofalexandria.cards.data.network.entity.SetResponse
+import com.libraryofalexandria.cards.data.network.entity.ExpansionResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -19,5 +19,5 @@ interface ScryfallApi {
     ): RootResponse<CardResponse>
 
     @GET("sets")
-    suspend fun sets(): RootResponse<SetResponse>
+    suspend fun expansions(): RootResponse<ExpansionResponse>
 }

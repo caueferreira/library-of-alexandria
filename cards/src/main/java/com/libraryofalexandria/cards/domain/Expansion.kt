@@ -2,7 +2,7 @@ package com.libraryofalexandria.cards.domain
 
 import java.util.*
 
-data class Set(
+data class Expansion(
     val id: String,
     val code: String,
     val name: String,

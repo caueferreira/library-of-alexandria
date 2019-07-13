@@ -1,17 +1,17 @@
-package com.libraryofalexandria.cards.view.sets.transformers
+package com.libraryofalexandria.cards.view.expansions.transformers
 
 import com.libraryofalexandria.cards.data.local.entity.Filters
 import com.libraryofalexandria.cards.view.R
-import com.libraryofalexandria.cards.view.sets.ui.FilterViewEntity
+import com.libraryofalexandria.cards.view.expansions.ui.FilterViewEntity
 
-class SetsFilterViewEntityMapper {
+class ExpansionFilterViewEntityMapper {
 
-    fun transform(filter: Filters.Sets): FilterViewEntity =
+    fun transform(filter: Filters.Expansion): FilterViewEntity =
         when (filter) {
-            Filters.Sets.CORE -> core()
-            Filters.Sets.PROMO -> draft()
-            Filters.Sets.SUPPLEMENTAL -> supplemental()
-            Filters.Sets.OTHER -> other()
+            Filters.Expansion.CORE -> core()
+            Filters.Expansion.PROMO -> draft()
+            Filters.Expansion.SUPPLEMENTAL -> supplemental()
+            Filters.Expansion.OTHER -> other()
         }
 
 
@@ -19,7 +19,7 @@ class SetsFilterViewEntityMapper {
         com.libraryofalexandria.R.drawable.ic_local_library,
         android.R.color.holo_blue_dark,
         R.string.other,
-        Filters.Sets.OTHER
+        Filters.Expansion.OTHER
     )
 
 
@@ -27,7 +27,7 @@ class SetsFilterViewEntityMapper {
         com.libraryofalexandria.R.drawable.ic_local_library,
         android.R.color.holo_orange_dark,
         R.string.supplemental,
-        Filters.Sets.SUPPLEMENTAL
+        Filters.Expansion.SUPPLEMENTAL
     )
 
 
@@ -35,7 +35,7 @@ class SetsFilterViewEntityMapper {
         com.libraryofalexandria.R.drawable.ic_local_library,
         android.R.color.holo_purple,
         R.string.promo,
-        Filters.Sets.PROMO
+        Filters.Expansion.PROMO
     )
 
 
@@ -43,6 +43,6 @@ class SetsFilterViewEntityMapper {
         com.libraryofalexandria.R.drawable.ic_local_library,
         android.R.color.holo_green_dark,
         R.string.core,
-        Filters.Sets.CORE
+        Filters.Expansion.CORE
     )
 }

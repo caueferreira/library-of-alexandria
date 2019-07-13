@@ -1,6 +1,6 @@
-package com.libraryofalexandria.cards.view.sets.ui
+package com.libraryofalexandria.cards.view.expansions.ui
 
-data class SetViewEntity(
+data class ExpansionViewEntity(
     val id: String,
     val code: String,
     val name: String,

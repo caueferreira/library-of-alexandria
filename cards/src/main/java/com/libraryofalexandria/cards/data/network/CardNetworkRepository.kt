@@ -15,12 +15,12 @@ class CardNetworkRepository(
     private val coroutineContext: CoroutineContext = Dispatchers.IO,
     private val handler: NetworkHandler = NetworkHandler()
 ) {
-    suspend fun list(set: String, page: Int): Flow<List<Card>> =
+    suspend fun list(expansion: String, page: Int): Flow<List<Card>> =
         handleErrors(handler) {
             withContext(coroutineContext) {
                 flow {
                     emit(api.cards(
-                        "set=$set",
+                        "set=$expansion",
                         page
                     ).data
                         .filter { it.language == "en" }

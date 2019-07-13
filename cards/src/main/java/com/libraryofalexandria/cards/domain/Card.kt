@@ -14,10 +14,10 @@ data class Card(
     val manaCost: ManaCost,
     val releasedAt: Date,
     val images: Images,
-    val set: CardSet
+    val expansion: CardExpansion
 ) {
     override fun toString(): String {
-        return "Card(id='$id', name='$name', number='$number', plainText=$text, flavor=$flavor, type='$type', prices=$prices, rarity=$rarity, manaCost=$manaCost, releasedAt=$releasedAt, images=$images, set=$set)"
+        return "Card(id='$id', name='$name', number='$number', plainText=$text, flavor=$flavor, type='$type', prices=$prices, rarity=$rarity, manaCost=$manaCost, releasedAt=$releasedAt, images=$images, expansion=$expansion)"
     }
 }
 
@@ -32,7 +32,7 @@ data class ManaCost(
     }
 }
 
-data class CardSet(
+data class CardExpansion(
     val id: String,
     val name: String,
     val uri: String

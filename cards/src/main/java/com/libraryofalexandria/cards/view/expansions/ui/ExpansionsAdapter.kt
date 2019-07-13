@@ -1,4 +1,4 @@
-package com.libraryofalexandria.cards.view.sets.ui
+package com.libraryofalexandria.cards.view.expansions.ui
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,37 +6,37 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.RecyclerView
 import com.libraryofalexandria.core.extensions.addOrRemove
-import kotlinx.android.synthetic.main.item_set.view.*
+import kotlinx.android.synthetic.main.item_expansion.view.*
 
-class SetsAdapter(
-    private val listener: OnSetClickListener
-) : RecyclerView.Adapter<SetsAdapter.SetViewHolder>() {
+class ExpansionsAdapter(
+    private val listener: OnExpansionClickListener
+) : RecyclerView.Adapter<ExpansionsAdapter.ExpansionViewHolder>() {
 
-    private var stored = arrayListOf<SetViewEntity>()
-    private var sets = arrayListOf<SetViewEntity>()
+    private var stored = arrayListOf<ExpansionViewEntity>()
+    private var expansions = arrayListOf<ExpansionViewEntity>()
     private var filters = arrayListOf<FilterViewEntity>()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SetViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExpansionViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(com.libraryofalexandria.cards.view.R.layout.item_set, parent, false)
-        return SetViewHolder(view)
+            .inflate(com.libraryofalexandria.cards.view.R.layout.item_expansion, parent, false)
+        return ExpansionViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: SetViewHolder, position: Int) {
-        sets[position]?.let {
+    override fun onBindViewHolder(holder: ExpansionViewHolder, position: Int) {
+        expansions[position]?.let {
             holder.bind(it, listener)
             animate(holder.itemView, position)
         }
     }
 
-    override fun getItemCount(): Int = sets.size
+    override fun getItemCount(): Int = expansions.size
 
-    fun addAll(setViewEntityList: List<SetViewEntity>) {
+    fun addAll(expansionViewEntityList: List<ExpansionViewEntity>) {
         if (stored.isEmpty()) {
-            stored.addAll(setViewEntityList)
+            stored.addAll(expansionViewEntityList)
         }
-        sets.clear()
-        sets.addAll(stored.filterNot { filters.contains(it.filterViewEntity) })
+        expansions.clear()
+        expansions.addAll(stored.filterNot { filters.contains(it.filterViewEntity) })
         notifyDataSetChanged()
     }
 
@@ -58,11 +58,11 @@ class SetsAdapter(
         }
     }
 
-    class SetViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class ExpansionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(
-            viewEntity: SetViewEntity,
-            listener: OnSetClickListener
+            viewEntity: ExpansionViewEntity,
+            listener: OnExpansionClickListener
         ) {
             itemView.name.text = viewEntity.name
             itemView.code.text = viewEntity.code
@@ -78,8 +78,8 @@ class SetsAdapter(
         }
     }
 
-    interface OnSetClickListener {
-        fun onItemClick(viewEntity: SetViewEntity)
+    interface OnExpansionClickListener {
+        fun onItemClick(viewEntity: ExpansionViewEntity)
     }
 }
 

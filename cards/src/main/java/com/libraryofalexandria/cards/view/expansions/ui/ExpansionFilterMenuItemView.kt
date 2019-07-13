@@ -1,10 +1,10 @@
-package com.libraryofalexandria.cards.view.sets.ui
+package com.libraryofalexandria.cards.view.expansions.ui
 
 import android.content.Context
 import android.util.AttributeSet
 import com.libraryofalexandria.core.ui.MenuItemView
 
-class SetFilterMenuItemView(context: Context, attrs: AttributeSet?) :
+class ExpansionFilterMenuItemView(context: Context, attrs: AttributeSet?) :
     MenuItemView<FilterViewEntity>(context, attrs) {
 
     override fun initialize(viewEntity: FilterViewEntity) {

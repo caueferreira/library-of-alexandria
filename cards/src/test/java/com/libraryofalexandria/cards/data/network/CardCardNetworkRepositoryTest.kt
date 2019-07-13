@@ -40,7 +40,7 @@ class CardCardNetworkRepositoryTest {
         runBlocking {
             val response = RootResponse<CardResponse>(arrayListOf())
 
-            whenever(api.cards("set=INV", 0)).thenReturn(response)
+            whenever(api.cards("expansion=INV", 0)).thenReturn(response)
 
             repositoryCard.list("INV", 0).onSuccess { cards ->
                 assertEquals(0, cards.count())
@@ -58,7 +58,7 @@ class CardCardNetworkRepositoryTest {
             val response = RootResponse(arrayListOf(card))
 
             whenever(card.language).thenReturn("pt")
-            whenever(api.cards("set=INV", 0)).thenReturn(response)
+            whenever(api.cards("expansion=INV", 0)).thenReturn(response)
 
             repositoryCard.list("INV", 0).onSuccess { cards ->
                 assertEquals(0, cards.count())
@@ -78,7 +78,7 @@ class CardCardNetworkRepositoryTest {
             whenever(card.language).thenReturn("en")
             whenever(mapper.transform(any())).thenReturn(mock { Card::class })
 
-            whenever(api.cards("set=INV", 0)).thenReturn(response)
+            whenever(api.cards("expansion=INV", 0)).thenReturn(response)
 
             repositoryCard.list("INV", 0).onSuccess { cards ->
 
@@ -97,7 +97,7 @@ class CardCardNetworkRepositoryTest {
     @Test
     fun `should propagate http network error`() {
         runBlocking {
-            whenever(api.cards("set=INV", 0)).thenThrow(httpException("Not Found", 404))
+            whenever(api.cards("expansion=INV", 0)).thenThrow(httpException("Not Found", 404))
 
             repositoryCard.list("INV", 0).onFailure {
                 assertEquals(NetworkError.Http.NotFound, it)

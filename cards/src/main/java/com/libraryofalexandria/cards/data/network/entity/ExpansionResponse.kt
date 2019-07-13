@@ -2,7 +2,7 @@ package com.libraryofalexandria.cards.data.network.entity
 
 import com.squareup.moshi.Json
 
-data class SetResponse(
+data class ExpansionResponse(
     val id: String,
     val code: String,
     val name: String,

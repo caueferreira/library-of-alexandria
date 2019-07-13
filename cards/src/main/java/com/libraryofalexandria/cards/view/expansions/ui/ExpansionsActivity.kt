@@ -1,15 +1,11 @@
-package com.libraryofalexandria.cards.view.sets.ui
+package com.libraryofalexandria.cards.view.expansions.ui
 
 import android.app.ActivityOptions
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
 import android.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat.startActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
@@ -17,24 +13,23 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.libraryofalexandria.cards.di.cardsModule
 import com.libraryofalexandria.cards.view.R
-import com.libraryofalexandria.cards.view.sets.SetsAction
-import com.libraryofalexandria.cards.view.sets.SetsViewModel
+import com.libraryofalexandria.cards.view.expansions.ExpansiosViewModel
 import com.libraryofalexandria.core.Activities
 import com.libraryofalexandria.core.intentTo
 import kotlinx.android.synthetic.main.activity_cards.progressBar
-import kotlinx.android.synthetic.main.activity_sets.*
+import kotlinx.android.synthetic.main.activity_expansions.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.context.loadKoinModules
 import org.koin.core.context.unloadKoinModules
 
-class SetsActivity : AppCompatActivity(),
-    SetsAdapter.OnSetClickListener, FiltersAdapter.OnSetClickListener {
+class ExpansionsActivity : AppCompatActivity(),
+    ExpansionsAdapter.OnExpansionClickListener, FiltersAdapter.OnFilterClickListener {
 
     private val loadFeature by lazy { loadKoinModules(cardsModule) }
 
-    private val viewModel by viewModel<SetsViewModel>()
+    private val viewModel by viewModel<ExpansiosViewModel>()
 
-    private val adapter = SetsAdapter(this)
+    private val adapter = ExpansionsAdapter(this)
     private val filterAdapter = FiltersAdapter(this)
 
     private lateinit var toolbarView: Toolbar
@@ -46,7 +41,7 @@ class SetsActivity : AppCompatActivity(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_sets)
+        setContentView(R.layout.activity_expansions)
 
         injectFeature()
         initToolbar()
@@ -88,33 +83,33 @@ class SetsActivity : AppCompatActivity(),
         )
     }
 
-    private fun renderState(viewState: SetsViewState) = with(viewState) {
+    private fun renderState(viewState: ExpansionViewState) = with(viewState) {
         when (this) {
-            is SetsViewState.Sets.Loading -> progressBar.visibility = this.visibility
-            is SetsViewState.Sets.Error.Generic -> {
+            is ExpansionViewState.Expansions.Loading -> progressBar.visibility = this.visibility
+            is ExpansionViewState.Expansions.Error.Generic -> {
                 progressBar.visibility = this.errorVisibility
                 errorLayout.visibility = this.loadingVisibility
             }
-            is SetsViewState.Sets.SetsLoaded -> {
+            is ExpansionViewState.Expansions.Loaded -> {
                 errorLayout.visibility = this.loadingVisibility
                 progressBar.visibility = this.errorVisibility
 
                 if (adapter.itemCount > 0) {
                     updateList.visibility = View.VISIBLE
                     updateList.setOnClickListener {
-                        adapter.addAll(this.sets)
+                        adapter.addAll(this.expansions)
                         recyclerView.scheduleLayoutAnimation()
                         updateList.visibility = View.GONE
                     }
                 } else {
-                    adapter.addAll(this.sets)
+                    adapter.addAll(this.expansions)
                     recyclerView.scheduleLayoutAnimation()
                 }
             }
         }
     }
 
-    private fun filterSets(filter: FilterViewEntity) {
+    private fun filterExpansions(filter: FilterViewEntity) {
         adapter.filterBy(filter)
         recyclerView.scheduleLayoutAnimation()
 
@@ -125,16 +120,16 @@ class SetsActivity : AppCompatActivity(),
         }
     }
 
-    override fun onItemClick(setViewEntity: SetViewEntity) {
+    override fun onItemClick(expansionViewEntity: ExpansionViewEntity) {
         startActivity(
             intentTo(Activities.Cards)
-                .putExtra(Activities.Cards.set, setViewEntity.code)
-                .putExtra(Activities.Cards.total, setViewEntity.totalCardsPlain)
+                .putExtra(Activities.Cards.expansion, expansionViewEntity.code)
+                .putExtra(Activities.Cards.total, expansionViewEntity.totalCardsPlain)
         )
     }
 
     override fun onItemClick(viewEntity: FilterViewEntity) {
-        filterSets(viewEntity)
+        filterExpansions(viewEntity)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {

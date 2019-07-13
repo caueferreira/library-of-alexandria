@@ -1,39 +1,39 @@
-package com.libraryofalexandria.cards.view.sets.ui
+package com.libraryofalexandria.cards.view.expansions.ui
 
 import android.view.View
 import com.libraryofalexandria.core.ui.ViewState
 
-sealed class SetsViewState : ViewState() {
+sealed class ExpansionViewState : ViewState() {
 
-    sealed class Sets {
-        data class Loading(val visibility: Int = View.VISIBLE) : SetsViewState()
-        data class SetsLoaded(
+    sealed class Expansions {
+        data class Loading(val visibility: Int = View.VISIBLE) : ExpansionViewState()
+        data class Loaded(
             val loadingVisibility: Int = View.INVISIBLE,
             val errorVisibility: Int = View.INVISIBLE,
-            val sets: List<SetViewEntity>
+            val expansions: List<ExpansionViewEntity>
         ) :
-            SetsViewState()
+            ExpansionViewState()
 
         sealed class Error {
             data class Generic(
                 val loadingVisibility: Int = View.INVISIBLE,
                 val errorVisibility: Int = View.VISIBLE,
                 val message: String
-            ) : SetsViewState()
+            ) : ExpansionViewState()
         }
     }
 
     sealed class Filters {
-        data class Loading(val visibility: Int = View.VISIBLE) : SetsViewState()
-        data class FiltersLoaded(val loadingVisibility: Int = View.INVISIBLE, val filters: List<FilterViewEntity>) :
-            SetsViewState()
+        data class Loading(val visibility: Int = View.VISIBLE) : ExpansionViewState()
+        data class Loaded(val loadingVisibility: Int = View.INVISIBLE, val filters: List<FilterViewEntity>) :
+            ExpansionViewState()
 
         sealed class Error {
             data class Generic(
                 val loadingVisibility: Int = View.INVISIBLE,
                 val errorVisibility: Int = View.VISIBLE,
                 val message: String
-            ) : SetsViewState()
+            ) : ExpansionViewState()
         }
     }
 }

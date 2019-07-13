@@ -2,7 +2,7 @@
 <resources>
     <dimen name="drawer_width">260dp</dimen>
     <dimen name="drawer_elevation">8dp</dimen>
-    <dimen name="set_height">148dp</dimen>
+    <dimen name="expansion_height">148dp</dimen>
     <dimen name="card_item_width">172dp</dimen>
     <dimen name="card_item_height">172dp</dimen>
     <dimen name="card_image_width">160dp</dimen>

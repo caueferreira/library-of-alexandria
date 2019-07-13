@@ -5,10 +5,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-    <com.libraryofalexandria.cards.view.sets.ui.SetFilterMenuItemView
+    <com.libraryofalexandria.cards.view.expansions.ui.ExpansionFilterMenuItemView
             android:id="@+id/item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-    </com.libraryofalexandria.cards.view.sets.ui.SetFilterMenuItemView>
+    </com.libraryofalexandria.cards.view.expansions.ui.ExpansionFilterMenuItemView>
 </FrameLayout>

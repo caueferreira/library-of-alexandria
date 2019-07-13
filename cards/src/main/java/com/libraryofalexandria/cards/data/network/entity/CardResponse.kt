@@ -12,9 +12,9 @@ data class CardResponse(
     @Json(name = "type_line") val typeLine: String,
     val colors: List<String>?,
     @Json(name = "color_identity") val colorIdentity: List<String>?,
-    @Json(name = "set") val setId: String,
-    @Json(name = "set_name") val setName: String,
-    @Json(name = "set_uri") val setUri: String,
+    @Json(name = "set") val expansionId: String,
+    @Json(name = "set_name") val expansionName: String,
+    @Json(name = "set_uri") val expansionUri: String,
     @Json(name = "collector_number") val collectorNumber: String,
     val rarity: String,
     @Json(name = "flavor_text") val flavorText: String?,
@@ -24,7 +24,7 @@ data class CardResponse(
     @Json(name = "image_uris") val imageUris: ImageUrisResponse
 ) {
     override fun toString(): String {
-        return "CardResponse(id='$id', oracleId='$oracleId', name='$name', releasedAt='$releasedAt', manaCost='$manaCost', cmc=$cmc, typeLine='$typeLine', colors=$colors, colorIdentity=$colorIdentity, setId='$setId', setName='$setName', setUri='$setUri', collectorNumber='$collectorNumber', rarity='$rarity', flavorText=$flavorText, printedText=$printedText, prices=$prices, imageUris=$imageUris)"
+        return "CardResponse(id='$id', oracleId='$oracleId', name='$name', releasedAt='$releasedAt', manaCost='$manaCost', cmc=$cmc, typeLine='$typeLine', colors=$colors, colorIdentity=$colorIdentity, expansionId='$expansionId', expansionName='$expansionName', expansionUri='$expansionUri', collectorNumber='$collectorNumber', rarity='$rarity', flavorText=$flavorText, printedText=$printedText, prices=$prices, imageUris=$imageUris)"
     }
 }
 
