@@ -10,7 +10,6 @@ class FetchSets(
 ) {
 
     suspend fun fetch(): Flow<SetsResult> = flow {
-        emit(SetsResult.Loading)
         val result = local.list()
 
         val hasCache = result.isNotEmpty()

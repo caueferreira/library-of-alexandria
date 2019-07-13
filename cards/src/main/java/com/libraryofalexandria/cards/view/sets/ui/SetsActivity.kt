@@ -9,6 +9,7 @@ import android.widget.Toast
 import android.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat.startActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
@@ -16,11 +17,10 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.libraryofalexandria.cards.di.cardsModule
 import com.libraryofalexandria.cards.view.R
-import com.libraryofalexandria.cards.view.State
+import com.libraryofalexandria.cards.view.sets.SetsAction
 import com.libraryofalexandria.cards.view.sets.SetsViewModel
 import com.libraryofalexandria.core.Activities
 import com.libraryofalexandria.core.intentTo
-import com.libraryofalexandria.core.extensions.observe
 import kotlinx.android.synthetic.main.activity_cards.progressBar
 import kotlinx.android.synthetic.main.activity_sets.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -88,32 +88,29 @@ class SetsActivity : AppCompatActivity(),
         )
     }
 
-    private fun renderState(viewState: SetsViewState) {
-        progressBar.visibility = viewState.isLoading
-        errorLayout.visibility = viewState.isError
-        updateList.visibility = viewState.isUpdate
-
-        showSets(viewState)
-        viewState.throwable?.let {
-            Toast.makeText(this, it.localizedMessage, Toast.LENGTH_LONG).show()
-
-            errorLayout.isClickable = true
-            errorLayout.setOnClickListener {
-                viewModel.load()
+    private fun renderState(viewState: SetsViewState) = with(viewState) {
+        when (this) {
+            is SetsViewState.Sets.Loading -> progressBar.visibility = this.visibility
+            is SetsViewState.Sets.Error.Generic -> {
+                progressBar.visibility = this.errorVisibility
+                errorLayout.visibility = this.loadingVisibility
             }
-        }
-    }
+            is SetsViewState.Sets.SetsLoaded -> {
+                errorLayout.visibility = this.loadingVisibility
+                progressBar.visibility = this.errorVisibility
 
-    private fun showSets(viewState: SetsViewState) {
-        if (adapter.itemCount > 0) {
-            updateList.setOnClickListener {
-                adapter.addAll(viewState.sets)
-                recyclerView.scheduleLayoutAnimation()
-                updateList.visibility = View.GONE
+                if (adapter.itemCount > 0) {
+                    updateList.visibility = View.VISIBLE
+                    updateList.setOnClickListener {
+                        adapter.addAll(this.sets)
+                        recyclerView.scheduleLayoutAnimation()
+                        updateList.visibility = View.GONE
+                    }
+                } else {
+                    adapter.addAll(this.sets)
+                    recyclerView.scheduleLayoutAnimation()
+                }
             }
-        } else {
-            adapter.addAll(viewState.sets)
-            recyclerView.scheduleLayoutAnimation()
         }
     }
 
