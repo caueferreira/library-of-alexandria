@@ -36,7 +36,7 @@ class SetsAdapter(
             stored.addAll(setViewEntityList)
         }
         sets.clear()
-        sets.addAll(setViewEntityList)
+        sets.addAll(stored.filterNot { filters.contains(it.filterViewEntity) })
         notifyDataSetChanged()
     }
 
