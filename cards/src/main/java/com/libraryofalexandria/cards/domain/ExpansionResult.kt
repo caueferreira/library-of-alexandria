@@ -1,6 +1,6 @@
 package com.libraryofalexandria.cards.domain
 
-import com.libraryofalexandria.core.Result
+import com.libraryofalexandria.core.base.Result
 
 sealed class ExpansionResult : Result() {
     sealed class Success {

@@ -1,6 +1,6 @@
 package com.libraryofalexandria.cards.view.expansions
 
-import com.libraryofalexandria.core.Action
+import com.libraryofalexandria.core.base.Action
 
 sealed class ExpansionAction : Action() {
 

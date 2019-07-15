@@ -14,9 +14,9 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.libraryofalexandria.cards.view.R
 import com.libraryofalexandria.cards.view.State
 import com.libraryofalexandria.cards.view.cards.CardsViewModel
-import com.libraryofalexandria.core.Activities
+import com.libraryofalexandria.core.base.Activities
 import com.libraryofalexandria.core.ui.InfiniteScrollListener
-import com.libraryofalexandria.core.intentTo
+import com.libraryofalexandria.core.base.intentTo
 import com.libraryofalexandria.core.extensions.observe
 import kotlinx.android.synthetic.main.activity_cards.*
 import org.koin.androidx.viewmodel.ext.android.viewModel

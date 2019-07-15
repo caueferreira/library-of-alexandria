@@ -14,8 +14,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.libraryofalexandria.cards.di.cardsModule
 import com.libraryofalexandria.cards.view.R
 import com.libraryofalexandria.cards.view.expansions.ExpansiosViewModel
-import com.libraryofalexandria.core.Activities
-import com.libraryofalexandria.core.intentTo
+import com.libraryofalexandria.core.base.Activities
+import com.libraryofalexandria.core.base.intentTo
 import kotlinx.android.synthetic.main.activity_cards.progressBar
 import kotlinx.android.synthetic.main.activity_expansions.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -94,12 +94,11 @@ class ExpansionsActivity : AppCompatActivity(),
                 errorLayout.visibility = this.loadingVisibility
                 progressBar.visibility = this.errorVisibility
 
-                if (adapter.itemCount > 0) {
+                if (this.isUpdate) {
                     updateList.visibility = View.VISIBLE
                     updateList.setOnClickListener {
                         adapter.addAll(this.expansions)
                         recyclerView.scheduleLayoutAnimation()
-                        updateList.visibility = View.GONE
                     }
                 } else {
                     adapter.addAll(this.expansions)

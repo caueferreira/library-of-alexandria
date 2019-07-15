@@ -1,5 +1,6 @@
 package com.libraryofalexandria.cards.view.expansions
 
+import android.view.View
 import androidx.lifecycle.*
 import com.libraryofalexandria.cards.data.FiltersRepository
 import com.libraryofalexandria.cards.domain.FetchExpansions
@@ -7,8 +8,8 @@ import com.libraryofalexandria.cards.domain.Expansion
 import com.libraryofalexandria.cards.domain.ExpansionResult
 import com.libraryofalexandria.cards.view.expansions.transformers.ExpansionViewEntityMapper
 import com.libraryofalexandria.cards.view.expansions.ui.ExpansionViewState
-import com.libraryofalexandria.core.Action
-import com.libraryofalexandria.core.BaseViewModel
+import com.libraryofalexandria.core.base.Action
+import com.libraryofalexandria.core.base.BaseViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
@@ -41,14 +42,15 @@ class ExpansiosViewModel(
                     is ExpansionResult.Success.Cache -> _state.value =
                         ExpansionViewState.Expansions.Loaded(expansions = mapExpansions(it.result))
                     is ExpansionResult.Success.Network -> _state.value =
-                        ExpansionViewState.Expansions.Loaded(expansions = mapExpansions(it.result))
+                        ExpansionViewState.Expansions.Loaded(
+                            isUpdate = it.isUpdate,
+                            expansions = mapExpansions(it.result)
+                        )
                     is ExpansionResult.Failure -> _state.value =
                         ExpansionViewState.Expansions.Error.Generic(message = it.error.localizedMessage)
                 }
             }
     }
-
-    var hasEmited = false
 
     val filters = liveData {
         filterRepository.get().collect {

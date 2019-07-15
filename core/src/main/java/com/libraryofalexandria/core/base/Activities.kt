@@ -1,4 +1,4 @@
-package com.libraryofalexandria.core
+package com.libraryofalexandria.core.base
 
 import android.content.Intent
 

@@ -2,8 +2,8 @@ package com.libraryofalexandria
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.libraryofalexandria.core.Activities
-import com.libraryofalexandria.core.intentTo
+import com.libraryofalexandria.core.base.Activities
+import com.libraryofalexandria.core.base.intentTo
 
 class LauncherActivity : AppCompatActivity() {
 
