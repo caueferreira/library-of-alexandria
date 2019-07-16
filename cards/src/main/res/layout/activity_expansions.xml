@@ -6,7 +6,8 @@
                                            android:layout_width="match_parent"
                                            android:layout_height="match_parent"
                                            android:clipToPadding="false"
-                                           tools:context=".expansions.ui.SetsActivity">
+                                           tools:context=".expansions.ui.ExpansionsActivity"
+                                           tools:background="@color/backgroundDark">
 
     <FrameLayout
             android:layout_width="match_parent"
@@ -17,12 +18,12 @@
 
 
             <include android:visibility="gone"
-                     android:id="@+id/emptyLayout"
-                     layout="@layout/empty_view"/>
-
-            <include android:visibility="gone"
                      android:id="@+id/errorLayout"
                      layout="@layout/error_view"/>
+
+            <include android:visibility="gone"
+                     android:id="@+id/emptyLayout"
+                     layout="@layout/empty_view"/>
 
 
             <androidx.recyclerview.widget.RecyclerView
@@ -44,7 +45,6 @@
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    android:elevation="1dp"
                     android:outlineProvider="none"
                     android:title="@string/app_name"
                     app:layout_constraintTop_toTopOf="parent"
@@ -84,7 +84,7 @@
             android:layout_gravity="end"
             android:background="@color/backgroundDarkest"
             android:clipToPadding="false"
-            android:elevation="@dimen/appBarElevation"
+            android:elevation="@dimen/one"
             android:scrollbarStyle="outsideOverlay"
             android:scrollbars="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

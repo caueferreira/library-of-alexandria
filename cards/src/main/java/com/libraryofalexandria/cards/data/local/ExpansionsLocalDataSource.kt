@@ -8,16 +8,16 @@ import com.libraryofalexandria.cards.domain.Expansion
 
 class ExpansionsLocalDataSource(val context: Context) {
 
-    private val PREF_NAME = "demo-local-datasource"
-    private val sharedPref: SharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+    private val prefName = "ExtensionsDataSource"
+    private val sharedPref: SharedPreferences = context.getSharedPreferences(prefName, Context.MODE_PRIVATE)
 
     private var map = mutableListOf<Expansion>()
 
     fun list(): List<Expansion> {
-        if (!sharedPref.contains(PREF_NAME))
+        if (!sharedPref.contains(prefName))
             return listOf()
 
-        return Gson().fromJson(sharedPref.getString(PREF_NAME, "[]"), object : TypeToken<ArrayList<Expansion>>() {}.type)
+        return Gson().fromJson(sharedPref.getString(prefName, "[]"), object : TypeToken<ArrayList<Expansion>>() {}.type)
     }
 
     fun store(expansions: List<Expansion>) = with(expansions) {
@@ -25,7 +25,7 @@ class ExpansionsLocalDataSource(val context: Context) {
             .forEach { map.add(it) }
 
         val editor = sharedPref.edit()
-        editor.putString(PREF_NAME, Gson().toJson(this))
+        editor.putString(prefName, Gson().toJson(this))
         editor.apply()
 
         list()

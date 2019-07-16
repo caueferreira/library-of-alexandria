@@ -39,7 +39,6 @@ class FiltersAdapter(
             viewEntity: FilterViewEntity,
             listener: OnFilterClickListener
         ) {
-
             itemView.item.initialize(viewEntity)
 
             itemView.setOnClickListener {

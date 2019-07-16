@@ -31,7 +31,7 @@ class CardMapperTest {
             arrayListOf("R"),
             arrayListOf("R"),
             "m20",
-            "Core Expansion 2020",
+            "Core ExpansionState 2020",
             "https://api.scryfall.com/expansions/4a787360-9767-4f44-80b1-2405dc5e39c7",
             "128",
             "uncommon",
@@ -90,7 +90,7 @@ class CardMapperTest {
             ),
             CardExpansion(
                 "m20",
-                "Core Expansion 2020",
+                "Core ExpansionState 2020",
                 "https://api.scryfall.com/expansions/4a787360-9767-4f44-80b1-2405dc5e39c7"
             )
         )

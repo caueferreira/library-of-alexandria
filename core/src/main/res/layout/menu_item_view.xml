@@ -4,7 +4,8 @@
                                                    xmlns:tools="http://schemas.android.com/tools"
                                                    android:orientation="vertical"
                                                    android:layout_width="match_parent"
-                                                   android:layout_height="wrap_content">
+                                                   android:layout_height="wrap_content"
+                                                   tools:background="@color/backgroundDark">
 
     <ImageView
             android:layout_width="@dimen/menu_item_icon_size"
@@ -17,7 +18,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             tools:tint="@android:color/holo_green_dark"
-            tools:src="@color/colorPrimary"/>
+            tools:src="@color/colorPrimary"
+            android:contentDescription="@string/content_description_filter_icon"/>
 
     <TextView
             android:layout_width="wrap_content"
@@ -26,7 +28,7 @@
             android:layout_marginStart="@dimen/normal_margin"
             android:layout_marginBottom="@dimen/normal_margin"
             android:layout_marginTop="@dimen/normal_margin"
-            android:textColor="@color/textPrimaryLight"
+            style="@style/TextAppearance.ItemMenu"
             app:layout_constraintStart_toEndOf="@+id/icon"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"

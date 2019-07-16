@@ -1,5 +1,6 @@
 <resources>
 
+    <!-- Colors -->
     <style name="LibraryOfAlexandria" parent="@style/Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -12,6 +13,7 @@
         <item name="android:windowSharedElementsUseOverlay">false</item>
     </style>
 
+    <!-- Toolbar -->
     <style name="LibraryOfAlexandriaDarkOverlay" parent="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar">
     </style>
 
@@ -23,6 +25,27 @@
     </style>
 
 
+    <style name="Widget.LibraryOfAlexandria.Toolbar" parent="@style/Widget.MaterialComponents.Toolbar">
+        <item name="android:background">?attr/colorPrimary</item>
+        <item name="android:elevation">@dimen/one</item>
+        <item name="android:theme">@style/LibraryOfAlexandriaDarkOverlay</item>
+    </style>
+
+    <style name="Widget.LibraryOfAlexandria.Toolbar.Dark">
+        <item name="android:background">@color/backgroundDarkest</item>
+        <item name="android:elevation">@dimen/zero</item>
+        <item name="materialThemeOverlay">@style/ThemeOverlay.MaterialComponents.Dark.ActionBar</item>
+        <item name="android:navigationBarColor">@color/navigationBar</item>
+    </style>
+
+    <!-- TextView -->
+    <style name="TextAppearance.ItemMenu" parent="@style/TextAppearance.MaterialComponents.Body1">
+        <item name="android:textColor">@color/textPrimaryLight</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+
+    <!-- Misc -->
     <style name="LibraryOfAlexandria.Launcher"/>
 
     <style name="LibraryOfAlexandria.Cards"/>

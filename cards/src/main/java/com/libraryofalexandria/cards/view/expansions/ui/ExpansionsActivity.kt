@@ -4,18 +4,20 @@ import android.app.ActivityOptions
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import android.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.GravityCompat
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import com.libraryofalexandria.cards.di.cardsModule
 import com.libraryofalexandria.cards.view.R
-import com.libraryofalexandria.cards.view.expansions.ExpansiosViewModel
+import com.libraryofalexandria.cards.view.expansions.ExpansionState
+import com.libraryofalexandria.cards.view.expansions.ExpansionViewModel
 import com.libraryofalexandria.core.base.Activities
+import com.libraryofalexandria.core.base.State
 import com.libraryofalexandria.core.base.intentTo
+import com.libraryofalexandria.core.extensions.toggle
 import kotlinx.android.synthetic.main.activity_cards.progressBar
 import kotlinx.android.synthetic.main.activity_expansions.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -23,19 +25,18 @@ import org.koin.core.context.loadKoinModules
 import org.koin.core.context.unloadKoinModules
 
 class ExpansionsActivity : AppCompatActivity(),
-    ExpansionsAdapter.OnExpansionClickListener, FiltersAdapter.OnFilterClickListener {
+    ExpansionsAdapter.OnExpansionClickListener,
+    FiltersAdapter.OnFilterClickListener {
 
     private val loadFeature by lazy { loadKoinModules(cardsModule) }
 
-    private val viewModel by viewModel<ExpansiosViewModel>()
+    private val viewModel by viewModel<ExpansionViewModel>()
 
     private val adapter = ExpansionsAdapter(this)
     private val filterAdapter = FiltersAdapter(this)
 
     private lateinit var toolbarView: Toolbar
     private lateinit var recyclerView: RecyclerView
-    private lateinit var filtersView: RecyclerView
-    private lateinit var drawerView: DrawerLayout
 
     private fun injectFeature() = loadFeature
 
@@ -46,8 +47,13 @@ class ExpansionsActivity : AppCompatActivity(),
         injectFeature()
         initToolbar()
         initAdapter()
-        initDrawer()
         observeState()
+    }
+
+    private fun initToolbar() {
+        toolbarView = toolbar
+        toolbarView.inflateMenu(R.menu.main)
+        setActionBar(toolbarView)
     }
 
     private fun initAdapter() {
@@ -58,53 +64,56 @@ class ExpansionsActivity : AppCompatActivity(),
         recyclerView.addItemDecoration(DividerItemDecoration(recyclerView.context, DividerItemDecoration.HORIZONTAL))
     }
 
-    private fun initToolbar() {
-        toolbarView = toolbar
-        toolbarView.inflateMenu(R.menu.main)
-        setActionBar(toolbarView)
-    }
-
-    private fun initDrawer() {
-        filtersView = filters
-
-        viewModel.filters.observe(this, Observer {
-            drawerView = drawer
-
-            filterAdapter.addAll(it)
-            filtersView.adapter = filterAdapter
-        })
-    }
-
     private fun observeState() {
         viewModel.state.observe(this,
             Observer {
-                renderState(it)
+                updateViewState(it)
             }
         )
     }
 
-    private fun renderState(viewState: ExpansionViewState) = with(viewState) {
-        when (this) {
-            is ExpansionViewState.Expansions.Loading -> progressBar.visibility = this.visibility
-            is ExpansionViewState.Expansions.Error.Generic -> {
-                progressBar.visibility = this.errorVisibility
-                errorLayout.visibility = this.loadingVisibility
-            }
-            is ExpansionViewState.Expansions.Loaded -> {
-                errorLayout.visibility = this.loadingVisibility
-                progressBar.visibility = this.errorVisibility
+    private fun updateViewState(state: State) = when (state) {
+        is ExpansionState.Expansions -> when (state) {
+            is ExpansionState.Expansions.Loading -> showLoading(state)
+            is ExpansionState.Expansions.Error.Generic -> handleError(state)
+            is ExpansionState.Expansions.Loaded -> showExpansions(state)
+        }
+        is ExpansionState.Filters -> when (state) {
+            is ExpansionState.Filters.Loaded -> showFilters(state)
+        }
+        else -> throw Exception()
+    }
 
-                if (this.isUpdate) {
-                    updateList.visibility = View.VISIBLE
-                    updateList.setOnClickListener {
-                        adapter.addAll(this.expansions)
-                        recyclerView.scheduleLayoutAnimation()
-                    }
-                } else {
-                    adapter.addAll(this.expansions)
-                    recyclerView.scheduleLayoutAnimation()
-                }
+    private fun showLoading(viewState: ExpansionState.Expansions.Loading) {
+        progressBar.visibility = viewState.visibility
+    }
+
+    private fun handleError(viewState: ExpansionState.Expansions.Error.Generic) {
+        progressBar.visibility = viewState.loadingVisibility
+        errorLayout.visibility = viewState.errorVisibility
+        Toast.makeText(this, viewState.message, Toast.LENGTH_LONG).show()
+    }
+
+    private fun showFilters(viewState: ExpansionState.Filters.Loaded) {
+        filterAdapter.addAll(viewState.filters)
+        filters.adapter = filterAdapter
+
+    }
+
+    private fun showExpansions(viewState: ExpansionState.Expansions.Loaded) {
+        errorLayout.visibility = viewState.loadingVisibility
+        progressBar.visibility = viewState.errorVisibility
+
+        if (viewState.isUpdate) {
+            updateList.visibility = View.VISIBLE
+            updateList.setOnClickListener {
+                updateList.visibility = View.GONE
+                adapter.addAll(viewState.expansions)
+                recyclerView.scheduleLayoutAnimation()
             }
+        } else {
+            adapter.addAll(viewState.expansions)
+            recyclerView.scheduleLayoutAnimation()
         }
     }
 
@@ -112,10 +121,14 @@ class ExpansionsActivity : AppCompatActivity(),
         adapter.filterBy(filter)
         recyclerView.scheduleLayoutAnimation()
 
+        checkEmptyState()
+    }
+
+    private fun checkEmptyState() {
         if (adapter.itemCount == 0) {
             emptyLayout.visibility = View.VISIBLE
         } else {
-            emptyLayout.visibility = View.INVISIBLE
+            emptyLayout.visibility = View.GONE
         }
     }
 
@@ -127,9 +140,7 @@ class ExpansionsActivity : AppCompatActivity(),
         )
     }
 
-    override fun onItemClick(viewEntity: FilterViewEntity) {
-        filterExpansions(viewEntity)
-    }
+    override fun onItemClick(viewEntity: FilterViewEntity) = filterExpansions(viewEntity)
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
         R.id.about -> {
@@ -141,10 +152,7 @@ class ExpansionsActivity : AppCompatActivity(),
         }
 
         R.id.filter -> {
-            if (drawerView.isDrawerOpen(GravityCompat.END))
-                drawerView.closeDrawers()
-            else
-                drawerView.openDrawer(GravityCompat.END)
+            drawer.toggle()
             true
         }
 

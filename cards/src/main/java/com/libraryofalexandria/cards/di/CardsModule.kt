@@ -9,7 +9,7 @@ import com.libraryofalexandria.cards.data.network.ScryfallApi
 import com.libraryofalexandria.cards.data.network.ExpansionsRemoteDataSource
 import com.libraryofalexandria.cards.domain.FetchExpansions
 import com.libraryofalexandria.cards.view.cards.CardsViewModel
-import com.libraryofalexandria.cards.view.expansions.ExpansiosViewModel
+import com.libraryofalexandria.cards.view.expansions.ExpansionViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
@@ -26,7 +26,7 @@ val cardsModule = module {
     single { provideExpansionsLocalDataSource(get()) }
     single { provideExpansions(get()) }
     single { provideExpansionsUseCase(get(), get()) }
-    viewModel { ExpansiosViewModel(get(), get()) }
+    viewModel { ExpansionViewModel(get(), get()) }
 }
 
 private fun provideCardsRepository(scryfallApi: ScryfallApi): CardNetworkRepository =

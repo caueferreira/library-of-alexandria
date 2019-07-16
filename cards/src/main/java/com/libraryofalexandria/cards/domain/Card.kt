@@ -36,7 +36,11 @@ data class CardExpansion(
     val id: String,
     val name: String,
     val uri: String
-)
+) {
+    override fun toString(): String {
+        return "CardExpansion(id='$id', name='$name', uri='$uri')"
+    }
+}
 
 data class Prices(
     val usd: Double?,

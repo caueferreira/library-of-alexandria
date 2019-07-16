@@ -4,16 +4,4 @@
         <item name="android:windowBackground">@drawable/launch_screen</item>
     </style>
 
-    <style name="Widget.LibraryOfAlexandria.Toolbar" parent="@style/Widget.MaterialComponents.Toolbar">
-        <item name="android:background">?attr/colorPrimary</item>
-        <item name="android:elevation">@dimen/appBarElevation</item>
-        <item name="android:theme">@style/LibraryOfAlexandriaDarkOverlay</item>
-    </style>
-
-    <style name="Widget.LibraryOfAlexandria.Toolbar.Dark">
-        <item name="android:background">@color/backgroundDarkest</item>
-        <item name="android:elevation">@dimen/zero</item>
-        <item name="materialThemeOverlay">@style/ThemeOverlay.MaterialComponents.Dark.ActionBar</item>
-        <item name="android:navigationBarColor">@color/navigationBar</item>
-    </style>
 </resources>
