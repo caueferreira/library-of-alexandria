@@ -4,17 +4,18 @@ import android.app.ActivityOptions
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.libraryofalexandria.cards.view.R
-import com.libraryofalexandria.cards.view.State
+import com.libraryofalexandria.cards.view.cards.CardAction
+import com.libraryofalexandria.cards.view.cards.CardState
 import com.libraryofalexandria.cards.view.cards.CardsViewModel
 import com.libraryofalexandria.core.base.Activities
+import com.libraryofalexandria.core.base.State
 import com.libraryofalexandria.core.ui.InfiniteScrollListener
 import com.libraryofalexandria.core.base.intentTo
 import com.libraryofalexandria.core.extensions.observe
@@ -35,7 +36,7 @@ class CardsActivity : AppCompatActivity(),
 
         initAdapter()
         observeState()
-        observeCards()
+        viewModel.handleAction(CardAction.FirstLoad(intent.getStringExtra(Activities.Cards.expansion)))
     }
 
     private fun initAdapter() {
@@ -44,32 +45,31 @@ class CardsActivity : AppCompatActivity(),
 
         val infiniteScrollListener =
             object : InfiniteScrollListener(recyclerView.layoutManager as LinearLayoutManager) {
-                override fun isDataLoading(): Boolean = viewModel.state == State.LOADING
+                override fun isDataLoading(): Boolean = viewModel.state.value is CardState.Loading
 
                 override fun onLoadMore() {
                     if (adapter.itemCount < intent.getIntExtra(Activities.Cards.total, adapter.itemCount))
-                        viewModel.fetch(intent.getStringExtra(Activities.Cards.expansion))
+                        viewModel.handleAction(CardAction.LoadMore)
                 }
             }
 
         recyclerView.addOnScrollListener(infiniteScrollListener)
     }
 
-    private fun observeState() {
-        viewModel.state.observe(this,
-            Observer {
-                if (it == State.LOADING) {
-                    progressBar.visibility = View.VISIBLE
-                } else {
-                    progressBar.visibility = View.INVISIBLE
-                }
-            }
-        )
+    private fun observeState() = observe(viewModel.state, ::updateViewState)
+
+    private fun updateViewState(state: State) = when (state) {
+        is CardState.Loading -> progressBar.visibility = state.visibility
+        is CardState.Loaded -> {
+            progressBar.visibility = state.loadingVisibility
+            showCards(state.cards)
+        }
+        is CardState.Error.Generic -> handleError(state)
+        else -> throw Exception()
     }
 
-    private fun observeCards() {
-        observe(viewModel.cards, ::showCards)
-        viewModel.fetch(intent.getStringExtra(Activities.Cards.expansion))
+    private fun handleError(state: CardState.Error.Generic) {
+        Toast.makeText(this, state.message, Toast.LENGTH_LONG).show()
     }
 
     private fun showCards(sets: List<CardViewEntity>) {

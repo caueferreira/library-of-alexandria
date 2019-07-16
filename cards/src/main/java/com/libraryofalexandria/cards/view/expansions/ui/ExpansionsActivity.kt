@@ -17,6 +17,7 @@ import com.libraryofalexandria.cards.view.expansions.ExpansionViewModel
 import com.libraryofalexandria.core.base.Activities
 import com.libraryofalexandria.core.base.State
 import com.libraryofalexandria.core.base.intentTo
+import com.libraryofalexandria.core.extensions.observe
 import com.libraryofalexandria.core.extensions.toggle
 import kotlinx.android.synthetic.main.activity_cards.progressBar
 import kotlinx.android.synthetic.main.activity_expansions.*
@@ -64,13 +65,8 @@ class ExpansionsActivity : AppCompatActivity(),
         recyclerView.addItemDecoration(DividerItemDecoration(recyclerView.context, DividerItemDecoration.HORIZONTAL))
     }
 
-    private fun observeState() {
-        viewModel.state.observe(this,
-            Observer {
-                updateViewState(it)
-            }
-        )
-    }
+    private fun observeState() = observe(viewModel.state, ::updateViewState)
+
 
     private fun updateViewState(state: State) = when (state) {
         is ExpansionState.Expansions -> when (state) {

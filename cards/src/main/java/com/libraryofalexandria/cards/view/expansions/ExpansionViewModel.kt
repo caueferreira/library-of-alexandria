@@ -37,9 +37,9 @@ class ExpansionViewModel(
     }
 
     private fun fetchExpansions() = viewModelScope.launch {
+        loadingState()
         fetchExpansions.fetch()
             .collect {
-                loadingState()
                 when (it) {
                     is ExpansionResult.Success.Cache -> expansionCacheState(it)
                     is ExpansionResult.Success.Network -> expansionNetworkState(it)

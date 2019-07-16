@@ -4,9 +4,10 @@ import android.content.Context
 import com.libraryofalexandria.cards.data.FiltersRepository
 import com.libraryofalexandria.cards.data.local.FiltersLocalDataSource
 import com.libraryofalexandria.cards.data.local.ExpansionsLocalDataSource
-import com.libraryofalexandria.cards.data.network.CardNetworkRepository
+import com.libraryofalexandria.cards.data.network.CardsRemoteDataSource
 import com.libraryofalexandria.cards.data.network.ScryfallApi
 import com.libraryofalexandria.cards.data.network.ExpansionsRemoteDataSource
+import com.libraryofalexandria.cards.domain.FetchCards
 import com.libraryofalexandria.cards.domain.FetchExpansions
 import com.libraryofalexandria.cards.view.cards.CardsViewModel
 import com.libraryofalexandria.cards.view.expansions.ExpansionViewModel
@@ -20,28 +21,32 @@ val cardsModule = module {
     single { provideFiltersLocalDataSource() }
     single { provideFiltersRepository(get()) }
 
-    single { provideCardsRepository(get()) }
+    single { provideCardsRemoteDataSource(get()) }
+    single { provideCardsUseCase(get()) }
     viewModel { CardsViewModel(get()) }
 
     single { provideExpansionsLocalDataSource(get()) }
-    single { provideExpansions(get()) }
+    single { provideExpansionsRemoteDataSource(get()) }
     single { provideExpansionsUseCase(get(), get()) }
     viewModel { ExpansionViewModel(get(), get()) }
 }
 
-private fun provideCardsRepository(scryfallApi: ScryfallApi): CardNetworkRepository =
-    CardNetworkRepository(scryfallApi)
+private fun provideCardsRemoteDataSource(scryfallApi: ScryfallApi): CardsRemoteDataSource =
+    CardsRemoteDataSource(scryfallApi)
+
+private fun provideCardsUseCase(remoteDataSource: CardsRemoteDataSource) =
+    FetchCards(remoteDataSource)
 
 private fun provideExpansionsLocalDataSource(context: Context): ExpansionsLocalDataSource =
     ExpansionsLocalDataSource(context)
 
-private fun provideExpansions(scryfallApi: ScryfallApi): ExpansionsRemoteDataSource =
+private fun provideExpansionsRemoteDataSource(scryfallApi: ScryfallApi): ExpansionsRemoteDataSource =
     ExpansionsRemoteDataSource(scryfallApi)
 
 private fun provideExpansionsUseCase(
-    expansionsRemoteDataSource: ExpansionsRemoteDataSource,
+    remoteDataSource: ExpansionsRemoteDataSource,
     localDataSource: ExpansionsLocalDataSource
-): FetchExpansions = FetchExpansions(expansionsRemoteDataSource, localDataSource)
+): FetchExpansions = FetchExpansions(remoteDataSource, localDataSource)
 
 private fun provideFiltersLocalDataSource(): FiltersLocalDataSource =
     FiltersLocalDataSource()

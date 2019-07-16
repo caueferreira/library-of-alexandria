@@ -2,43 +2,65 @@ package com.libraryofalexandria.cards.view.cards
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.libraryofalexandria.cards.data.network.CardNetworkRepository
-import com.libraryofalexandria.cards.view.State
+import com.libraryofalexandria.cards.domain.*
 import com.libraryofalexandria.cards.view.cards.transformer.CardViewEntityMapper
-import com.libraryofalexandria.cards.view.cards.ui.CardViewEntity
+import com.libraryofalexandria.core.base.Action
+import com.libraryofalexandria.core.base.BaseViewModel
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 
 class CardsViewModel(
-    private val repository: CardNetworkRepository,
+    private val fetchCards: FetchCards,
     private val mapper: CardViewEntityMapper = CardViewEntityMapper()
-) : ViewModel() {
+) : BaseViewModel() {
 
-    private val _cards by lazy { MutableLiveData<List<CardViewEntity>>() }
-    val cards: LiveData<List<CardViewEntity>> get() = _cards
+    private val _state by lazy { MutableLiveData<CardState>() }
+    val state: LiveData<CardState> get() = _state
 
-    private val _state by lazy { MutableLiveData<State>() }
-    val state: LiveData<State> get() = _state
+    private var page = 1
+    private var expansion = ""
 
-    private var page = 0
+    override fun handleAction(action: Action) {
+        when (action) {
+            is CardAction.FirstLoad -> {
+                expansion = action.expansion
+                fetchCards(action.expansion, page)
+            }
 
-    fun fetch(set: String) {
-        viewModelScope.launch {
-            page++
-            _state.value = State.LOADING
-
-            repository.list(set, page)
-                .collect { cards ->
-                    _state.value = State.DONE
-                    _cards.value =
-                        cards.map { card ->
-                            mapper.transform(card)
-                        }.toList()
-                }
+            is CardAction.LoadMore -> {
+                page++
+                fetchCards(expansion, page)
+            }
         }
     }
+
+    private fun fetchCards(expansion: String, page: Int) = viewModelScope.launch {
+        loadingState()
+        fetchCards.fetch(expansion, page)
+            .collect {
+                when (it) {
+                    is CardResult.Success.Network -> cardsState(it)
+                    is CardResult.Failure -> errorState(it)
+                }
+            }
+    }
+
+    private fun cardsState(it: CardResult.Success.Network) {
+        _state.value =
+            CardState.Loaded(
+                cards = mapCards(it.result)
+            )
+    }
+
+    private fun errorState(it: CardResult.Failure) {
+        _state.value =
+            CardState.Error.Generic(message = it.error.localizedMessage)
+    }
+
+    private fun loadingState() {
+        _state.value = CardState.Loading()
+    }
+
+    private fun mapCards(cards: List<Card>) = cards.map { mapper.transform(it) }.toList()
 }
