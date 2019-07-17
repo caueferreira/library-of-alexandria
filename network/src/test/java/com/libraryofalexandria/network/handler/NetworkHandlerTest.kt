@@ -14,7 +14,7 @@ import javax.net.ssl.SSLException
 
 class NetworkHandlerTest {
 
-    val handler = NetworkHandler()
+    private val handler = NetworkHandler()
 
     @Test
     fun `should trigger connectivity timeout errors`() {
