@@ -88,7 +88,7 @@ class CardCardsRemoteDataSourceTest {
         }
     }
 
-    @Test(expected = HttpException::class)
+    @Test(expected = NetworkError.Http.NotFound::class)
     fun `should propagate http network error`() {
         runBlocking {
             whenever(api.cards("set=INV", 0)).thenThrow(httpException("Not Found", 404))
