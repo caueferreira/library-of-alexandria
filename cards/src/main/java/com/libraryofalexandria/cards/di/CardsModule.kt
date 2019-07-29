@@ -1,12 +1,15 @@
 package com.libraryofalexandria.cards.di
 
 import android.content.Context
+import com.google.gson.reflect.TypeToken
+import com.libraryofalexandria.cache.Cache
 import com.libraryofalexandria.cards.data.FiltersRepository
 import com.libraryofalexandria.cards.data.local.FiltersLocalDataSource
 import com.libraryofalexandria.cards.data.local.ExpansionsLocalDataSource
 import com.libraryofalexandria.cards.data.network.CardsRemoteDataSource
 import com.libraryofalexandria.cards.data.network.ScryfallApi
 import com.libraryofalexandria.cards.data.network.ExpansionsRemoteDataSource
+import com.libraryofalexandria.cards.domain.Expansion
 import com.libraryofalexandria.cards.domain.FetchCards
 import com.libraryofalexandria.cards.domain.FetchExpansions
 import com.libraryofalexandria.cards.view.cards.CardsViewModel
@@ -25,6 +28,7 @@ val cardsModule = module {
     single { provideCardsUseCase(get()) }
     viewModel { CardsViewModel(get()) }
 
+    single { provideExpansionsCache(get()) }
     single { provideExpansionsLocalDataSource(get()) }
     single { provideExpansionsRemoteDataSource(get()) }
     single { provideExpansionsUseCase(get(), get()) }
@@ -37,8 +41,11 @@ private fun provideCardsRemoteDataSource(scryfallApi: ScryfallApi): CardsRemoteD
 private fun provideCardsUseCase(remoteDataSource: CardsRemoteDataSource) =
     FetchCards(remoteDataSource)
 
-private fun provideExpansionsLocalDataSource(context: Context): ExpansionsLocalDataSource =
-    ExpansionsLocalDataSource(context)
+private fun provideExpansionsCache(context: Context): Cache<Expansion> =
+    Cache(context, "expansions-cache", object : TypeToken<ArrayList<Expansion>>() {})
+
+private fun provideExpansionsLocalDataSource(cache: Cache<Expansion>): ExpansionsLocalDataSource =
+    ExpansionsLocalDataSource(cache)
 
 private fun provideExpansionsRemoteDataSource(scryfallApi: ScryfallApi): ExpansionsRemoteDataSource =
     ExpansionsRemoteDataSource(scryfallApi)
