@@ -8,7 +8,7 @@ import com.google.gson.reflect.TypeToken
 class Cache<T>(
     private val context: Context,
     private val name: String,
-    private val type: TypeToken<ArrayList<T>>
+    private val type: Class<T>
 ) {
 
     private val sharedPref: SharedPreferences = context.getSharedPreferences(name, Context.MODE_PRIVATE)
@@ -18,7 +18,10 @@ class Cache<T>(
         if (!sharedPref.contains(name))
             return listOf()
 
-        return Gson().fromJson(sharedPref.getString(name, "[]"), type.type)
+        return Gson().fromJson(
+            sharedPref.getString(name, "[]"),
+            TypeToken.getParameterized(ArrayList::class.java, type).type
+        )
     }
 
     fun store(expansions: List<T>) = with(expansions) {

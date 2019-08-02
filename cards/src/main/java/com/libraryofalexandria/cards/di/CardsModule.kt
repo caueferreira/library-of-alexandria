@@ -42,7 +42,7 @@ private fun provideCardsUseCase(remoteDataSource: CardsRemoteDataSource) =
     FetchCards(remoteDataSource)
 
 private fun provideExpansionsCache(context: Context): Cache<Expansion> =
-    Cache(context, "expansions-cache", object : TypeToken<ArrayList<Expansion>>() {})
+    Cache<Expansion>(context, "expansions-cache", Expansion::class.java)
 
 private fun provideExpansionsLocalDataSource(cache: Cache<Expansion>): ExpansionsLocalDataSource =
     ExpansionsLocalDataSource(cache)
