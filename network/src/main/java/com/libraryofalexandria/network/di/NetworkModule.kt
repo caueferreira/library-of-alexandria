@@ -18,7 +18,7 @@ val networkModule = module {
     single { provideRetrofit(get()) }
 }
 
-const val CONNECTION_TIMEOUT = 6000L
+private const val CONNECTION_TIMEOUT = 6000L
 private const val CACHE_SIZE = (10 * 1024 * 1024).toLong()
 
 private fun provideOkHttpClient(cache: Cache): OkHttpClient {

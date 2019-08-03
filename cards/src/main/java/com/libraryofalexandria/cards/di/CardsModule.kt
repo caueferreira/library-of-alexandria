@@ -1,7 +1,5 @@
 package com.libraryofalexandria.cards.di
 
-import android.content.Context
-import com.google.gson.reflect.TypeToken
 import com.libraryofalexandria.cache.Cache
 import com.libraryofalexandria.cards.data.FiltersRepository
 import com.libraryofalexandria.cards.data.local.FiltersLocalDataSource
@@ -18,22 +16,29 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
 
-val cardsModule = module {
+val apiModule = module {
     single { createApi<ScryfallApi>(get()) }
+}
 
-    single { provideFiltersLocalDataSource() }
-    single { provideFiltersRepository(get()) }
-
+val cardsModule = module {
     single { provideCardsRemoteDataSource(get()) }
     single { provideCardsUseCase(get()) }
     viewModel { CardsViewModel(get()) }
+}
 
-    single { provideExpansionsCache(get()) }
-    single { provideExpansionsLocalDataSource(get()) }
-    single { provideExpansionsRemoteDataSource(get()) }
-    single { provideExpansionsUseCase(get(), get()) }
+val filtersModule = module {
+    single { FiltersLocalDataSource() }
+    single { FiltersRepository(get()) }
+}
+
+val expansionsModule = module {
+    single { ExpansionsRemoteDataSource(get()) }
+    single { Cache(get(), "expansions-cache", Expansion::class.java) }
+    single { ExpansionsLocalDataSource(get()) }
+    single { FetchExpansions(get(), get()) }
     viewModel { ExpansionViewModel(get(), get()) }
 }
+
 
 private fun provideCardsRemoteDataSource(scryfallApi: ScryfallApi): CardsRemoteDataSource =
     CardsRemoteDataSource(scryfallApi)
@@ -41,24 +46,5 @@ private fun provideCardsRemoteDataSource(scryfallApi: ScryfallApi): CardsRemoteD
 private fun provideCardsUseCase(remoteDataSource: CardsRemoteDataSource) =
     FetchCards(remoteDataSource)
 
-private fun provideExpansionsCache(context: Context): Cache<Expansion> =
-    Cache<Expansion>(context, "expansions-cache", Expansion::class.java)
-
-private fun provideExpansionsLocalDataSource(cache: Cache<Expansion>): ExpansionsLocalDataSource =
-    ExpansionsLocalDataSource(cache)
-
-private fun provideExpansionsRemoteDataSource(scryfallApi: ScryfallApi): ExpansionsRemoteDataSource =
-    ExpansionsRemoteDataSource(scryfallApi)
-
-private fun provideExpansionsUseCase(
-    remoteDataSource: ExpansionsRemoteDataSource,
-    localDataSource: ExpansionsLocalDataSource
-): FetchExpansions = FetchExpansions(remoteDataSource, localDataSource)
-
-private fun provideFiltersLocalDataSource(): FiltersLocalDataSource =
-    FiltersLocalDataSource()
-
-private fun provideFiltersRepository(localDataSource: FiltersLocalDataSource): FiltersRepository =
-    FiltersRepository(localDataSource)
 
 private inline fun <reified T> createApi(retrofit: Retrofit) = retrofit.create(T::class.java)

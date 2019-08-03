@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.libraryofalexandria.cards.di.cardsModule
 import com.libraryofalexandria.cards.view.R
 import com.libraryofalexandria.cards.view.cards.CardAction
 import com.libraryofalexandria.cards.view.cards.CardState
@@ -21,9 +22,15 @@ import com.libraryofalexandria.core.base.intentTo
 import com.libraryofalexandria.core.extensions.observe
 import kotlinx.android.synthetic.main.activity_cards.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.context.loadKoinModules
+import org.koin.core.context.unloadKoinModules
 
 class CardsActivity : AppCompatActivity(),
     CardsAdapter.OnCardClickListener {
+
+    private val loadFeature by lazy { loadKoinModules(arrayListOf(cardsModule)) }
+
+    private fun injectFeature() = loadFeature
 
     private val viewModel by viewModel<CardsViewModel>()
 
@@ -34,6 +41,7 @@ class CardsActivity : AppCompatActivity(),
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cards)
 
+        injectFeature()
         initAdapter()
         observeState()
         viewModel.handleAction(CardAction.FirstLoad(intent.getStringExtra(Activities.Cards.expansion)))
@@ -105,5 +113,10 @@ class CardsActivity : AppCompatActivity(),
         }
 
         else -> super.onOptionsItemSelected(item)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        unloadKoinModules(arrayListOf(cardsModule))
     }
 }

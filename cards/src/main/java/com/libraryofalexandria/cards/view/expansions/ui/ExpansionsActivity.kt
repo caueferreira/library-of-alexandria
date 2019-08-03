@@ -7,10 +7,11 @@ import android.view.View
 import android.widget.Toast
 import android.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
-import com.libraryofalexandria.cards.di.cardsModule
+import com.libraryofalexandria.cards.di.apiModule
+import com.libraryofalexandria.cards.di.expansionsModule
+import com.libraryofalexandria.cards.di.filtersModule
 import com.libraryofalexandria.cards.view.R
 import com.libraryofalexandria.cards.view.expansions.ExpansionState
 import com.libraryofalexandria.cards.view.expansions.ExpansionViewModel
@@ -29,7 +30,7 @@ class ExpansionsActivity : AppCompatActivity(),
     ExpansionsAdapter.OnExpansionClickListener,
     FiltersAdapter.OnFilterClickListener {
 
-    private val loadFeature by lazy { loadKoinModules(cardsModule) }
+    private val loadFeature by lazy { loadKoinModules(arrayListOf(apiModule, filtersModule, expansionsModule)) }
 
     private val viewModel by viewModel<ExpansionViewModel>()
 
@@ -157,6 +158,6 @@ class ExpansionsActivity : AppCompatActivity(),
 
     override fun onDestroy() {
         super.onDestroy()
-        unloadKoinModules(cardsModule)
+        unloadKoinModules(arrayListOf(apiModule, filtersModule, expansionsModule))
     }
 }

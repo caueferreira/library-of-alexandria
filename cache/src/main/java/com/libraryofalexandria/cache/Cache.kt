@@ -9,22 +9,24 @@ class Cache<T>(
     private val context: Context,
     private val name: String,
     private val type: Class<T>
-) {
+) : CacheInterface<T> {
 
     private val sharedPref: SharedPreferences = context.getSharedPreferences(name, Context.MODE_PRIVATE)
     private var map = mutableListOf<T>()
 
-    fun list(): List<T> {
+    private val empty = "[]"
+
+    override fun list(): List<T> {
         if (!sharedPref.contains(name))
             return listOf()
 
         return Gson().fromJson(
-            sharedPref.getString(name, "[]"),
+            sharedPref.getString(name, empty),
             TypeToken.getParameterized(ArrayList::class.java, type).type
         )
     }
 
-    fun store(expansions: List<T>) = with(expansions) {
+    override fun store(expansions: List<T>) = with(expansions) {
         filterNot { map.contains(it) }
             .forEach { map.add(it) }
 
@@ -33,5 +35,9 @@ class Cache<T>(
         editor.apply()
 
         list()
+    }
+
+    override fun store(t: T): T {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

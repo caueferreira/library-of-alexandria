@@ -1,10 +1,8 @@
 package com.libraryofalexandria.cache
 
-interface CacheInterface<K, V> {
+interface CacheInterface<T> {
 
-    fun put(value: V)
-    fun putAll(values: List<V>)
-    fun clear()
-    fun getAll(): List<V>?
-    fun get(key: K): V?
+    fun list(): List<T>
+    fun store(list: List<T>): List<T>
+    fun store(t: T): T
 }
