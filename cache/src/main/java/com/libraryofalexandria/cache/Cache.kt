@@ -8,12 +8,11 @@ import com.google.gson.reflect.TypeToken
 class Cache<T>(
     private val context: Context,
     private val name: String,
-    private val type: Class<T>
+    private val type: Class<T>,
+    private val sharedPref: SharedPreferences = context.getSharedPreferences(name, Context.MODE_PRIVATE)
 ) : CacheInterface<T> {
 
-    private val sharedPref: SharedPreferences = context.getSharedPreferences(name, Context.MODE_PRIVATE)
     private var map = mutableListOf<T>()
-
     private val empty = "[]"
 
     override fun list(): List<T> {
@@ -35,9 +34,5 @@ class Cache<T>(
         editor.apply()
 
         list()
-    }
-
-    override fun store(t: T): T {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
