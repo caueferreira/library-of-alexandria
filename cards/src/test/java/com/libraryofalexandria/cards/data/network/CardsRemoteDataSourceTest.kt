@@ -26,6 +26,8 @@ class CardCardsRemoteDataSourceTest {
 
     private lateinit var repositoryCard: CardsRemoteDataSource
 
+    val emptyResponse = RootResponse<CardResponse>(arrayListOf())
+
     @Before
     fun `before each`() {
         MockitoAnnotations.initMocks(this)
@@ -36,13 +38,11 @@ class CardCardsRemoteDataSourceTest {
     @Test
     fun `should return empty`() {
         runBlocking {
-            val response = RootResponse<CardResponse>(arrayListOf())
+            val response = CardCardsRemoteDataSourceBuilder()
+                .prepare(emptyResponse)
+                .list("INV", 0)
 
-            whenever(api.cards("set=INV", 0)).thenReturn(response)
-
-            val cards = repositoryCard.list("INV", 0)
-
-            assertEquals(0, cards.count())
+            assertEquals(0, response.count())
             verify(api, times(1)).cards(any(), any())
             verifyZeroInteractions(mapper)
         }
@@ -52,14 +52,14 @@ class CardCardsRemoteDataSourceTest {
     fun `should return empty because none was english`() {
         runBlocking {
             val card = mock<CardResponse> { CardResponse::class }
-            val response = RootResponse(arrayListOf(card))
+
+            val response = CardCardsRemoteDataSourceBuilder()
+                .prepare(RootResponse(arrayListOf(card)))
+                .list("INV", 0)
 
             whenever(card.language).thenReturn("pt")
-            whenever(api.cards("set=INV", 0)).thenReturn(response)
 
-            val cards = repositoryCard.list("INV", 0)
-
-            assertEquals(0, cards.count())
+            assertEquals(0, response.count())
             verify(api, times(1)).cards(any(), any())
             verifyZeroInteractions(mapper)
         }
@@ -69,15 +69,14 @@ class CardCardsRemoteDataSourceTest {
     fun `should return list of mapped cards`() {
         runBlocking {
             val card = mock<CardResponse> { CardResponse::class }
-            val response = RootResponse(arrayListOf(card, card, card, card, card))
-
             whenever(card.language).thenReturn("en")
-            whenever(mapper.transform(any())).thenReturn(mock { Card::class })
 
-            whenever(api.cards("set=INV", 0)).thenReturn(response)
+            val response = CardCardsRemoteDataSourceBuilder()
+                .prepare(RootResponse(arrayListOf(card, card, card, card, card)))
+                .list("INV", 0)
 
-            val cards = repositoryCard.list("INV", 0)
-            val total = cards.onEach { card ->
+
+            val total = response.onEach { card ->
                 assertEquals(Card::class, card::class)
             }.count()
 
@@ -91,16 +90,35 @@ class CardCardsRemoteDataSourceTest {
     @Test(expected = NetworkError.Http.NotFound::class)
     fun `should propagate http network error`() {
         runBlocking {
-            whenever(api.cards("set=INV", 0)).thenThrow(httpException("Not Found", 404))
-
-            repositoryCard.list("INV", 0)
+            CardCardsRemoteDataSourceBuilder()
+                .exception()
+                .list("INV", 0)
         }
     }
 
-    private fun httpException(message: String, statusCode: Int): HttpException {
-        val apiMessage = """{"code":$statusCode ,"message": "$message"}"""
-        val jsonMediaType = MediaType.parse("application/json")
-        val body = ResponseBody.create(jsonMediaType, apiMessage)
-        return HttpException(Response.error<Any>(statusCode, body))
+    private inner class CardCardsRemoteDataSourceBuilder {
+
+        suspend fun prepare(response: RootResponse<CardResponse>): CardCardsRemoteDataSourceBuilder {
+            whenever(api.cards(any(), any())).thenReturn(response)
+            if (response.data.isNotEmpty()) {
+                whenever(mapper.transform(any())).thenReturn(mock { Card::class })
+            }
+
+            return this
+        }
+
+        suspend fun exception(): CardCardsRemoteDataSourceBuilder {
+            whenever(api.cards(any(), any())).thenThrow(httpException("Not Found", 404))
+            return this
+        }
+
+        suspend fun list(expansion: String, page: Int) = repositoryCard.list(expansion, page)
+
+        private fun httpException(message: String, statusCode: Int): HttpException {
+            val apiMessage = """{"code":$statusCode ,"message": "$message"}"""
+            val jsonMediaType = MediaType.parse("application/json")
+            val body = ResponseBody.create(jsonMediaType, apiMessage)
+            return HttpException(Response.error<Any>(statusCode, body))
+        }
     }
 }
