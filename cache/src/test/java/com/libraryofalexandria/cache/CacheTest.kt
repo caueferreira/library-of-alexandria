@@ -42,7 +42,6 @@ class CacheTest {
     private inner class CacheBuilder {
 
         fun store(list: List<TestObject>): CacheBuilder {
-            cache.store(list)
             whenever(sharedPrefs.contains(any())).thenReturn(true)
             whenever(sharedPrefs.getString(any(), any())).thenReturn(Gson().toJson(list))
             return this
