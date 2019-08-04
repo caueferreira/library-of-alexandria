@@ -24,22 +24,22 @@ class CardsRemoteDataSourceTest {
     @Mock
     private lateinit var mapper: CardMapper
 
-    private lateinit var repositoryCard: CardsRemoteDataSource
+    private lateinit var dataSource: CardsRemoteDataSource
 
-    val emptyResponse = RootResponse<CardResponse>(arrayListOf())
+    private val emptyResponse = RootResponse<CardResponse>(arrayListOf())
 
     @Before
     fun `before each`() {
         MockitoAnnotations.initMocks(this)
 
-        repositoryCard = CardsRemoteDataSource(api, mapper)
+        dataSource = CardsRemoteDataSource(api, mapper)
     }
 
     @Test
     fun `should return empty`() {
         runBlocking {
-            val response = CardCardsRemoteDataSourceBuilder()
-                .prepare(emptyResponse)
+            val response = CardsRemoteDataSourceBuilder()
+                .withSource(emptyResponse)
                 .list("INV", 0)
 
             assertEquals(0, response.count())
@@ -53,8 +53,8 @@ class CardsRemoteDataSourceTest {
         runBlocking {
             val card = mock<CardResponse> { CardResponse::class }
 
-            val response = CardCardsRemoteDataSourceBuilder()
-                .prepare(RootResponse(arrayListOf(card)))
+            val response = CardsRemoteDataSourceBuilder()
+                .withSource(RootResponse(arrayListOf(card)))
                 .list("INV", 0)
 
             whenever(card.language).thenReturn("pt")
@@ -71,8 +71,8 @@ class CardsRemoteDataSourceTest {
             val card = mock<CardResponse> { CardResponse::class }
             whenever(card.language).thenReturn("en")
 
-            val response = CardCardsRemoteDataSourceBuilder()
-                .prepare(RootResponse(arrayListOf(card, card, card, card, card)))
+            val response = CardsRemoteDataSourceBuilder()
+                .withSource(RootResponse(arrayListOf(card, card, card, card, card)))
                 .list("INV", 0)
 
 
@@ -90,15 +90,15 @@ class CardsRemoteDataSourceTest {
     @Test(expected = NetworkError.Http.NotFound::class)
     fun `should propagate http network error`() {
         runBlocking {
-            CardCardsRemoteDataSourceBuilder()
+            CardsRemoteDataSourceBuilder()
                 .exception()
                 .list("INV", 0)
         }
     }
 
-    private inner class CardCardsRemoteDataSourceBuilder {
+    private inner class CardsRemoteDataSourceBuilder {
 
-        suspend fun prepare(response: RootResponse<CardResponse>): CardCardsRemoteDataSourceBuilder {
+        suspend fun withSource(response: RootResponse<CardResponse>): CardsRemoteDataSourceBuilder {
             whenever(api.cards(any(), any())).thenReturn(response)
             if (response.data.isNotEmpty()) {
                 whenever(mapper.transform(any())).thenReturn(mock { Card::class })
@@ -107,12 +107,12 @@ class CardsRemoteDataSourceTest {
             return this
         }
 
-        suspend fun exception(): CardCardsRemoteDataSourceBuilder {
+        suspend fun exception(): CardsRemoteDataSourceBuilder {
             whenever(api.cards(any(), any())).thenThrow(httpException("Not Found", 404))
             return this
         }
 
-        suspend fun list(expansion: String, page: Int) = repositoryCard.list(expansion, page)
+        suspend fun list(expansion: String, page: Int) = dataSource.list(expansion, page)
 
         private fun httpException(message: String, statusCode: Int): HttpException {
             val apiMessage = """{"code":$statusCode ,"message": "$message"}"""
