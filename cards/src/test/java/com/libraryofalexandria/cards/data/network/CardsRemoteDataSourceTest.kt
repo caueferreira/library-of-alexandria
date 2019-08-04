@@ -17,7 +17,7 @@ import org.mockito.MockitoAnnotations
 import retrofit2.HttpException
 import retrofit2.Response
 
-class CardCardsRemoteDataSourceTest {
+class CardsRemoteDataSourceTest {
 
     @Mock
     private lateinit var api: ScryfallApi
