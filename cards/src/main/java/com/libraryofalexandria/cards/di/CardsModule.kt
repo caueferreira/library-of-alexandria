@@ -1,6 +1,7 @@
 package com.libraryofalexandria.cards.di
 
 import com.libraryofalexandria.cache.Cache
+import com.libraryofalexandria.cards.data.ExpansionRepository
 import com.libraryofalexandria.cards.data.FiltersRepository
 import com.libraryofalexandria.cards.data.local.FiltersLocalDataSource
 import com.libraryofalexandria.cards.data.local.ExpansionsLocalDataSource
@@ -35,7 +36,8 @@ val expansionsModule = module {
     single { ExpansionsRemoteDataSource(get()) }
     single { Cache(get(), "expansions-cache", Expansion::class.java) }
     single { ExpansionsLocalDataSource(get()) }
-    single { FetchExpansions(get(), get()) }
+    single { ExpansionRepository(get(), get()) }
+    single { FetchExpansions(get()) }
     viewModel { ExpansionViewModel(get(), get()) }
 }
 
