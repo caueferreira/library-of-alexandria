@@ -10,7 +10,6 @@ sealed class ExpansionState : State() {
     sealed class Expansions : ExpansionState() {
         data class Loading(val visibility: Int = View.VISIBLE) : Expansions()
         data class Loaded(
-            val isUpdate: Boolean = false,
             val loadingVisibility: Int = View.INVISIBLE,
             val errorVisibility: Int = View.INVISIBLE,
             val expansions: List<ExpansionViewEntity>

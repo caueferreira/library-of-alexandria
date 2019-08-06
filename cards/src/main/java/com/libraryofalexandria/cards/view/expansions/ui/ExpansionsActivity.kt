@@ -101,7 +101,7 @@ class ExpansionsActivity : AppCompatActivity(),
         errorLayout.visibility = viewState.loadingVisibility
         progressBar.visibility = viewState.errorVisibility
 
-        if (viewState.isUpdate) {
+        if (adapter.itemCount > 0) {
             updateList.visibility = View.VISIBLE
             updateList.setOnClickListener {
                 updateList.visibility = View.GONE

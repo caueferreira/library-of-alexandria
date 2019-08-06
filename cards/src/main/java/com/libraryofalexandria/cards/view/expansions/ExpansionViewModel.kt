@@ -9,6 +9,7 @@ import com.libraryofalexandria.cards.view.expansions.transformers.ExpansionViewE
 import com.libraryofalexandria.cards.view.expansions.ui.FilterViewEntity
 import com.libraryofalexandria.core.base.Action
 import com.libraryofalexandria.core.base.BaseViewModel
+import com.libraryofalexandria.core.base.RepositoryStrategy
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
@@ -38,7 +39,7 @@ class ExpansionViewModel(
 
     private fun fetchExpansions() = viewModelScope.launch {
         loadingState()
-        fetchExpansions.fetch()
+        fetchExpansions.fetch(arrayListOf(RepositoryStrategy.CACHE, RepositoryStrategy.NETWORK))
             .collect {
                 when (it) {
                     is ExpansionResult.Success.Cache -> expansionCacheState(it)
@@ -67,14 +68,15 @@ class ExpansionViewModel(
     private fun expansionNetworkState(it: ExpansionResult.Success.Network) {
         _state.value =
             ExpansionState.Expansions.Loaded(
-                isUpdate = it.isUpdate,
                 expansions = mapExpansions(it.result)
             )
     }
 
     private fun expansionCacheState(it: ExpansionResult.Success.Cache) {
-        _state.value =
-            ExpansionState.Expansions.Loaded(expansions = mapExpansions(it.result))
+        if (it.result.isNotEmpty()) {
+            _state.value =
+                ExpansionState.Expansions.Loaded(expansions = mapExpansions(it.result))
+        }
     }
 
     private fun loadingState() {
