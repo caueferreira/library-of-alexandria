@@ -39,7 +39,7 @@ class ExpansionViewModel(
 
     private fun fetchExpansions() = viewModelScope.launch {
         loadingState()
-        fetchExpansions.fetch(arrayListOf(RepositoryStrategy.CACHE, RepositoryStrategy.NETWORK))
+        fetchExpansions.fetch()
             .collect {
                 when (it) {
                     is ExpansionResult.Success.Cache -> expansionCacheState(it)

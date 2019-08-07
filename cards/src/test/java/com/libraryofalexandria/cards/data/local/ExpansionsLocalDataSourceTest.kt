@@ -67,21 +67,21 @@ class ExpansionsLocalDataSourceTest {
 
     private inner class ExpansionsLocalDataSourceBuilder {
 
-        suspend fun empty(): ExpansionsLocalDataSourceBuilder {
+        fun empty(): ExpansionsLocalDataSourceBuilder {
             whenever(cache.list()).thenReturn(arrayListOf())
             return this
         }
 
-        suspend fun withCache(list: List<Expansion>): ExpansionsLocalDataSourceBuilder {
+        fun withCache(list: List<Expansion>): ExpansionsLocalDataSourceBuilder {
             whenever(cache.list()).thenReturn(list)
             return this
         }
 
-        suspend fun store(list: List<Expansion>) = with(list) {
+        fun store(list: List<Expansion>) = with(list) {
             whenever(cache.store(list)).thenReturn(list)
             dataSource.store(list)
         }
 
-        suspend fun list() = dataSource.list()
+        fun list() = dataSource.list()
     }
 }

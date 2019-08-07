@@ -8,9 +8,8 @@ class FetchExpansions(
     private val repository: ExpansionRepository
 ) {
 
-    suspend fun fetch(strategies: List<RepositoryStrategy>) = flow {
-        strategies.forEach {
-            emit(repository.list(it))
-        }
+    suspend fun fetch() = flow {
+        emit(repository.list(RepositoryStrategy.CACHE))
+        emit(repository.list(RepositoryStrategy.NETWORK))
     }
 }
