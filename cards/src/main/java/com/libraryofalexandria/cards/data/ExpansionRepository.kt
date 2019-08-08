@@ -6,6 +6,7 @@ import com.libraryofalexandria.cards.domain.Expansion
 import com.libraryofalexandria.cards.domain.ExpansionResult
 import com.libraryofalexandria.core.base.Repository
 import com.libraryofalexandria.core.base.RepositoryStrategy
+import com.libraryofalexandria.network.exception.NetworkError
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
@@ -24,7 +25,7 @@ class ExpansionRepository(
     private suspend fun fromNetwork() =
         try {
             ExpansionResult.Success.Network(local.store(remote.list()))
-        } catch (e: Exception) {
+        } catch (e: NetworkError) {
             ExpansionResult.Failure(e)
         }
 }

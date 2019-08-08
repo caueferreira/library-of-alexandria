@@ -9,12 +9,13 @@ import com.libraryofalexandria.network.exception.NetworkError
 import com.nhaarman.mockitokotlin2.*
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 
-class ExpansionRepositoryTest() {
+class ExpansionRepositoryTest {
 
     @Mock
     private lateinit var remote: ExpansionsRemoteDataSource
@@ -97,7 +98,7 @@ class ExpansionRepositoryTest() {
 
             when (response) {
                 is ExpansionResult.Failure -> {
-                    verify(response.error is NetworkError.Http.Timeout)
+                    assertEquals(NetworkError.Http.Timeout, response.error)
                     verify(remote, times(1)).list()
                     verifyZeroInteractions(local)
                 }
@@ -130,6 +131,5 @@ class ExpansionRepositoryTest() {
             whenever(remote.list()).thenThrow(NetworkError.Http.Timeout)
             return this
         }
-
     }
 }
