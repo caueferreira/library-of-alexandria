@@ -10,6 +10,10 @@ class FetchExpansions(
 
     suspend fun fetch() = flow {
         emit(repository.list(RepositoryStrategy.CACHE))
-        emit(repository.list(RepositoryStrategy.NETWORK))
+
+        when (val apiResponse = repository.list(RepositoryStrategy.NETWORK)) {
+            is ExpansionResult.Success.Network -> emit(repository.store(apiResponse))
+            else -> emit(apiResponse)
+        }
     }
 }
