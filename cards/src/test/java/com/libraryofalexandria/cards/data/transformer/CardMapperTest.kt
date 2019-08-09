@@ -4,7 +4,7 @@ import com.libraryofalexandria.cards.data.network.entity.CardResponse
 import com.libraryofalexandria.cards.data.network.entity.ImageUrisResponse
 import com.libraryofalexandria.cards.data.network.entity.PricesResponse
 import com.libraryofalexandria.cards.domain.*
-import junit.framework.Assert.assertEquals
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import java.util.*
