@@ -4,6 +4,7 @@ import com.libraryofalexandria.cards.data.ExpansionRepository
 import com.libraryofalexandria.core.base.RepositoryStrategy
 import com.libraryofalexandria.network.exception.NetworkError
 import com.nhaarman.mockitokotlin2.*
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.*
@@ -29,9 +30,9 @@ class FetchExpansionsTest {
     private val expansion = mock<Expansion> { Expansion::class }
     private val expansions = arrayListOf(expansion, expansion, expansion, expansion, expansion, expansion)
 
-    private val cache = ExpansionResult.Success.Cache(arrayListOf())
-    private val network = ExpansionResult.Success.Network(expansions)
-    private val failure = ExpansionResult.Failure(NetworkError.Http.BadRequest)
+    private val cache = arrayListOf<Expansion>()
+    private val network = expansions
+    private val failure = NetworkError.Http.BadRequest
 
     @Test
     fun `should return cache and network`() {
@@ -44,21 +45,8 @@ class FetchExpansionsTest {
                 .toList()
 
             assertEquals(2, responses.size)
-            val firstResponse = responses.first()
-            val secondResponse = responses.second()
-
-            assert(firstResponse is ExpansionResult.Success.Cache)
-
-            when (firstResponse) {
-                is ExpansionResult.Success.Cache -> assertEquals(0, firstResponse.result.size)
-                else -> fail("First Expansion result should be cache")
-            }
-
-            assert(secondResponse is ExpansionResult.Success.Network)
-            when (secondResponse) {
-                is ExpansionResult.Success.Network -> assertEquals(expansions.size, secondResponse.result.size)
-                else -> fail("Second Expansion result should be network")
-            }
+            assertEquals(0, responses.first().size)
+            assertEquals(expansions.size, responses.second().size)
 
             verify(repository, times(1)).list(RepositoryStrategy.CACHE)
             verify(repository, times(1)).list(RepositoryStrategy.NETWORK)
@@ -66,7 +54,7 @@ class FetchExpansionsTest {
         }
     }
 
-    @Test
+    @Test(expected = NetworkError.Http.BadRequest::class)
     fun `should propagate error`() {
         runBlocking {
 
@@ -76,22 +64,8 @@ class FetchExpansionsTest {
                 .fetch()
                 .toList()
 
-            assertEquals(2, responses.size)
-            val firstResponse = responses.first()
-            val secondResponse = responses.second()
-
-            assert(firstResponse is ExpansionResult.Success.Cache)
-
-            when (firstResponse) {
-                is ExpansionResult.Success.Cache -> assertEquals(0, firstResponse.result.size)
-                else -> fail("First Expansion result should be cache")
-            }
-
-            assert(secondResponse is ExpansionResult.Failure)
-            when (secondResponse) {
-                is ExpansionResult.Failure -> assert(secondResponse.error is NetworkError.Http.BadRequest)
-                else -> fail("Second Expansion result should be error")
-            }
+            assertEquals(12, responses.size)
+            assertEquals(0, responses.first().size)
 
             verify(repository, times(1)).list(RepositoryStrategy.CACHE)
             verify(repository, times(1)).list(RepositoryStrategy.NETWORK)
@@ -100,19 +74,19 @@ class FetchExpansionsTest {
     }
 
     private inner class FetchExpansionsBuilder {
-        suspend fun withCache(result: ExpansionResult.Success.Cache): FetchExpansionsBuilder {
-            whenever(repository.list(RepositoryStrategy.CACHE)).thenReturn(result)
+        suspend fun withCache(list: List<Expansion>): FetchExpansionsBuilder {
+            whenever(repository.list(RepositoryStrategy.CACHE)).thenReturn(list)
             return this
         }
 
-        suspend fun withNetwork(result: ExpansionResult.Success.Network): FetchExpansionsBuilder {
-            whenever(repository.list(RepositoryStrategy.NETWORK)).thenReturn(result)
-            whenever(repository.store(result)).thenReturn(result)
+        suspend fun withNetwork(list: List<Expansion>): FetchExpansionsBuilder {
+            whenever(repository.list(RepositoryStrategy.NETWORK)).thenReturn(list)
+            whenever(repository.store(list)).thenReturn(list)
             return this
         }
 
-        suspend fun withError(result: ExpansionResult.Failure): FetchExpansionsBuilder {
-            whenever(repository.list(RepositoryStrategy.NETWORK)).thenReturn(result)
+        suspend fun withError(error: NetworkError): FetchExpansionsBuilder {
+            whenever(repository.list(RepositoryStrategy.NETWORK)).thenThrow(error)
             return this
         }
 

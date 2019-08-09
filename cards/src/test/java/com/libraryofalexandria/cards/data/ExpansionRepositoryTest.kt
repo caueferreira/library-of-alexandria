@@ -3,7 +3,6 @@ package com.libraryofalexandria.cards.data
 import com.libraryofalexandria.cards.data.local.ExpansionsLocalDataSource
 import com.libraryofalexandria.cards.data.network.ExpansionsRemoteDataSource
 import com.libraryofalexandria.cards.domain.Expansion
-import com.libraryofalexandria.cards.domain.ExpansionResult
 import com.libraryofalexandria.core.base.RepositoryStrategy
 import com.libraryofalexandria.network.exception.NetworkError
 import com.nhaarman.mockitokotlin2.*
@@ -41,14 +40,10 @@ class ExpansionRepositoryTest {
                 .noCache()
                 .list(RepositoryStrategy.CACHE)
 
-            when (response) {
-                is ExpansionResult.Success.Cache -> {
-                    assertEquals(0, response.result.count())
-                    verify(local, times(1)).list()
-                    verifyZeroInteractions(remote)
-                }
-                else -> Assert.fail("should be ExpansionResult.Success.Cache but is $response")
-            }
+            assertEquals(0, response.count())
+            verify(local, times(1)).list()
+            verifyZeroInteractions(remote)
+
         }
     }
 
@@ -59,14 +54,9 @@ class ExpansionRepositoryTest {
                 .withCache(expansions)
                 .list(RepositoryStrategy.CACHE)
 
-            when (response) {
-                is ExpansionResult.Success.Cache -> {
-                    assertEquals(expansions.size, response.result.count())
-                    verify(local, times(1)).list()
-                    verifyZeroInteractions(remote)
-                }
-                else -> Assert.fail("should be ExpansionResult.Success.Cache but is $response")
-            }
+            assertEquals(expansions.size, response.count())
+            verify(local, times(1)).list()
+            verifyZeroInteractions(remote)
         }
     }
 
@@ -77,14 +67,9 @@ class ExpansionRepositoryTest {
                 .withApi(expansions)
                 .list(RepositoryStrategy.NETWORK)
 
-            when (response) {
-                is ExpansionResult.Success.Network -> {
-                    assertEquals(expansions.size, response.result.count())
-                    verify(remote, times(1)).list()
-                    verifyZeroInteractions(local)
-                }
-                else -> Assert.fail("should be ExpansionResult.Success.Network but is $response")
-            }
+            assertEquals(expansions.size, response.count())
+            verify(remote, times(1)).list()
+            verifyZeroInteractions(local)
         }
     }
 
@@ -92,32 +77,21 @@ class ExpansionRepositoryTest {
     fun `should store and return expansions result`() {
         runBlocking {
             val response = ExpansionRepositoryBuilder()
-                .store(ExpansionResult.Success.Network(expansions))
+                .store(expansions)
 
-            when (response) {
-                is ExpansionResult.Success.Network -> {
-                    assertEquals(expansions.size, response.result.count())
-                }
-                else -> Assert.fail("should be ExpansionResult.Success.Network but is $response")
-            }
+            assertEquals(expansions.size, response.count())
         }
     }
 
-    @Test
+    @Test(expected = NetworkError.Http.Timeout::class)
     fun `should propagate error`() {
         runBlocking {
             val response = ExpansionRepositoryBuilder()
                 .timeout()
                 .list(RepositoryStrategy.NETWORK)
 
-            when (response) {
-                is ExpansionResult.Failure -> {
-                    assertEquals(NetworkError.Http.Timeout, response.error)
-                    verify(remote, times(1)).list()
-                    verifyZeroInteractions(local)
-                }
-                else -> Assert.fail("should be ExpansionResult.Success.Network but is $response")
-            }
+            verify(remote, times(1)).list()
+            verifyZeroInteractions(local)
         }
     }
 
@@ -140,9 +114,9 @@ class ExpansionRepositoryTest {
 
         suspend fun list(strategy: RepositoryStrategy) = repository.list(strategy)
 
-        fun store(result: ExpansionResult.Success.Network) : ExpansionResult.Success.Network {
-            whenever(local.store(result.result)).thenReturn(result.result)
-            return repository.store(result)
+        fun store(list: List<Expansion>): List<Expansion> {
+            whenever(local.store(list)).thenReturn(list)
+            return repository.store(list)
         }
 
         suspend fun timeout(): ExpansionRepositoryBuilder {

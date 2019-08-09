@@ -4,14 +4,13 @@ import androidx.lifecycle.*
 import com.libraryofalexandria.cards.data.FiltersRepository
 import com.libraryofalexandria.cards.domain.Expansion
 import com.libraryofalexandria.cards.domain.FetchExpansions
-import com.libraryofalexandria.cards.domain.ExpansionResult
 import com.libraryofalexandria.cards.view.expansions.transformers.ExpansionViewEntityMapper
 import com.libraryofalexandria.cards.view.expansions.ui.FilterViewEntity
 import com.libraryofalexandria.core.base.Action
 import com.libraryofalexandria.core.base.BaseViewModel
-import com.libraryofalexandria.core.base.RepositoryStrategy
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import java.lang.Exception
 
 class ExpansionViewModel(
     private val fetchExpansions: FetchExpansions,
@@ -40,13 +39,9 @@ class ExpansionViewModel(
     private fun fetchExpansions() = viewModelScope.launch {
         loadingState()
         fetchExpansions.fetch()
-            .collect {
-                when (it) {
-                    is ExpansionResult.Success.Cache -> expansionCacheState(it)
-                    is ExpansionResult.Success.Network -> expansionNetworkState(it)
-                    is ExpansionResult.Failure -> errorState(it)
-                }
-            }
+            .onEach { expansionState(it) }
+            .catch { errorState(it) }
+            .launchIn(this)
     }
 
     private fun fetchFilters() = viewModelScope.launch {
@@ -60,22 +55,15 @@ class ExpansionViewModel(
     }
 
 
-    private fun errorState(it: ExpansionResult.Failure) {
+    private fun errorState(error: Throwable) {
         _state.value =
-            ExpansionState.Expansions.Error.Generic(message = it.error.localizedMessage)
+            ExpansionState.Expansions.Error.Generic(message = error.localizedMessage)
     }
 
-    private fun expansionNetworkState(it: ExpansionResult.Success.Network) {
-        _state.value =
-            ExpansionState.Expansions.Loaded(
-                expansions = mapExpansions(it.result)
-            )
-    }
-
-    private fun expansionCacheState(it: ExpansionResult.Success.Cache) {
-        if (it.result.isNotEmpty()) {
+    private fun expansionState(list: List<Expansion>) {
+        if (list.isNotEmpty()) {
             _state.value =
-                ExpansionState.Expansions.Loaded(expansions = mapExpansions(it.result))
+                ExpansionState.Expansions.Loaded(expansions = mapExpansions(list))
         }
     }
 
