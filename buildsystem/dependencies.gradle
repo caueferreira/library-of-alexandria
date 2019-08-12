@@ -71,9 +71,12 @@ ext {
     ]
 
     commonTestDependencies = [
-            junit   : "junit:junit:${junit}",
-            runner  : "androidx.test:runner:${runner}",
-            espresso: "androidx.test.espresso:espresso-core:${espresso}",
-            mockito : "com.nhaarman.mockitokotlin2:mockito-kotlin:${mockito}"
+            junit          : "junit:junit:${junit}",
+            runner         : "androidx.test:runner:${runner}",
+            espresso       : "androidx.test.espresso:espresso-core:${espresso}",
+            mockito        : "com.nhaarman.mockitokotlin2:mockito-kotlin:${mockito}",
+            coroutinesTest : "org.jetbrains.kotlinx:kotlinx-coroutines-test:${coroutinesCore}",
+            androidArchTest: "android.arch.core:core-testing:${lifecycle}"
     ]
 }
+

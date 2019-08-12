@@ -8,6 +8,7 @@ import com.libraryofalexandria.cards.view.expansions.transformers.ExpansionViewE
 import com.libraryofalexandria.cards.view.expansions.ui.FilterViewEntity
 import com.libraryofalexandria.core.base.Action
 import com.libraryofalexandria.core.base.BaseViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import java.lang.Exception
@@ -18,11 +19,11 @@ class ExpansionViewModel(
     private val mapper: ExpansionViewEntityMapper = ExpansionViewEntityMapper()
 ) : BaseViewModel() {
 
-    private val _state by lazy { MutableLiveData<ExpansionState>() }
-    val state: LiveData<ExpansionState> get() = _state
+    private var state: MutableLiveData<ExpansionState> = MutableLiveData()
+    fun state() = state
 
     init {
-        handleAction(ExpansionAction.FirstLoad)
+//        handleAction(ExpansionAction.FirstLoad)
     }
 
     override fun handleAction(action: Action) {
@@ -51,24 +52,24 @@ class ExpansionViewModel(
     }
 
     private fun filtersState(it: List<FilterViewEntity>) {
-        _state.value = ExpansionState.Filters.Loaded(filters = it)
+        state.value = ExpansionState.Filters.Loaded(filters = it)
     }
 
 
     private fun errorState(error: Throwable) {
-        _state.value =
+        state.value =
             ExpansionState.Expansions.Error.Generic(message = error.localizedMessage)
     }
 
     private fun expansionState(list: List<Expansion>) {
         if (list.isNotEmpty()) {
-            _state.value =
-                ExpansionState.Expansions.Loaded(expansions = mapExpansions(list))
+        state.value =
+            ExpansionState.Expansions.Loaded(expansions = mapExpansions(list))
         }
     }
 
     private fun loadingState() {
-        _state.value = ExpansionState.Expansions.Loading()
+        state.value = ExpansionState.Expansions.Loading()
     }
 
     private fun mapExpansions(expansions: List<Expansion>) = expansions.map { mapper.transform(it) }.toList()

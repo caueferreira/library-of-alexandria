@@ -13,6 +13,7 @@ import com.libraryofalexandria.cards.di.apiModule
 import com.libraryofalexandria.cards.di.expansionsModule
 import com.libraryofalexandria.cards.di.filtersModule
 import com.libraryofalexandria.cards.view.R
+import com.libraryofalexandria.cards.view.expansions.ExpansionAction
 import com.libraryofalexandria.cards.view.expansions.ExpansionState
 import com.libraryofalexandria.cards.view.expansions.ExpansionViewModel
 import com.libraryofalexandria.core.base.Activities
@@ -50,6 +51,8 @@ class ExpansionsActivity : AppCompatActivity(),
         initToolbar()
         initAdapter()
         observeState()
+
+        viewModel.handleAction(ExpansionAction.FirstLoad)
     }
 
     private fun initToolbar() {
@@ -66,7 +69,7 @@ class ExpansionsActivity : AppCompatActivity(),
         recyclerView.addItemDecoration(DividerItemDecoration(recyclerView.context, DividerItemDecoration.HORIZONTAL))
     }
 
-    private fun observeState() = observe(viewModel.state, ::updateViewState)
+    private fun observeState() = observe(viewModel.state(), ::updateViewState)
 
 
     private fun updateViewState(state: State) = when (state) {
