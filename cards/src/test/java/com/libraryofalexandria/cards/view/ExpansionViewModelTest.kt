@@ -79,6 +79,22 @@ class ExpansionViewModelTest {
     }
 
     @Test
+    fun `FirstLoad Action should return states then FiltersLoaded but not Expansions due it being empty`() {
+        viewModel.state().observeForever(observer)
+
+        runBlocking {
+            ExpansionViewModelBuilder()
+                .withExpansions(arrayListOf())
+                .withFilters(arrayListOf(filter))
+                .action(ExpansionAction.FirstLoad)
+        }
+
+        verify(observer, times(1)).onChanged(ExpansionState.Filters.Loaded(filters = arrayListOf(filter)))
+        verify(observer, times(1)).onChanged(ExpansionState.Expansions.Loading())
+        verifyNoMoreInteractions(observer)
+    }
+
+    @Test
     fun `LoadExpansion Action should return states ExpansionsLoading then ExpansionsLoaded`() {
         viewModel.state().observeForever(observer)
 
@@ -90,6 +106,20 @@ class ExpansionViewModelTest {
 
         verify(observer, times(1)).onChanged(ExpansionState.Expansions.Loading())
         verify(observer, times(1)).onChanged(ExpansionState.Expansions.Loaded(expansions = arrayListOf(viewEntity)))
+        verifyNoMoreInteractions(observer)
+    }
+
+    @Test
+    fun `LoadExpansion Action should return states ExpansionsLoading but not Expansions due it being empty`() {
+        viewModel.state().observeForever(observer)
+
+        runBlocking {
+            ExpansionViewModelBuilder()
+                .withExpansions(arrayListOf())
+                .action(ExpansionAction.LoadExpansion)
+        }
+
+        verify(observer, times(1)).onChanged(ExpansionState.Expansions.Loading())
         verifyNoMoreInteractions(observer)
     }
 
