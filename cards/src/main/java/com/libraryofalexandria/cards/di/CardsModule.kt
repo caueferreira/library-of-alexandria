@@ -11,6 +11,7 @@ import com.libraryofalexandria.cards.data.network.ExpansionsRemoteDataSource
 import com.libraryofalexandria.cards.domain.Expansion
 import com.libraryofalexandria.cards.domain.FetchCards
 import com.libraryofalexandria.cards.domain.FetchExpansions
+import com.libraryofalexandria.cards.domain.FetchFilters
 import com.libraryofalexandria.cards.view.cards.CardsViewModel
 import com.libraryofalexandria.cards.view.expansions.ExpansionViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -29,6 +30,7 @@ val cardsModule = module {
 
 val filtersModule = module {
     single { FiltersLocalDataSource() }
+    single { FetchFilters(get()) }
     single { FiltersRepository(get()) }
 }
 

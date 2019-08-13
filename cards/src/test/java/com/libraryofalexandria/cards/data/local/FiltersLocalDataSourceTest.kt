@@ -26,7 +26,7 @@ class FiltersLocalDataSourceTest {
 
         runBlocking {
 
-            val result = dataSource.get()
+            val result = dataSource.list()
             assertEquals(expected, result)
         }
     }

@@ -14,7 +14,7 @@ class FiltersLocalDataSource(private val coroutineContext: CoroutineContext = Di
         Filters.Expansion.OTHER
     )
 
-    suspend fun get() = withContext(coroutineContext) {
+    suspend fun list() = withContext(coroutineContext) {
         filters
     }
 }

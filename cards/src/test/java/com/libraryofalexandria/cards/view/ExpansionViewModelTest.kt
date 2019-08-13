@@ -5,6 +5,7 @@ import androidx.lifecycle.Observer
 import com.libraryofalexandria.cards.data.FiltersRepository
 import com.libraryofalexandria.cards.domain.Expansion
 import com.libraryofalexandria.cards.domain.FetchExpansions
+import com.libraryofalexandria.cards.domain.FetchFilters
 import com.libraryofalexandria.cards.view.expansions.ExpansionAction
 import com.libraryofalexandria.cards.view.expansions.ExpansionState
 import com.libraryofalexandria.cards.view.expansions.ExpansionViewModel
@@ -34,7 +35,7 @@ class ExpansionViewModelTest {
     @Mock
     private lateinit var fetchExpansions: FetchExpansions
     @Mock
-    private lateinit var filterRepository: FiltersRepository
+    private lateinit var fetchFilters: FetchFilters
     @Mock
     private lateinit var mapper: ExpansionViewEntityMapper
 
@@ -48,7 +49,7 @@ class ExpansionViewModelTest {
         Dispatchers.setMain(Dispatchers.Unconfined)
         MockitoAnnotations.initMocks(this)
 
-        viewModel = ExpansionViewModel(fetchExpansions, filterRepository, mapper)
+        viewModel = ExpansionViewModel(fetchExpansions, fetchFilters, mapper)
     }
 
     @After
@@ -140,7 +141,7 @@ class ExpansionViewModelTest {
     private inner class ExpansionViewModelBuilder {
 
         suspend fun withFilters(list: List<FilterViewEntity>): ExpansionViewModelBuilder {
-            whenever(filterRepository.get()).thenReturn(flowOf(list))
+            whenever(fetchFilters.fetch()).thenReturn(flowOf(list))
             return this
         }
 
