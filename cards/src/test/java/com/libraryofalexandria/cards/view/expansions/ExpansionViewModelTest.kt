@@ -1,19 +1,14 @@
-package com.libraryofalexandria.cards.view
+package com.libraryofalexandria.cards.view.expansions
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import com.libraryofalexandria.cards.data.FiltersRepository
 import com.libraryofalexandria.cards.domain.Expansion
 import com.libraryofalexandria.cards.domain.FetchExpansions
 import com.libraryofalexandria.cards.domain.FetchFilters
-import com.libraryofalexandria.cards.view.expansions.ExpansionAction
-import com.libraryofalexandria.cards.view.expansions.ExpansionState
-import com.libraryofalexandria.cards.view.expansions.ExpansionViewModel
 import com.libraryofalexandria.cards.view.expansions.transformers.ExpansionViewEntityMapper
 import com.libraryofalexandria.cards.view.expansions.ui.ExpansionViewEntity
 import com.libraryofalexandria.cards.view.expansions.ui.FilterViewEntity
 import com.libraryofalexandria.core.base.Action
-import com.libraryofalexandria.core.base.Activities.Cards.expansion
 import com.nhaarman.mockitokotlin2.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOf
