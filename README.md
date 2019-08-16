@@ -2,7 +2,7 @@
 > A showcase application using [scryfall](https://scryfall.com/docs/api "scryfall") API, because I wish to study a few technologies and a new approach, also did not wanted to use a movie API again :P 
 
 ## About 
-This application is a showcase of some of the most interesting technologies I have gathered during this last couple of months. Here we are using the concepts of unidirectional data flow, dynamic feature modules, coroutine, flow and many more.. Check the stack section for more information.
+This application is a showcase of some of the most interesting technologies I have gathered during this last couple of months. Here we are using the concepts of unidirectional data flow, dynamic feature modules, coroutine, flow and many more. Check the stack section for more information.
 
 This app was developed with off-line first concept in mind, meaning that all of its data is cached and can be retrieved when the device has no internet. It is using the concepts of unidirectional data flow, so our view will receive states that represents what should be presente, reducing some unecessary logic prior added to Activities/Fragments. 
 The architecture studied in this app allows a huge test cover, which is showcased here as well; you can check more about its architecture in the architecture section.
