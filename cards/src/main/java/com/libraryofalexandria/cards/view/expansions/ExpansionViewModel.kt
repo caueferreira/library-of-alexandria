@@ -1,7 +1,7 @@
 package com.libraryofalexandria.cards.view.expansions
 
-import androidx.lifecycle.*
-import com.libraryofalexandria.cards.data.FiltersRepository
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.libraryofalexandria.cards.domain.Expansion
 import com.libraryofalexandria.cards.domain.FetchExpansions
 import com.libraryofalexandria.cards.domain.FetchFilters
@@ -9,10 +9,10 @@ import com.libraryofalexandria.cards.view.expansions.transformers.ExpansionViewE
 import com.libraryofalexandria.cards.view.expansions.ui.FilterViewEntity
 import com.libraryofalexandria.core.base.Action
 import com.libraryofalexandria.core.base.BaseViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import java.lang.Exception
 
 class ExpansionViewModel(
     private val fetchExpansions: FetchExpansions,

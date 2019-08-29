@@ -17,9 +17,9 @@ import com.libraryofalexandria.cards.view.cards.CardState
 import com.libraryofalexandria.cards.view.cards.CardsViewModel
 import com.libraryofalexandria.core.base.Activities
 import com.libraryofalexandria.core.base.State
-import com.libraryofalexandria.core.ui.InfiniteScrollListener
 import com.libraryofalexandria.core.base.intentTo
 import com.libraryofalexandria.core.extensions.observe
+import com.libraryofalexandria.core.ui.InfiniteScrollListener
 import kotlinx.android.synthetic.main.activity_cards.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.context.loadKoinModules

@@ -4,10 +4,9 @@ import com.libraryofalexandria.cards.data.ExpansionRepository
 import com.libraryofalexandria.core.base.RepositoryStrategy
 import com.libraryofalexandria.network.exception.NetworkError
 import com.nhaarman.mockitokotlin2.*
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mock

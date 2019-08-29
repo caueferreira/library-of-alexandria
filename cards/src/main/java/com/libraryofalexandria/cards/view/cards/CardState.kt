@@ -2,9 +2,6 @@ package com.libraryofalexandria.cards.view.cards
 
 import android.view.View
 import com.libraryofalexandria.cards.view.cards.ui.CardViewEntity
-import com.libraryofalexandria.cards.view.expansions.ui.ExpansionViewEntity
-import com.libraryofalexandria.cards.view.expansions.ui.FilterViewEntity
-import com.libraryofalexandria.core.base.Activities
 import com.libraryofalexandria.core.base.State
 
 sealed class CardState : State() {

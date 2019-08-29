@@ -3,11 +3,11 @@ package com.libraryofalexandria.cards.di
 import com.libraryofalexandria.cache.Cache
 import com.libraryofalexandria.cards.data.ExpansionRepository
 import com.libraryofalexandria.cards.data.FiltersRepository
-import com.libraryofalexandria.cards.data.local.FiltersLocalDataSource
 import com.libraryofalexandria.cards.data.local.ExpansionsLocalDataSource
+import com.libraryofalexandria.cards.data.local.FiltersLocalDataSource
 import com.libraryofalexandria.cards.data.network.CardsRemoteDataSource
-import com.libraryofalexandria.cards.data.network.ScryfallApi
 import com.libraryofalexandria.cards.data.network.ExpansionsRemoteDataSource
+import com.libraryofalexandria.cards.data.network.ScryfallApi
 import com.libraryofalexandria.cards.domain.Expansion
 import com.libraryofalexandria.cards.domain.FetchCards
 import com.libraryofalexandria.cards.domain.FetchExpansions

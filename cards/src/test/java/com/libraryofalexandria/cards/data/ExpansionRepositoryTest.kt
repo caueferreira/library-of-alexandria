@@ -7,7 +7,6 @@ import com.libraryofalexandria.core.base.RepositoryStrategy
 import com.libraryofalexandria.network.exception.NetworkError
 import com.nhaarman.mockitokotlin2.*
 import kotlinx.coroutines.runBlocking
-import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test

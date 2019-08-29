@@ -1,8 +1,8 @@
 package com.libraryofalexandria.cards.data.network
 
 import com.libraryofalexandria.cards.data.network.entity.CardResponse
-import com.libraryofalexandria.cards.data.network.entity.RootResponse
 import com.libraryofalexandria.cards.data.network.entity.ExpansionResponse
+import com.libraryofalexandria.cards.data.network.entity.RootResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 

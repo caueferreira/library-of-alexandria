@@ -3,7 +3,9 @@ package com.libraryofalexandria.cards.view.cards
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.libraryofalexandria.cards.domain.*
+import com.libraryofalexandria.cards.domain.Card
+import com.libraryofalexandria.cards.domain.CardResult
+import com.libraryofalexandria.cards.domain.FetchCards
 import com.libraryofalexandria.cards.view.cards.transformer.CardViewEntityMapper
 import com.libraryofalexandria.core.base.Action
 import com.libraryofalexandria.core.base.BaseViewModel
