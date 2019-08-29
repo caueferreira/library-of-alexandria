@@ -9,10 +9,10 @@ import javax.net.ssl.SSLException
 
 class NetworkHandler : ErrorMapper() {
 
-    override fun apply(error: Throwable): Throwable = when {
-        error is HttpException -> mapNetworkErrors(error)
-        error.isConnectivityException() -> mapConnectivityErrors(error)
-        else -> error
+    override fun apply(throwable: Throwable): Throwable = when {
+        throwable is HttpException -> mapNetworkErrors(throwable)
+        throwable.isConnectivityException() -> mapConnectivityErrors(throwable)
+        else -> throwable
     }
 
     private fun mapNetworkErrors(httpException: HttpException) = when (httpException.code()) {

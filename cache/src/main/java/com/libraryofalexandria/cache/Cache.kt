@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import java.util.*
 
 class Cache<T>(
     private val context: Context,
@@ -25,7 +26,7 @@ class Cache<T>(
         )
     }
 
-    override fun store(expansions: List<T>) = with(expansions) {
+    override fun store(list: List<T>) = with(list) {
         filterNot { map.contains(it) }
             .forEach { map.add(it) }
 
