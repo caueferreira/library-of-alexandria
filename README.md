@@ -37,7 +37,9 @@ Library of Alexandria take a unidirectional data flow approach, while developing
 * The **domain** possess all the business rules, as for now its responsible for fetching the cached restaurants first and after that it retrieves the network restaurants; also it's responsible for the logic of both favorite and unfavorite the restaurants.   
 * The **view** layer is responsible for all the data and function the users can see or interact. The app has a good test coverage, testing the majority of its functions.
 
-<img src="https://github.com/caueferreira/library-of-alexandria/blob/master/.github/application-architecture.png" width="360">
+<p align="center">
+  <img src="https://github.com/caueferreira/library-of-alexandria/blob/master/.github/application-architecture.png" width="680">
+</p?>
 
 ### Modules
 
@@ -51,7 +53,9 @@ The application is divided in several modules, those are:
 
 Library of Alexandria, showcase how to use dynamic features, which means that the feature modules - both **about** and **cards** - implements the **app** module, normally we're not used to it since we're used to have our **app** module implementing our feature modules, the main difference is how we communicate between classes; the _Activities.kt_ holds a reflection that allows you to navigate between activities.
 
-<img src="https://github.com/caueferreira/library-of-alexandria/blob/master/.github/dynamic-feature-modules.png" width="360">
+<p align="center">
+  <img src="https://github.com/caueferreira/library-of-alexandria/blob/master/.github/dynamic-feature-modules.png" width="360">
+</p>
 
 ### Stack
 - Kotlin
