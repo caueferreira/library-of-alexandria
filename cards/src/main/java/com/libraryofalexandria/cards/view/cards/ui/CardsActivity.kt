@@ -21,6 +21,7 @@ import com.libraryofalexandria.core.base.intentTo
 import com.libraryofalexandria.core.extensions.observe
 import com.libraryofalexandria.core.ui.InfiniteScrollListener
 import kotlinx.android.synthetic.main.activity_cards.*
+import kotlinx.android.synthetic.main.activity_cards.view.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.context.loadKoinModules
 import org.koin.core.context.unloadKoinModules
@@ -84,16 +85,16 @@ class CardsActivity : AppCompatActivity(),
         adapter.addAll(sets)
     }
 
-    override fun onItemClick(card: CardViewEntity) {
-        flavor.text = card.flavor
-        mainText.text = card.plainText
-        type.text = card.type
-        manaCost.text = card.plainCost
-        name.text = card.name
-        rarity.text = card.rarity
+    override fun onItemClick(cardViewEntity: CardViewEntity) {
+        flavor.text = cardViewEntity.flavor
+        mainText.text = cardViewEntity.plainText
+        type.text = cardViewEntity.type
+        manaCost.text = cardViewEntity.plainCost
+        name.text = cardViewEntity.name
+        rarity.text = cardViewEntity.rarity
 
         Glide.with(this)
-            .load(card.artUrl)
+            .load(cardViewEntity.artUrl)
             .diskCacheStrategy(DiskCacheStrategy.ALL)
             .into(croppedArt)
     }

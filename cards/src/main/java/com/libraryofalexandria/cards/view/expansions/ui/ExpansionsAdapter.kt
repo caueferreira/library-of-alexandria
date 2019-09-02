@@ -23,7 +23,7 @@ class ExpansionsAdapter(
     }
 
     override fun onBindViewHolder(holder: ExpansionViewHolder, position: Int) {
-        expansions[position]?.let {
+        expansions[position].let {
             holder.bind(it, listener)
             animate(holder.itemView, position)
         }
