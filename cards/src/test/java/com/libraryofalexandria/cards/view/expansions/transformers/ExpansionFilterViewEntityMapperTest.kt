@@ -1,7 +1,7 @@
 package com.libraryofalexandria.cards.view.expansions.transformers
 
 import com.libraryofalexandria.R
-import com.libraryofalexandria.cards.data.local.entity.Filters
+import com.libraryofalexandria.cards.domain.Filters
 import com.libraryofalexandria.cards.view.expansions.ui.FilterViewEntity
 import org.junit.Assert.assertEquals
 import org.junit.Test

@@ -1,17 +1,16 @@
 package com.libraryofalexandria.cards.view.expansions.transformers
 
-import com.libraryofalexandria.cards.data.local.entity.Filters
+import com.libraryofalexandria.cards.domain.Filters
 import com.libraryofalexandria.cards.data.transformer.ExpansionFilterMapper
 import com.libraryofalexandria.cards.domain.Expansion
 import com.libraryofalexandria.cards.view.expansions.ui.ExpansionViewEntity
 
 class ExpansionViewEntityMapper(
-    private val mapper: ExpansionFilterViewEntityMapper = ExpansionFilterViewEntityMapper(),
-    private val filterMapper: ExpansionFilterMapper = ExpansionFilterMapper()
+    private val mapper: ExpansionFilterViewEntityMapper = ExpansionFilterViewEntityMapper()
 ) {
 
     fun transform(expansion: Expansion): ExpansionViewEntity {
-        val filter = filterMapper.transform(expansion.type)
+
         return ExpansionViewEntity(
             expansion.id,
             expansion.code,
@@ -20,9 +19,9 @@ class ExpansionViewEntityMapper(
             expansion.totalCards,
             expansion.iconUri,
             expansion.type.name,
-            colorFromType(filter),
-            fontColorFromType(filter),
-            mapper.transform(filter)
+            colorFromType(expansion.filter),
+            fontColorFromType(expansion.filter),
+            mapper.transform(expansion.filter)
         )
     }
 

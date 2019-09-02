@@ -1,6 +1,6 @@
 package com.libraryofalexandria.cards.data.transformer
 
-import com.libraryofalexandria.cards.data.local.entity.Filters
+import com.libraryofalexandria.cards.domain.Filters
 import com.libraryofalexandria.cards.domain.Type
 
 class ExpansionFilterMapper {

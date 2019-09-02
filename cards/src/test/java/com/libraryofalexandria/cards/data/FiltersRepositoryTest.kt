@@ -1,7 +1,7 @@
 package com.libraryofalexandria.cards.data
 
 import com.libraryofalexandria.cards.data.local.FiltersLocalDataSource
-import com.libraryofalexandria.cards.data.local.entity.Filters
+import com.libraryofalexandria.cards.domain.Filters
 import com.libraryofalexandria.cards.view.expansions.transformers.ExpansionFilterViewEntityMapper
 import com.libraryofalexandria.cards.view.expansions.ui.FilterViewEntity
 import com.nhaarman.mockitokotlin2.*

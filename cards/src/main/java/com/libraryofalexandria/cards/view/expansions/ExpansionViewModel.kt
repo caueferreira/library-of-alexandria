@@ -73,5 +73,6 @@ class ExpansionViewModel(
         state.value = ExpansionState.Expansions.Loading()
     }
 
-    private fun mapExpansions(expansions: List<Expansion>) = expansions.map { mapper.transform(it) }.toList()
+    private fun mapExpansions(expansions: List<Expansion>) = expansions.map {
+        mapper.transform(it) }.toList()
 }

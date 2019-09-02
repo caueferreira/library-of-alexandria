@@ -9,7 +9,8 @@ data class Expansion(
     val releasedAt: Date,
     val type: Type,
     val totalCards: Int,
-    val iconUri: String
+    val iconUri: String,
+    val filter: Filters.Expansion
 )
 
 enum class Type {

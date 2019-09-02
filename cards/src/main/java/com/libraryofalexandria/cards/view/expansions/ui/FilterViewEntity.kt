@@ -1,6 +1,6 @@
 package com.libraryofalexandria.cards.view.expansions.ui
 
-import com.libraryofalexandria.cards.data.local.entity.Filters
+import com.libraryofalexandria.cards.domain.Filters
 
 data class FilterViewEntity(
     val icon: Int,

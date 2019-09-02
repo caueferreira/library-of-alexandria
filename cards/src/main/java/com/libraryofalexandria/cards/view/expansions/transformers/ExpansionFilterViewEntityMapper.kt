@@ -1,6 +1,6 @@
 package com.libraryofalexandria.cards.view.expansions.transformers
 
-import com.libraryofalexandria.cards.data.local.entity.Filters
+import com.libraryofalexandria.cards.domain.Filters
 import com.libraryofalexandria.cards.view.R
 import com.libraryofalexandria.cards.view.expansions.ui.FilterViewEntity
 

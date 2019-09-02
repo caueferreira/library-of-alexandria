@@ -1,4 +1,4 @@
-package com.libraryofalexandria.cards.data.local.entity
+package com.libraryofalexandria.cards.domain
 
 sealed class Filters{
 

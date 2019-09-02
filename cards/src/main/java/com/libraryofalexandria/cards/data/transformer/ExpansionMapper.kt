@@ -5,7 +5,7 @@ import com.libraryofalexandria.cards.domain.Expansion
 import com.libraryofalexandria.cards.domain.Type
 import java.util.*
 
-class ExpansionMapper {
+class ExpansionMapper(private val filterMapper: ExpansionFilterMapper = ExpansionFilterMapper()) {
 
     fun transform(response: ExpansionResponse): Expansion =
         Expansion(
@@ -15,6 +15,7 @@ class ExpansionMapper {
             Date(),
             Type.valueOf(response.type.toUpperCase()),
             response.totalCards,
-            response.iconUri
+            response.iconUri,
+            filterMapper.transform(Type.valueOf(response.type.toUpperCase()))
         )
 }
