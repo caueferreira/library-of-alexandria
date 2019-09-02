@@ -1,7 +1,7 @@
 # [ 🚧 Work in progress 🚧 ] Library of Alexandria
 > A showcase application using [scryfall](https://scryfall.com/docs/api "scryfall") API, because I wish to study a few technologies and a new approach, also did not wanted to use a movie API again :P 
 
-This is a working in progress application, its missing several pieces of the application and many of them are yet to be refactored. None the less, its already following the concept of its final architecture. 
+This is a working in [progress application](https://github.com/caueferreira/library-of-alexandria/projects), its missing several pieces of the application and many of them are yet to be refactored. None the less, its already following the concept of its final architecture. 
 Issues are always welcome, however since the first part of the app is not finished, no PR is currently accepted.
 
 | Module | Build Status |
