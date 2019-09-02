@@ -16,8 +16,6 @@ class FiltersRepositoryTest {
 
     @Mock
     private lateinit var local: FiltersLocalDataSource
-    @Mock
-    private lateinit var mapper: ExpansionFilterViewEntityMapper
 
     private lateinit var repository: FiltersRepository
 
@@ -25,7 +23,7 @@ class FiltersRepositoryTest {
     fun `before each`() {
         MockitoAnnotations.initMocks(this)
 
-        repository = FiltersRepository(local, mapper)
+        repository = FiltersRepository(local)
     }
 
     private val filter = mock<Filters.Expansion> { Filters.Expansion::class }
@@ -40,7 +38,6 @@ class FiltersRepositoryTest {
 
             Assert.assertEquals(0, response.count())
             verify(local, times(1)).list()
-            verifyZeroInteractions(mapper)
         }
     }
 
@@ -52,7 +49,6 @@ class FiltersRepositoryTest {
                 .list()
 
             Assert.assertEquals(filters.size, response.count())
-            verify(mapper, times(filters.size)).transform(any())
             verify(local, times(1)).list()
         }
     }
@@ -66,7 +62,6 @@ class FiltersRepositoryTest {
         }
 
         suspend fun withCache(list: List<Filters.Expansion>): FiltersRepositoryBuilder {
-            whenever(mapper.transform(any())).thenReturn(mock { FilterViewEntity::class })
             whenever(local.list()).thenReturn(list)
             return this
         }

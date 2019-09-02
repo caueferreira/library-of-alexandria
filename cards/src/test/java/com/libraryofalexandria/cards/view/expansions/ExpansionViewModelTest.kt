@@ -5,6 +5,8 @@ import androidx.lifecycle.Observer
 import com.libraryofalexandria.cards.domain.Expansion
 import com.libraryofalexandria.cards.domain.FetchExpansions
 import com.libraryofalexandria.cards.domain.FetchFilters
+import com.libraryofalexandria.cards.domain.Filters
+import com.libraryofalexandria.cards.view.expansions.transformers.ExpansionFilterViewEntityMapper
 import com.libraryofalexandria.cards.view.expansions.transformers.ExpansionViewEntityMapper
 import com.libraryofalexandria.cards.view.expansions.ui.ExpansionViewEntity
 import com.libraryofalexandria.cards.view.expansions.ui.FilterViewEntity
@@ -32,7 +34,9 @@ class ExpansionViewModelTest {
     @Mock
     private lateinit var fetchFilters: FetchFilters
     @Mock
-    private lateinit var mapper: ExpansionViewEntityMapper
+    private lateinit var expansionMapper: ExpansionViewEntityMapper
+    @Mock
+    private lateinit var filterMapper: ExpansionFilterViewEntityMapper
 
     @Mock
     lateinit var observer: Observer<ExpansionState>
@@ -44,7 +48,7 @@ class ExpansionViewModelTest {
         Dispatchers.setMain(Dispatchers.Unconfined)
         MockitoAnnotations.initMocks(this)
 
-        viewModel = ExpansionViewModel(fetchExpansions, fetchFilters, mapper)
+        viewModel = ExpansionViewModel(fetchExpansions, fetchFilters, expansionMapper, filterMapper)
     }
 
     @After
@@ -53,9 +57,10 @@ class ExpansionViewModelTest {
     }
 
     private val expansion = mock<Expansion> { Expansion::class }
-    private val viewEntity = mock<ExpansionViewEntity> { ExpansionViewEntity::class }
+    private val expansionViewEntity = mock<ExpansionViewEntity> { ExpansionViewEntity::class }
 
-    private val filter = mock<FilterViewEntity> { FilterViewEntity::class }
+    private val filter = mock<Filters.Expansion> { Filters.Expansion::class }
+    private val filterViewEntity = mock<FilterViewEntity> { FilterViewEntity::class }
 
     @Test
     fun `FirstLoad Action should return states then FiltersLoaded`() {
@@ -68,9 +73,11 @@ class ExpansionViewModelTest {
                 .action(ExpansionAction.FirstLoad)
         }
 
-        verify(observer, times(1)).onChanged(ExpansionState.Filters.Loaded(filters = arrayListOf(filter)))
+        verify(filterMapper, atLeastOnce()).transform(any())
+        verify(expansionMapper, atLeastOnce()).transform(any())
+        verify(observer, times(1)).onChanged(ExpansionState.Filters.Loaded(filters = arrayListOf(filterViewEntity)))
         verify(observer, times(1)).onChanged(ExpansionState.Expansions.Loading())
-        verify(observer, times(1)).onChanged(ExpansionState.Expansions.Loaded(expansions = arrayListOf(viewEntity)))
+        verify(observer, times(1)).onChanged(ExpansionState.Expansions.Loaded(expansions = arrayListOf(expansionViewEntity)))
         verifyNoMoreInteractions(observer)
     }
 
@@ -85,7 +92,9 @@ class ExpansionViewModelTest {
                 .action(ExpansionAction.FirstLoad)
         }
 
-        verify(observer, times(1)).onChanged(ExpansionState.Filters.Loaded(filters = arrayListOf(filter)))
+        verifyZeroInteractions(expansionMapper)
+        verify(filterMapper, atLeastOnce()).transform(any())
+        verify(observer, times(1)).onChanged(ExpansionState.Filters.Loaded(filters = arrayListOf(filterViewEntity)))
         verify(observer, times(1)).onChanged(ExpansionState.Expansions.Loading())
         verifyNoMoreInteractions(observer)
     }
@@ -100,8 +109,10 @@ class ExpansionViewModelTest {
                 .action(ExpansionAction.LoadExpansion)
         }
 
+        verifyZeroInteractions(filterMapper)
+        verify(expansionMapper, atLeastOnce()).transform(any())
         verify(observer, times(1)).onChanged(ExpansionState.Expansions.Loading())
-        verify(observer, times(1)).onChanged(ExpansionState.Expansions.Loaded(expansions = arrayListOf(viewEntity)))
+        verify(observer, times(1)).onChanged(ExpansionState.Expansions.Loaded(expansions = arrayListOf(expansionViewEntity)))
         verifyNoMoreInteractions(observer)
     }
 
@@ -115,6 +126,8 @@ class ExpansionViewModelTest {
                 .action(ExpansionAction.LoadExpansion)
         }
 
+        verifyZeroInteractions(filterMapper)
+        verifyZeroInteractions(expansionMapper)
         verify(observer, times(1)).onChanged(ExpansionState.Expansions.Loading())
         verifyNoMoreInteractions(observer)
     }
@@ -129,21 +142,26 @@ class ExpansionViewModelTest {
                 .action(ExpansionAction.LoadFilters)
         }
 
-        verify(observer, times(1)).onChanged(ExpansionState.Filters.Loaded(filters = arrayListOf(filter)))
+        verifyZeroInteractions(expansionMapper)
+        verify(filterMapper, atLeastOnce()).transform(any())
+        verify(observer, times(1)).onChanged(ExpansionState.Filters.Loaded(filters = arrayListOf(filterViewEntity)))
         verifyNoMoreInteractions(observer)
     }
 
     private inner class ExpansionViewModelBuilder {
 
-        suspend fun withFilters(list: List<FilterViewEntity>): ExpansionViewModelBuilder {
+        suspend fun withFilters(list: List<Filters.Expansion>): ExpansionViewModelBuilder {
             whenever(fetchFilters.fetch()).thenReturn(flowOf(list))
+            if(list.isNotEmpty()){
+                whenever(filterMapper.transform(any())).thenReturn(filterViewEntity)
+            }
             return this
         }
 
         suspend fun withExpansions(list: List<Expansion>): ExpansionViewModelBuilder {
             whenever(fetchExpansions.fetch()).thenReturn(flowOf(list))
             if (list.isNotEmpty()) {
-                whenever(mapper.transform(any())).thenReturn(viewEntity)
+                whenever(expansionMapper.transform(any())).thenReturn(expansionViewEntity)
             }
             return this
         }

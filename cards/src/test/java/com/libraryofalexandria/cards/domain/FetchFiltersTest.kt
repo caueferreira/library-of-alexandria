@@ -21,7 +21,7 @@ class FetchFiltersTest {
 
     private lateinit var useCase: FetchFilters
 
-    private val filter = mock<FilterViewEntity> { Filters.Expansion::class }
+    private val filter = mock<Filters.Expansion> { Filters.Expansion::class }
     private val filters = arrayListOf(filter, filter, filter)
 
     @Before
@@ -47,7 +47,7 @@ class FetchFiltersTest {
     }
 
     private inner class FetchFiltersBuilder {
-        suspend fun withCache(list: List<FilterViewEntity>): FetchFiltersBuilder {
+        suspend fun withCache(list: List<Filters.Expansion>): FetchFiltersBuilder {
             whenever(repository.list()).thenReturn(list)
             return this
         }

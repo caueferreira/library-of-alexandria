@@ -5,8 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.libraryofalexandria.cards.domain.Expansion
 import com.libraryofalexandria.cards.domain.FetchExpansions
 import com.libraryofalexandria.cards.domain.FetchFilters
+import com.libraryofalexandria.cards.domain.Filters
+import com.libraryofalexandria.cards.view.expansions.transformers.ExpansionFilterViewEntityMapper
 import com.libraryofalexandria.cards.view.expansions.transformers.ExpansionViewEntityMapper
-import com.libraryofalexandria.cards.view.expansions.ui.FilterViewEntity
 import com.libraryofalexandria.core.base.Action
 import com.libraryofalexandria.core.base.BaseViewModel
 import kotlinx.coroutines.flow.catch
@@ -17,7 +18,8 @@ import kotlinx.coroutines.launch
 class ExpansionViewModel(
     private val fetchExpansions: FetchExpansions,
     private val fetchFilters: FetchFilters,
-    private val mapper: ExpansionViewEntityMapper = ExpansionViewEntityMapper()
+    private val expansionMapper: ExpansionViewEntityMapper = ExpansionViewEntityMapper(),
+    private val filterMapper: ExpansionFilterViewEntityMapper = ExpansionFilterViewEntityMapper()
 ) : BaseViewModel() {
 
     private var state: MutableLiveData<ExpansionState> = MutableLiveData()
@@ -52,8 +54,8 @@ class ExpansionViewModel(
             .launchIn(this)
     }
 
-    private fun filtersState(list: List<FilterViewEntity>) {
-        state.value = ExpansionState.Filters.Loaded(filters = list)
+    private fun filtersState(list: List<Filters.Expansion>) {
+        state.value = ExpansionState.Filters.Loaded(filters = mapFilters(list))
     }
 
 
@@ -64,8 +66,8 @@ class ExpansionViewModel(
 
     private fun expansionState(list: List<Expansion>) {
         if (list.isNotEmpty()) {
-        state.value =
-            ExpansionState.Expansions.Loaded(expansions = mapExpansions(list))
+            state.value =
+                ExpansionState.Expansions.Loaded(expansions = mapExpansions(list))
         }
     }
 
@@ -74,5 +76,10 @@ class ExpansionViewModel(
     }
 
     private fun mapExpansions(expansions: List<Expansion>) = expansions.map {
-        mapper.transform(it) }.toList()
+        expansionMapper.transform(it)
+    }.toList()
+
+    private fun mapFilters(filters: List<Filters.Expansion>) = filters.map {
+        filterMapper.transform(it)
+    }.toList()
 }
