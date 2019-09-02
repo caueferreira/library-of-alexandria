@@ -33,9 +33,9 @@ It has some big inspirations in [Plaid](https://github.com/android/plaid "Plaid"
 
 Library of Alexandria take a unidirectional data flow approach, while developing this app; meaning that it follows the approach of the MVI pattern. The application follows the clean architecture, all features are divided between 3 layers: **data**, **domain** and **view**. 
                       
-* The **data** layer is responsible for getting all data from the network or the cache (when the restaurant is marked as favorite), after it gets the data from the network, the **data** layer is responsible for mapping it to the **domain** object. 
-* The **domain** possess all the business rules, as for now its responsible for fetching the cached data first and after that it retrieves the network data; also it's responsible for the logic of both favorite and unfavorite the data.   
-* The **view** layer is responsible for all the data and function the users can see or interact. The app has a good test coverage, testing the majority of its functions.
+* The **data** layer is responsible for getting all data from the network or the cache. The **data** layer is responsible for mapping it to the **domain** object before providing it.
+* The **domain** possess all the business rules, as for now its responsible for fetching the cached data first and after that it retrieves the network data. As for now its moslty responsible for providing the cached data before the network data.   
+* The **view** layer is responsible for all the data and function the users can see or interact.
 
 <p align="center">
   <img src="https://github.com/caueferreira/library-of-alexandria/blob/master/.github/application-architecture.png" width="680">
