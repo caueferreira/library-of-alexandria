@@ -5,9 +5,9 @@
 version: 2
 jobs:
   build:
-    working_directory: ~/Android-Kotlin-Clean-Architecture
+    working_directory: ~/Library-of-Alexandria
     docker:
-      - image: circleci/android:api-25-alpha
+      - image: circleci/android:api-28-alpha
     environment:
       JVM_OPTS: -Xmx3200m
     steps:
