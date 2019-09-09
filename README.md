@@ -30,7 +30,6 @@ It has some big inspirations in [Plaid](https://github.com/android/plaid "Plaid"
  * Create a big test coverage, showcasing some of the frameworks available.
  * Implement a powerful architecture helping other developers to learn it.
 
-
 ## Architecture
 
 Library of Alexandria take a unidirectional data flow approach, while developing this app; meaning that it follows the approach of the MVI pattern. The application follows the clean architecture, all features are divided between 3 layers: **data**, **domain** and **view**. 
