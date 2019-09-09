@@ -1,0 +1,80 @@
+# Android CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-android/ for more details
+#
+version: 2
+jobs:
+  build:
+    working_directory: ~/Library-of-Alexandria
+    docker:
+      - image: circleci/android:api-28-alpha
+    environment:
+      JVM_OPTS: -Xmx3200m
+    steps:
+      - checkout
+      - restore_cache:
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+      #      - run:
+      #         name: Chmod permissions #if permission for Gradlew Dependencies fail, use this.
+      #         command: sudo chmod +x ./gradlew
+      - run:
+          name: Download Dependencies
+          command: ./gradlew androidDependencies
+      - save_cache:
+          paths:
+            - ~/.gradle
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+          # App
+      - run:
+          name: Run App Module Unit Tests
+          command: ./gradlew :app:testDebugUnitTest
+      - store_artifacts:
+          path: app/build/reports
+      - store_test_results:
+          path: app/build/test-results
+          # Cache
+      - run:
+          name: Run Cache Module Unit Tests
+          command: ./gradlew :cache:test
+      - store_artifacts:
+          path: cache/build/reports
+      - store_test_results:
+          path: cache/build/test-results
+          # Network
+      - run:
+          name: Run Network Module Unit Tests
+          command: ./gradlew :network:test
+      - store_artifacts:
+          path: network/build/reports
+      - store_test_results:
+          path: network/build/test-results
+          # Core
+      - run:
+          name: Run Core Module Unit Tests
+          command: ./gradlew :core:test
+      - store_artifacts:
+          path: core/build/reports
+      - store_test_results:
+          path: core/build/test-results
+          # Cards
+      - run:
+          name: Run Cards Module Unit Tests
+          command: ./gradlew :cards:test
+      - store_artifacts:
+          path: cards/build/reports
+      - store_test_results:
+          path: cards/build/test-results
+          # About
+      - run:
+          name: Run About Module Unit Tests
+          command: ./gradlew :about:test
+      - store_artifacts:
+          path: about/build/reports
+      - store_test_results:
+          path: about/build/test-results
+
+      - run:
+          name: Run Lint Test
+          command: ./gradlew lint
+      - store_artifacts:
+          path: app/build/reports
