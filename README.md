@@ -1,7 +1,7 @@
 # [ 🚧 Work in progress 🚧 ] Library of Alexandria
 > A showcase application using [scryfall](https://scryfall.com/docs/api "scryfall") API, because I wish to study a few technologies and a new approach, also did not wanted to use a movie API again :P 
 
-[![CircleCI](https://circleci.com/gh/caueferreira/library-of-alexandria.svg?style=svg)](https://circleci.com/gh/caueferreira/library-of-alexandria)[![Maintainability](https://api.codeclimate.com/v1/badges/3c8b3b5f97946d32403f/maintainability)](https://codeclimate.com/github/caueferreira/library-of-alexandria/maintainability)[![codebeat badge](https://codebeat.co/badges/03ce49c7-45cf-4cb3-b4c6-2c6221bbe556)](https://codebeat.co/projects/github-com-caueferreira-library-of-alexandria-master)
+[![CircleCI](https://circleci.com/gh/caueferreira/library-of-alexandria.svg?style=svg)](https://circleci.com/gh/caueferreira/library-of-alexandria) [![Maintainability](https://api.codeclimate.com/v1/badges/3c8b3b5f97946d32403f/maintainability)](https://codeclimate.com/github/caueferreira/library-of-alexandria/maintainability) [![codebeat badge](https://codebeat.co/badges/03ce49c7-45cf-4cb3-b4c6-2c6221bbe556)](https://codebeat.co/projects/github-com-caueferreira-library-of-alexandria-master)
 
 
 This is a working in [progress application](https://github.com/caueferreira/library-of-alexandria/projects), its missing several pieces of the application and many of them are yet to be refactored. None the less, its already following the concept of its final architecture. 
