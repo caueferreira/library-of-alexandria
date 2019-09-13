@@ -27,6 +27,12 @@ jobs:
       - run:
           name: Check code style
           command: ./gradlew clean ktlintCheck
+      - run:
+          name: Generate all unit test reports
+          command: ./gradlew clean jacocoTestReportDebug
+      - run:
+          name: Upload reports to Codecov
+          command: bash <(curl -s https://codecov.io/bash -v)
           # App
       - run:
           name: Run App Module Unit Tests
@@ -75,9 +81,9 @@ jobs:
           path: about/build/reports
       - store_test_results:
           path: about/build/test-results
-
+          #Lint
       - run:
           name: Run Lint Test
-          command: ./gradlew lint
+          command: ./gradlew clean ktlintCheck
       - store_artifacts:
           path: app/build/reports

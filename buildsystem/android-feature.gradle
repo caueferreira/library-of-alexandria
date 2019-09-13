@@ -1,5 +1,6 @@
 apply plugin: 'com.android.dynamic-feature'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 android {
     def androidVersions = rootProject.ext.android
@@ -20,6 +21,7 @@ android {
     buildTypes {
         debug {
             buildConfigField "String", "SCRYFALL_API_ENDPOINT", scryfall_endpoint
+            testCoverageEnabled true
         }
 
         release {

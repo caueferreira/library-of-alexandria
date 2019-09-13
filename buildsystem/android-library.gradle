@@ -21,14 +21,14 @@ android {
     buildTypes {
         debug {
             buildConfigField "String", "SCRYFALL_API_ENDPOINT", scryfall_endpoint
-
+            testCoverageEnabled true
             minifyEnabled false
         }
 
         release {
             buildConfigField "String", "SCRYFALL_API_ENDPOINT", scryfall_endpoint
-
             minifyEnabled true
+
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
