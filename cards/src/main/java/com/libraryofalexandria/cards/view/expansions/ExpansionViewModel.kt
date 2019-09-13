@@ -25,10 +25,7 @@ class ExpansionViewModel(
     private var state: MutableLiveData<ExpansionState> = MutableLiveData()
     fun state() = state
 
-    init {
-//        handleAction(ExpansionAction.FirstLoad)
-    }
-
+    @kotlinx.coroutines.ExperimentalCoroutinesApi
     override fun handleAction(action: Action) {
         when (action) {
             is ExpansionAction.FirstLoad -> {
@@ -40,6 +37,7 @@ class ExpansionViewModel(
         }
     }
 
+    @kotlinx.coroutines.ExperimentalCoroutinesApi
     private fun fetchExpansions() = viewModelScope.launch {
         loadingState()
         fetchExpansions.fetch()
@@ -48,6 +46,7 @@ class ExpansionViewModel(
             .launchIn(this)
     }
 
+    @kotlinx.coroutines.ExperimentalCoroutinesApi
     private fun fetchFilters() = viewModelScope.launch {
         fetchFilters.fetch()
             .onEach { filtersState(it) }
@@ -57,7 +56,6 @@ class ExpansionViewModel(
     private fun filtersState(list: List<Filters.Expansion>) {
         state.value = ExpansionState.Filters.Loaded(filters = mapFilters(list))
     }
-
 
     private fun errorState(error: Throwable) {
         state.value =

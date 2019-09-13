@@ -6,7 +6,7 @@ import java.net.*
 import java.nio.channels.ClosedChannelException
 import javax.net.ssl.SSLException
 
-class NetworkExceptionTest {
+class ConnectivityErrorsTest {
 
     @Test
     fun `should all be true`() {
@@ -22,7 +22,8 @@ class NetworkExceptionTest {
             SocketTimeoutException(),
             SSLException(""),
             UnknownHostException(),
-            UnknownServiceException())
+            UnknownServiceException()
+        )
 
         networkExceptions.forEach {
             assert(it.isConnectivityException())
@@ -30,7 +31,7 @@ class NetworkExceptionTest {
     }
 
     @Test
-    fun `should be false`(){
+    fun `should be false`() {
         assert(!Throwable().isConnectivityException())
     }
 }

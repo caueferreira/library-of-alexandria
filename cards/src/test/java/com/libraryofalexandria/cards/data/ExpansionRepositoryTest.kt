@@ -42,7 +42,6 @@ class ExpansionRepositoryTest {
             assertEquals(0, response.count())
             verify(local, times(1)).list()
             verifyZeroInteractions(remote)
-
         }
     }
 

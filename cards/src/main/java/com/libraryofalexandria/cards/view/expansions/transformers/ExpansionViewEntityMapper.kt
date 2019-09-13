@@ -1,7 +1,6 @@
 package com.libraryofalexandria.cards.view.expansions.transformers
 
 import com.libraryofalexandria.cards.domain.Filters
-import com.libraryofalexandria.cards.data.transformer.ExpansionFilterMapper
 import com.libraryofalexandria.cards.domain.Expansion
 import com.libraryofalexandria.cards.view.expansions.ui.ExpansionViewEntity
 
@@ -40,4 +39,3 @@ class ExpansionViewEntityMapper(
             else -> android.R.color.white
         }
 }
-

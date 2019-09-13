@@ -11,7 +11,7 @@ class FetchExpansions(
     suspend fun fetch() = flow {
         emit(repository.list(RepositoryStrategy.CACHE))
 
-        val apiResponse =  repository.list(RepositoryStrategy.NETWORK)
+        val apiResponse = repository.list(RepositoryStrategy.NETWORK)
         emit(repository.store(apiResponse))
     }
 }

@@ -24,6 +24,9 @@ jobs:
           paths:
             - ~/.gradle
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+      - run:
+          name: Check code style
+          command: ./gradlew clean ktlintCheck
           # App
       - run:
           name: Run App Module Unit Tests

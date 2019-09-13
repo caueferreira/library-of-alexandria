@@ -75,7 +75,6 @@ class CardsRemoteDataSourceTest {
                 .withSource(RootResponse(arrayListOf(card, card, card, card, card)))
                 .list("INV", 0)
 
-
             val total = response.onEach { card ->
                 assertEquals(Card::class, card::class)
             }.count()

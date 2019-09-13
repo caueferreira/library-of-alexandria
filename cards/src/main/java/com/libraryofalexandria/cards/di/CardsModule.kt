@@ -43,12 +43,10 @@ val expansionsModule = module {
     viewModel { ExpansionViewModel(get(), get()) }
 }
 
-
 private fun provideCardsRemoteDataSource(scryfallApi: ScryfallApi): CardsRemoteDataSource =
     CardsRemoteDataSource(scryfallApi)
 
 private fun provideCardsUseCase(remoteDataSource: CardsRemoteDataSource) =
     FetchCards(remoteDataSource)
-
 
 private inline fun <reified T> createApi(retrofit: Retrofit) = retrofit.create(T::class.java)

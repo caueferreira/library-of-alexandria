@@ -29,7 +29,6 @@ abstract class MenuItemView<T> @JvmOverloads constructor(
         iconImageView = icon
     }
 
-
     fun tint(iconColor: Int) {
         this.iconColor = iconColor
 

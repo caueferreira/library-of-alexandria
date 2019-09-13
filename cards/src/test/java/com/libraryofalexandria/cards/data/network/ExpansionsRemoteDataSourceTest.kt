@@ -57,7 +57,6 @@ class ExpansionsRemoteDataSourceTest {
                 .withSource(RootResponse(arrayListOf(expansion, expansion, expansion, expansion, expansion)))
                 .list()
 
-
             val total = response.onEach { expansion ->
                 Assert.assertEquals(Expansion::class, expansion::class)
             }.count()

@@ -6,7 +6,7 @@ import com.libraryofalexandria.cards.view.expansions.ui.FilterViewEntity
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
-class ExpansionFilterViewEntityMapperTest{
+class ExpansionFilterViewEntityMapperTest {
     private val other = FilterViewEntity(
         R.drawable.ic_local_library,
         android.R.color.holo_blue_dark,
@@ -38,25 +38,25 @@ class ExpansionFilterViewEntityMapperTest{
     private val mapper = ExpansionFilterViewEntityMapper()
 
     @Test
-    fun `should be core`(){
+    fun `should be core`() {
         val actual = mapper.transform(Filters.Expansion.CORE)
         assertEquals(core, actual)
     }
 
     @Test
-    fun `should be draft`(){
+    fun `should be draft`() {
         val actual = mapper.transform(Filters.Expansion.PROMO)
         assertEquals(draft, actual)
     }
 
     @Test
-    fun `should be supplemental`(){
+    fun `should be supplemental`() {
         val actual = mapper.transform(Filters.Expansion.SUPPLEMENTAL)
         assertEquals(supplemental, actual)
     }
 
     @Test
-    fun `should be other`(){
+    fun `should be other`() {
         val actual = mapper.transform(Filters.Expansion.OTHER)
         assertEquals(other, actual)
     }

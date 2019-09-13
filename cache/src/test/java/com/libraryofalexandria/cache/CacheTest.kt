@@ -10,7 +10,6 @@ import junit.framework.Assert.assertTrue
 import org.junit.Test
 import org.mockito.Mockito
 
-
 class CacheTest {
 
     private val context: Context = Mockito.mock(Context::class.java)

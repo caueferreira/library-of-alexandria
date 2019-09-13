@@ -14,14 +14,12 @@ class ExpansionFilterViewEntityMapper {
             Filters.Expansion.OTHER -> other()
         }
 
-
     private fun other() = FilterViewEntity(
         com.libraryofalexandria.R.drawable.ic_local_library,
         android.R.color.holo_blue_dark,
         R.string.other,
         Filters.Expansion.OTHER
     )
-
 
     private fun supplemental() = FilterViewEntity(
         com.libraryofalexandria.R.drawable.ic_local_library,
@@ -30,14 +28,12 @@ class ExpansionFilterViewEntityMapper {
         Filters.Expansion.SUPPLEMENTAL
     )
 
-
     private fun draft() = FilterViewEntity(
         com.libraryofalexandria.R.drawable.ic_local_library,
         android.R.color.holo_purple,
         R.string.promo,
         Filters.Expansion.PROMO
     )
-
 
     private fun core() = FilterViewEntity(
         com.libraryofalexandria.R.drawable.ic_local_library,

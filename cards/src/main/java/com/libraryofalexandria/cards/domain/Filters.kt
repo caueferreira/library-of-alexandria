@@ -1,8 +1,8 @@
 package com.libraryofalexandria.cards.domain
 
-sealed class Filters{
+sealed class Filters {
 
-    enum class Expansion{
+    enum class Expansion {
         CORE, PROMO, SUPPLEMENTAL, OTHER
     }
 }

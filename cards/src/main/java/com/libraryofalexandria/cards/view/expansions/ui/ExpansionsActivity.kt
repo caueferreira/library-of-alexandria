@@ -43,6 +43,7 @@ class ExpansionsActivity : AppCompatActivity(),
 
     private fun injectFeature() = loadFeature
 
+    @kotlinx.coroutines.ExperimentalCoroutinesApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_expansions)
@@ -71,7 +72,6 @@ class ExpansionsActivity : AppCompatActivity(),
 
     private fun observeState() = observe(viewModel.state(), ::updateViewState)
 
-
     private fun updateViewState(state: State) = when (state) {
         is ExpansionState.Expansions -> when (state) {
             is ExpansionState.Expansions.Loading -> showLoading(state)
@@ -97,7 +97,6 @@ class ExpansionsActivity : AppCompatActivity(),
     private fun showFilters(viewState: ExpansionState.Filters.Loaded) {
         filterAdapter.addAll(viewState.filters)
         filters.adapter = filterAdapter
-
     }
 
     private fun showExpansions(viewState: ExpansionState.Expansions.Loaded) {
@@ -132,11 +131,11 @@ class ExpansionsActivity : AppCompatActivity(),
         }
     }
 
-    override fun onItemClick(expansionViewEntity: ExpansionViewEntity) {
+    override fun onItemClick(viewEntity: ExpansionViewEntity) {
         startActivity(
             intentTo(Activities.Cards)
-                .putExtra(Activities.Cards.expansion, expansionViewEntity.code)
-                .putExtra(Activities.Cards.total, expansionViewEntity.totalCardsPlain)
+                .putExtra(Activities.Cards.expansion, viewEntity.code)
+                .putExtra(Activities.Cards.total, viewEntity.totalCardsPlain)
         )
     }
 

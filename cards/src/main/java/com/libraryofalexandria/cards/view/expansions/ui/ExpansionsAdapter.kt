@@ -82,4 +82,3 @@ class ExpansionsAdapter(
         fun onItemClick(viewEntity: ExpansionViewEntity)
     }
 }
-

@@ -77,7 +77,13 @@ class ExpansionViewModelTest {
         verify(expansionMapper, atLeastOnce()).transform(any())
         verify(observer, times(1)).onChanged(ExpansionState.Filters.Loaded(filters = arrayListOf(filterViewEntity)))
         verify(observer, times(1)).onChanged(ExpansionState.Expansions.Loading())
-        verify(observer, times(1)).onChanged(ExpansionState.Expansions.Loaded(expansions = arrayListOf(expansionViewEntity)))
+        verify(observer, times(1)).onChanged(
+            ExpansionState.Expansions.Loaded(
+                expansions = arrayListOf(
+                    expansionViewEntity
+                )
+            )
+        )
         verifyNoMoreInteractions(observer)
     }
 
@@ -112,7 +118,13 @@ class ExpansionViewModelTest {
         verifyZeroInteractions(filterMapper)
         verify(expansionMapper, atLeastOnce()).transform(any())
         verify(observer, times(1)).onChanged(ExpansionState.Expansions.Loading())
-        verify(observer, times(1)).onChanged(ExpansionState.Expansions.Loaded(expansions = arrayListOf(expansionViewEntity)))
+        verify(observer, times(1)).onChanged(
+            ExpansionState.Expansions.Loaded(
+                expansions = arrayListOf(
+                    expansionViewEntity
+                )
+            )
+        )
         verifyNoMoreInteractions(observer)
     }
 
@@ -152,7 +164,7 @@ class ExpansionViewModelTest {
 
         suspend fun withFilters(list: List<Filters.Expansion>): ExpansionViewModelBuilder {
             whenever(fetchFilters.fetch()).thenReturn(flowOf(list))
-            if(list.isNotEmpty()){
+            if (list.isNotEmpty()) {
                 whenever(filterMapper.transform(any())).thenReturn(filterViewEntity)
             }
             return this

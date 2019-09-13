@@ -21,12 +21,12 @@ class CardsAdapter(
     }
 
     override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
-        cards[position]?.let { holder.bind(it, listener) }
+        cards[position].let { holder.bind(it, listener) }
     }
 
     override fun getItemCount() = cards.size
 
-    fun addAll(setViewEntityList : List<CardViewEntity>) {
+    fun addAll(setViewEntityList: List<CardViewEntity>) {
         cards.addAll(setViewEntityList)
         notifyDataSetChanged()
     }
@@ -50,4 +50,3 @@ class CardsAdapter(
         fun onItemClick(cardViewEntity: CardViewEntity)
     }
 }
-

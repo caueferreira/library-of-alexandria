@@ -6,7 +6,6 @@ import com.libraryofalexandria.cards.data.network.entity.RootResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-
 interface ScryfallApi {
 
     @GET("cards/search")

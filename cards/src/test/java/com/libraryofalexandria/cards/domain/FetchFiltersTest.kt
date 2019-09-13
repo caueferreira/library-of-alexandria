@@ -1,7 +1,6 @@
 package com.libraryofalexandria.cards.domain
 
 import com.libraryofalexandria.cards.data.FiltersRepository
-import com.libraryofalexandria.cards.view.expansions.ui.FilterViewEntity
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.times
 import com.nhaarman.mockitokotlin2.verify

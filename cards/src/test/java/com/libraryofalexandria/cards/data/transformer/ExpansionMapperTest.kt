@@ -24,7 +24,6 @@ class ExpansionMapperTest {
         MockitoAnnotations.initMocks(this)
 
         mapper = ExpansionMapper(filterMapper)
-
     }
 
     private val expected = Expansion(

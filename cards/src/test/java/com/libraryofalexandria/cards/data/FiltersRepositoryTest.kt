@@ -2,8 +2,6 @@ package com.libraryofalexandria.cards.data
 
 import com.libraryofalexandria.cards.data.local.FiltersLocalDataSource
 import com.libraryofalexandria.cards.domain.Filters
-import com.libraryofalexandria.cards.view.expansions.transformers.ExpansionFilterViewEntityMapper
-import com.libraryofalexandria.cards.view.expansions.ui.FilterViewEntity
 import com.nhaarman.mockitokotlin2.*
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
@@ -53,9 +51,7 @@ class FiltersRepositoryTest {
         }
     }
 
-
     private inner class FiltersRepositoryBuilder {
-
         suspend fun noCache(): FiltersRepositoryBuilder {
             whenever(local.list()).thenReturn(listOf())
             return this

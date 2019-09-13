@@ -115,7 +115,6 @@ class NetworkHandlerTest {
             .apply(httpException("Request Timeout", 408))
 
         assertEquals(NetworkError.Http.Timeout, response)
-
     }
 
     @Test
@@ -140,7 +139,6 @@ class NetworkHandlerTest {
             .apply(httpException("Never Gonna Happen", 666))
 
         assertEquals(NetworkError.Http.Generic, response)
-
     }
 
     private fun httpException(message: String, statusCode: Int): HttpException {

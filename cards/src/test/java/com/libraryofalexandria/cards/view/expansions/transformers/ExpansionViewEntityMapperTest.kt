@@ -1,6 +1,5 @@
 package com.libraryofalexandria.cards.view.expansions.transformers
 
-import com.libraryofalexandria.cards.view.expansions.ExpansionViewModel
 import org.junit.Before
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
@@ -13,9 +12,9 @@ class ExpansionViewEntityMapperTest {
     private lateinit var mapper: ExpansionViewEntityMapper
 
     @Before
-    fun `before each`(){
+    fun `before each`() {
         MockitoAnnotations.initMocks(this)
 
-        mapper = ExpansionViewEntityMapper(filterMapper )
+        mapper = ExpansionViewEntityMapper(filterMapper)
     }
 }
