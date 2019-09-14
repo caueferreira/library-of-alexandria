@@ -66,4 +66,8 @@ android {
         androidTestImplementation commonTestDependencies.runner
         androidTestImplementation commonTestDependencies.espresso
     }
+
+    junitJacoco {
+        excludes = ["*Module.kt"]
+    }
 }
