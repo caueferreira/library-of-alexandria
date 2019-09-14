@@ -38,4 +38,8 @@ android {
         targetCompatibility = "8"
         sourceCompatibility = "8"
     }
+
+    junitJacoco {
+        excludes = ["*Module.kt"]
+    }
 }
