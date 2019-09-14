@@ -1,6 +1,7 @@
 apply plugin: 'com.android.dynamic-feature'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: "com.vanniktech.android.junit.jacoco"
 
 android {
     def androidVersions = rootProject.ext.android
