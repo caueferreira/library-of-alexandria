@@ -81,9 +81,3 @@ jobs:
           path: about/build/reports
       - store_test_results:
           path: about/build/test-results
-          #Lint
-      - run:
-          name: Run Lint Test
-          command: ./gradlew clean ktlintCheck
-      - store_artifacts:
-          path: app/build/reports
