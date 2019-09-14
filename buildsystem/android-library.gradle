@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: "com.vanniktech.android.junit.jacoco"
 
 android {
     def androidVersions = rootProject.ext.android
@@ -21,14 +22,14 @@ android {
     buildTypes {
         debug {
             buildConfigField "String", "SCRYFALL_API_ENDPOINT", scryfall_endpoint
-
+            testCoverageEnabled true
             minifyEnabled false
         }
 
         release {
             buildConfigField "String", "SCRYFALL_API_ENDPOINT", scryfall_endpoint
-
             minifyEnabled true
+
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }

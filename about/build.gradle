@@ -1,6 +1,4 @@
 apply from: '../buildsystem/android-feature.gradle'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 
 dependencies {
     def commonDependencies = rootProject.ext.commonDependencies
