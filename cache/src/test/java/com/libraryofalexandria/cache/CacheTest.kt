@@ -38,6 +38,17 @@ class CacheTest {
         assertEquals(data, result)
     }
 
+    @Test
+    fun `should not store twice same data`() {
+        val data = arrayListOf(TestObject("1"), TestObject("2"), TestObject("3"))
+        val result = CacheBuilder()
+            .store(data)
+            .store(data)
+            .list()
+
+        assertEquals(data, result)
+    }
+
     private data class TestObject(val id: String)
 
     private inner class CacheBuilder {
