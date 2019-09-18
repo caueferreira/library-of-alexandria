@@ -38,6 +38,6 @@ android {
     }
 
     junitJacoco {
-        excludes = ["**/*Module.class"]
+        excludes = ["**/*Module.kt"]
     }
 }
