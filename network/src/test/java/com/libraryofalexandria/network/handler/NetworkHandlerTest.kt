@@ -27,11 +27,10 @@ class NetworkHandlerTest {
     @Test
     fun `should trigger connectivity host unreachable errors`() {
         val unreachableExceptions = arrayListOf(
-            BindException(),
-            ClosedChannelException(),
             ConnectException(),
             NoRouteToHostException(),
-            PortUnreachableException()
+            PortUnreachableException(),
+            UnknownHostException()
         )
 
         unreachableExceptions.forEach {
@@ -45,9 +44,7 @@ class NetworkHandlerTest {
     @Test
     fun `should trigger connectivity failed connection errors`() {
         val unreachableExceptions = arrayListOf(
-            InterruptedIOException(),
-            UnknownServiceException(),
-            UnknownHostException()
+            UnknownServiceException()
         )
 
         unreachableExceptions.forEach {
@@ -61,9 +58,7 @@ class NetworkHandlerTest {
     @Test
     fun `should trigger connectivity bad connection errors`() {
         val badExceptions = arrayListOf(
-            ProtocolException(),
-            SocketException(),
-            SSLException("")
+            SocketException()
         )
 
         badExceptions.forEach {
@@ -71,6 +66,23 @@ class NetworkHandlerTest {
                 .apply(it)
 
             assertEquals(NetworkError.Connectivity.BadConnection, response)
+        }
+    }
+
+    @Test
+    fun `should trigger connectivity generic errors`() {
+        val genericExceptions = arrayListOf(
+            ProtocolException(),
+            ClosedChannelException(),
+            InterruptedIOException(),
+            SSLException("")
+        )
+
+        genericExceptions.forEach {
+            val response = handler
+                .apply(it)
+            println(it)
+            assertEquals(NetworkError.Connectivity.Generic, response)
         }
     }
 
@@ -127,10 +139,12 @@ class NetworkHandlerTest {
 
     @Test
     fun `should trigger http internal server error`() {
-        val response = handler
-            .apply(httpException("D'Oh", 500))
+        for (code in 500..599) {
+            val response = handler
+                .apply(httpException("D'Oh", code))
 
-        assertEquals(NetworkError.Http.InternalServerError, response)
+            assertEquals(NetworkError.Http.InternalServerError, response)
+        }
     }
 
     @Test
