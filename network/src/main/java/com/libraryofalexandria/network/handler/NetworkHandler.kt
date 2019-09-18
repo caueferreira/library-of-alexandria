@@ -2,10 +2,7 @@ package com.libraryofalexandria.network.handler
 
 import com.libraryofalexandria.network.exception.NetworkError
 import retrofit2.HttpException
-import java.io.InterruptedIOException
 import java.net.*
-import java.nio.channels.ClosedChannelException
-import javax.net.ssl.SSLException
 
 class NetworkHandler : ErrorMapper() {
 
