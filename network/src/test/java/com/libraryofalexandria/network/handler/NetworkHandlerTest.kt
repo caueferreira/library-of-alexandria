@@ -58,7 +58,8 @@ class NetworkHandlerTest {
     @Test
     fun `should trigger connectivity bad connection errors`() {
         val badExceptions = arrayListOf(
-            SocketException()
+            SocketException(),
+            BindException()
         )
 
         badExceptions.forEach {
@@ -140,6 +141,7 @@ class NetworkHandlerTest {
     @Test
     fun `should trigger http internal server error`() {
         for (code in 500..599) {
+            println(code)
             val response = handler
                 .apply(httpException("D'Oh", code))
 
