@@ -1,25 +1,24 @@
 package com.libraryofalexandria.network.handler
 
-import com.nhaarman.mockitokotlin2.any
-import com.nhaarman.mockitokotlin2.times
-import com.nhaarman.mockitokotlin2.verify
+import com.libraryofalexandria.network.exception.NetworkError
+import com.nhaarman.mockitokotlin2.*
 import kotlinx.coroutines.runBlocking
+import org.junit.Before
 import org.junit.Test
+import org.mockito.Mock
+import org.mockito.MockitoAnnotations
+import java.net.SocketTimeoutException
 
 class NetworkHandlerExtensionTest {
 
     private val mapper = NetworkHandler()
 
-    @Test
-    fun `should trigger mapper apply on error`() {
-        try {
-            runBlocking {
-                handleErrors(mapper) {
-                    Exception()
-                }
+    @Test(expected = NetworkError.Connectivity.Timeout::class)
+    fun `should trigger mapper apply and map to timeout error`() {
+        runBlocking {
+            handleErrors(mapper) {
+                throw SocketTimeoutException()
             }
-        } catch (e: Exception) {
-            verify(mapper.apply(any()), times(1))
         }
     }
 }
