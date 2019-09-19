@@ -139,7 +139,7 @@ class NetworkHandlerTest {
 
     @Test
     fun `should trigger http internal server error`() {
-        for (code in 500..600) {
+        for (code in 500..599) {
             val response = handler
                 .apply(httpException("D'Oh", code))
 
