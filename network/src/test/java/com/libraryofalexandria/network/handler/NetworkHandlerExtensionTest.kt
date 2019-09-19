@@ -1,12 +1,8 @@
 package com.libraryofalexandria.network.handler
 
 import com.libraryofalexandria.network.exception.NetworkError
-import com.nhaarman.mockitokotlin2.*
 import kotlinx.coroutines.runBlocking
-import org.junit.Before
 import org.junit.Test
-import org.mockito.Mock
-import org.mockito.MockitoAnnotations
 import java.net.SocketTimeoutException
 
 class NetworkHandlerExtensionTest {
