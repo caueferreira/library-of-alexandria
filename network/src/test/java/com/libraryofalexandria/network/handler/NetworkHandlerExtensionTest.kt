@@ -19,7 +19,7 @@ class NetworkHandlerExtensionTest {
                 }
             }
         } catch (e: Exception) {
-            verify(mapper.apply(any()),times(1))
+            verify(mapper.apply(any()), times(1))
         }
     }
 }
