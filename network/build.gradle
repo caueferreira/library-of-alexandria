@@ -17,6 +17,7 @@ dependencies{
 
     testImplementation commonTestDependencies.junit
     testImplementation commonTestDependencies.mockito
+    testImplementation commonTestDependencies.coroutinesTest
 
     androidTestImplementation commonTestDependencies.runner
     androidTestImplementation commonTestDependencies.espresso
