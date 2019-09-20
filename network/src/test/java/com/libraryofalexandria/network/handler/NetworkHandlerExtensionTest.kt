@@ -27,6 +27,7 @@ class NetworkHandlerExtensionTest {
         }
     }
 
+    @Test
     fun `should trigger no exception`() {
         runBlocking {
             handleErrors(mapper) {
