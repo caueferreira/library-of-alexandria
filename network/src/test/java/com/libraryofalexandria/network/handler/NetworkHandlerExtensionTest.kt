@@ -17,4 +17,21 @@ class NetworkHandlerExtensionTest {
             }
         }
     }
+
+    @Test(expected = IndexOutOfBoundsException::class)
+    fun `should trigger mapper apply and not change exception`() {
+        runBlocking {
+            handleErrors(mapper) {
+                arrayListOf<String>()[1]
+            }
+        }
+    }
+
+    fun `should trigger no exception`() {
+        runBlocking {
+            handleErrors(mapper) {
+                arrayListOf<String>()
+            }
+        }
+    }
 }
