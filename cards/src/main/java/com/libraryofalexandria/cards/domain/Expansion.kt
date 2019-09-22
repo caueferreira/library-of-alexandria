@@ -1,12 +1,9 @@
 package com.libraryofalexandria.cards.domain
 
-import java.util.*
-
 data class Expansion(
     val id: String,
     val code: String,
     val name: String,
-    val releasedAt: Date,
     val type: Type,
     val totalCards: Int,
     val iconUri: String,

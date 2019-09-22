@@ -12,7 +12,6 @@ class ExpansionMapper(private val filterMapper: ExpansionFilterMapper = Expansio
             response.id,
             response.code,
             response.name,
-            Date(),
             Type.valueOf(response.type.toUpperCase()),
             response.totalCards,
             response.iconUri,

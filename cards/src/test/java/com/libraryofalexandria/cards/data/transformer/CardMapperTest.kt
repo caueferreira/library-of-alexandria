@@ -24,7 +24,6 @@ class CardMapperTest {
             "d678cf4c-60e3-40a1-a9cc-b0bd157bcf36",
             "882619f7-69b4-4ce0-be4e-1e34e608f925",
             "Chandra, Novice Pyromancer",
-            "2019-07-12",
             "{3}{R}",
             4.0,
             "Legendary Planeswalker — Chandra",
@@ -79,7 +78,6 @@ class CardMapperTest {
 
                 )
             ),
-            Date(),
             Images(
                 "https://img.scryfall.com/cards/small/front/d/6/d678cf4c-60e3-40a1-a9cc-b0bd157bcf36.jpg?1560257845",
                 "https://img.scryfall.com/cards/normal/front/d/6/d678cf4c-60e3-40a1-a9cc-b0bd157bcf36.jpg?1560257845",
