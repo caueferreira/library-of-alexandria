@@ -14,4 +14,3 @@ data class ExpansionResponse(
         return "ExpansionResponse(id='$id', code='$code', name='$name', type='$type', totalCards=$totalCards, iconUri='$iconUri')"
     }
 }
-
