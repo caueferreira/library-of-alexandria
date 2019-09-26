@@ -19,7 +19,6 @@ class CardMapper(private val colorMapper: ColorMapper = ColorMapper()) {
             transformPrices(response.prices),
             Rarity.valueOf(response.rarity.toUpperCase()),
             colorMapper.transform(response.manaCost, response.cmc),
-            Date(),
             transformImages(response.imageUris),
             CardExpansion(
                 response.expansionId,

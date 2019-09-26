@@ -30,7 +30,6 @@ class ExpansionMapperTest {
         "1",
         "INV",
         "Invasion",
-        Date(),
         Type.CORE,
         200,
         "",
@@ -41,7 +40,6 @@ class ExpansionMapperTest {
         "1",
         "INV",
         "Invasion",
-        "",
         "CORE",
         200,
         ""
